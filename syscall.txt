@@ -1,0 +1,6 @@
+PRINT : envoyer des outputs a la stdout, trigger l'évènement PRINT sur l'interface graphique ou au(x) processsus qui captent la stdout
+ADD : additionne des variables contenant des nombres floatants ou entiers, compatible avec des relatifs, l'output est le premier argument, les suivants indiquent les variables a additionner
+ASSIGN : créer des variables avec des valeurs fixes dans la section code
+FREE : supprimer des variables
+BACK : reviens en arrière de x ligne si une variable est supérieur ou égale à une constante
+DUPLICATE : duplique une variable

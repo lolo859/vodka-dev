@@ -1,0 +1,53 @@
+implement kernel.add
+optimise remove_zero function
+improved debug line display : the translator now display cell from where the debug instruction come
+
+added comment inside the vodka.cpp file
+added kernel.invert instruction to vodka codebase
+added ASSIGN, FREE and INVERT systems calls to kernel codebase
+added invert_value function
+added the ability to remove debug info when debug line is printed by starting a debug line by >>
+improved remove_zero function to support negative integers
+improved debug mode to show source file from where the line come
+
+adding multiply to vodka codebase
+adding BACK systems calls to kernel codebase
+added calculate_sign and abs function
+
+improved json export result
+variable with the same name will now use ASSIGN to change value
+added kernel.free instruction to vodka codebase
+variable are now written with ASSIGN syscall
+added DUPLICATE systems calls to kernel codebase
+added vodka type to vodka codebase
+duplicated variable heritate algo_dependant and value properties, everything else is changed/regenerated
+variables starting with $$ will be marked as kernel constant and written into data section
+they can't be created from duplication or deleted with FREE system call
+added a safeguard to prevent modifying vodka and kernel constant or deleting kernel constant
+added VODEFINE symbol with the following syntax : £VODEFINE <word to replace> <with this word>
+added -r compilation option to ignore VODEFINE replacement declaration
+
+added the ABS syscall to kernel codebase
+added kernel.abs to vodka codebase
+added the DIVMOD syscall to kernel codebase
+added kernel.divmod to vodka codebase
+
+json version is now 3
+added a new tag to metadata of outputed json file : json_type
+this tag can be kernel or vodka
+added a new compilation option : -J
+json namespace is now divided between two namespaces : kernel and vodka
+vodka::json::vodka contain these class : instruction, symbol, var_declaration, line_container and cell
+metadata for jsonkernel isn't regenerated for each line
+improved -h option output
+
+added vodec type
+added vodka::type::vodec namespace with check_value and remove_zero functions inside
+moved all vodka namespace and the log, debuglog, check, error functions as well as cell, symbol and import struct to an external static library
+the class, structs and functions from the vodka namespace are inside vodka-lib.h, vodka-type.cpp, vodka-utilities.cpp, vodka-syscalls.cpp, vodka-json.cpp, vodka-analyser.cpp
+the log, debuglog, check, error functions as well as cell, symbol and import struct are into the vodka::utilities namespace inside the vodka-utilities.cpp file
+created new vodka namespace : vodka::analyser. this will contain every vodka codebase analyse functions and class
+created new vodka namespace : vodka::library, this will contain every vodka libray with their parsing and output functions
+added vodarg type, used internally for managing cells arguments, can't be created with vodka declaration
+vodarg variables can't be duplicated (for the moment)
+entire line can now be commented by putting a § at the start of the line
