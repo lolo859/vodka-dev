@@ -17,15 +17,15 @@ namespace vodka {
     //* Every library that has a reserved name inside the transcoder
     const vector<string> internal_library={"kernel"};
     //* Every functions for every internal library
-    const map<string,vector<string>> internal_library_functions={{"kernel",{"print","add","assign","free","invert","back","duplicate","abs","divmod"}}};
+    const map<string,vector<string>> internal_library_functions={{"kernel",{"print","add","assign","free","invert","back","duplicate","abs","divmod","toint","todec"}}};
     //* Every internal type
     const vector<string> internal_type={"vodint","vodec","vodarg","vodka"};
     //* Every syscall
-    const vector<string> internal_syscall={"PRINT","ADD","ASSIGN","FREE","INVERT","BACK","DUPLICATE","ABS","DIVMOD"};
+    const vector<string> internal_syscall={"PRINT","ADD","ASSIGN","FREE","INVERT","BACK","DUPLICATE","ABS","DIVMOD","TOINT","TODEC"};
     //* Every vodka codebase instructions
     const vector<string> vodka_instruction={"multiply"};
-    //* Every acceptable types conversions
-    const map<string,vector<string>> acceptable_conversions={{"vodint",{"vodec"}},{"vodec",{"vodint"}},{"vodarg",{"vodint","vodec"}}};
+    //* Every conversions possible using syscalls
+    const map<string,vector<string>> conversion_syscall={{"TOINT",{"vodec","vodarg"}},{"TODEC",{"vodint","vodarg"}}};
     //* Syscall utilities (instruction starting with "kernel.<something>")
     namespace syscalls {
         //* Base class for syscalls, doesn't modify when inside a syscall_class !
@@ -124,6 +124,26 @@ namespace vodka {
                 info.support_multiple_argument=true;
             }
         };
+        class TOINT {
+            public:
+                string uid_source;
+                string uid_output;
+                syscall info;
+            TOINT() {
+                info.name="TOINT";
+                info.support_multiple_argument=true;
+            }
+        };
+        class TODEC {
+            public:
+                string uid_source;
+                string uid_output;
+                syscall info;
+            TODEC() {
+                info.name="TODEC";
+                info.support_multiple_argument=true;
+            }
+        };
         //* For registering a syscall, it need to be encapsuled into a syscall_container object
         class syscall_container {
             public:
@@ -138,6 +158,8 @@ namespace vodka {
                 DUPLICATE duplicateele;
                 ABS absele;
                 DIVMOD divmodele;
+                TOINT tointele;
+                TODEC todecele;
             //* Function for getting the syntax of the syscall
             string syntax();
         };
@@ -373,8 +395,6 @@ namespace vodka {
                 map<string,vodka::variables::element> variablesdict_context;
                 bool conversions_checked;
                 string conversion_error_code;
-                //* Function for parsing and pre-traiting variables conversions
-                bool make_conversions();
         };
         //* Kernel internal library
         namespace kernel {
@@ -382,7 +402,7 @@ namespace vodka {
             class traitement {
                 public:
                     vodka::library::function_call call;
-                    vodka::syscalls::syscall_container syscall_output;
+                    vector<vodka::syscalls::syscall_container> syscall_output;
                     bool checked=false;
                     bool var_flag=false;
                     //* Main function for parsing kernel internal library
@@ -396,6 +416,8 @@ namespace vodka {
                     bool free_int();
                     bool abs_int();
                     bool divmod_int();
+                    bool toint_int();
+                    bool todec_int();
             };
         }
     }

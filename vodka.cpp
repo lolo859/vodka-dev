@@ -490,18 +490,13 @@ int main (int argc,char* argv[]) {
                 fcall.file_name_context=file;
                 fcall.variablesdict_context=variablesdict;
                 fcall.type_analyser=type_analyser;
-                fcall.conversions_checked=fcall.make_conversions();
-                if (fcall.conversions_checked==false) {
-                    error("vodka.error.function.conversion : Can't convert arguments ("+fcall.conversion_error_code+").",file,{line},{maincell.start.line+(int)i+1});
-                    return -1;
-                }
                 vodka::library::kernel::traitement engine;
                 engine.call=fcall;
                 engine.checked=engine.kernel_traitement();
                 if (engine.checked==false) {
                     return -1;
                 } else {
-                    instructions.push_back(engine.syscall_output);
+                    instructions.insert(instructions.end(),engine.syscall_output.begin(),engine.syscall_output.end());
                 }
                 if (engine.var_flag==true) {
                     variablesdict=engine.call.variablesdict_context;

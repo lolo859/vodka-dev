@@ -4,6 +4,7 @@ endargs
 data:
 enddata
 code:
-ASSIGN 37b3ccd7-acd6-434b-9de7-18452f49dd23 5
-PRINT 37b3ccd7-acd6-434b-9de7-18452f49dd23
+ASSIGN 88edc669-380c-4315-b863-8e759cc81f8a 2.0
+ASSIGN 486f1a23-9ca8-4917-8f82-a0000afbc62f 0
+TOINT 486f1a23-9ca8-4917-8f82-a0000afbc62f 88edc669-380c-4315-b863-8e759cc81f8a
 endcode
