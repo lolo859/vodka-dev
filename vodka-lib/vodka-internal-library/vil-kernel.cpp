@@ -93,7 +93,7 @@ bool vodka::library::kernel::traitement::add_int() {
         }
         log("Checking content datatype.",call.verbose_context,call.main_logstep_context,call.last_logstep_context,2,{(int)call.iteration_number_context+1,3},{call.cell_context.content.size(),4});
         for (auto a:argsgive) {
-            if (call.variablesdict_context[a].thing!="vodint" || call.variablesdict_context[a].intele.typeinfo.typenames!="vodint") {
+            if (call.variablesdict_context[a].thing!="vodint") {
                 error("vodka.error.kernel.add.wrong_type : "+a+" isn't vodint type.",call.file_name_context,{line},{call.cell_context.start.line+(int)call.iteration_number_context+1});
                 return false;
             }
@@ -131,7 +131,7 @@ bool vodka::library::kernel::traitement::invert_int() {
             return false;
         }
         log("Checking content datatype.",call.verbose_context,call.main_logstep_context,call.last_logstep_context,2,{(int)call.iteration_number_context+1,3},{call.cell_context.content.size(),4});
-        if (call.variablesdict_context[arg].thing!="vodint" || call.variablesdict_context[arg].intele.typeinfo.typenames!="vodint") {
+        if (call.variablesdict_context[arg].thing!="vodint") {
             error("vodka.error.kernel.invert.wrong_type : "+arg+" isn't vodint type.",call.file_name_context,{line},{call.cell_context.start.line+(int)call.iteration_number_context+1});
             return false;
         }
@@ -212,7 +212,7 @@ bool vodka::library::kernel::traitement::abs_int() {
         }
     
         log("Checking content datatype.",call.verbose_context,call.main_logstep_context,call.last_logstep_context,2,{(int)call.iteration_number_context+1,3},{call.cell_context.content.size(),4});
-        if (call.variablesdict_context[arg].thing!="vodint" || call.variablesdict_context[arg].intele.typeinfo.typenames!="vodint") {
+        if (call.variablesdict_context[arg].thing!="vodint") {
             error("vodka.error.kernel.abs.wrong_type : "+arg+" isn't vodint type.",call.file_name_context,{line},{call.cell_context.start.line+(int)call.iteration_number_context+1});
             return false;
         }
@@ -248,7 +248,7 @@ bool vodka::library::kernel::traitement::divmod_int() {
         }
         log("Checking content datatype.",call.verbose_context,call.main_logstep_context,call.last_logstep_context,2,{(int)call.iteration_number_context+1,3},{call.cell_context.content.size(),4});
         for (int y=0;y<arg.size();++y) {
-            if (call.variablesdict_context[arg[y]].thing!="vodint" || call.variablesdict_context[arg[y]].intele.typeinfo.typenames!="vodint") {
+            if (call.variablesdict_context[arg[y]].thing!="vodint") {
                 error("vodka.error.kernel.divmod.wrong_type : "+arg[y]+" isn't vodint type.",call.file_name_context,{line},{call.cell_context.start.line+(int)call.iteration_number_context+1});
                 return false;
             }
@@ -294,12 +294,12 @@ bool vodka::library::kernel::traitement::toint_int() {
             return false;
         }
         log("Checking content datatype.",call.verbose_context,call.main_logstep_context,call.last_logstep_context,2,{(int)call.iteration_number_context+1,3},{call.cell_context.content.size(),4});
-        if (call.variablesdict_context[arg[0]].thing!="vodint" || call.variablesdict_context[arg[0]].intele.typeinfo.typenames!="vodint") {
+        if (call.variablesdict_context[arg[0]].thing!="vodint") {
             error("vodka.error.kernel.toint.wrong_type : "+arg[0]+" isn't vodint type.",call.file_name_context,{line},{call.cell_context.start.line+(int)call.iteration_number_context+1});
             return false;
         }
-        if (find(conversion_syscall.at("TOINT").begin(),conversion_syscall.at("TOINT").end(),call.variablesdict_context[arg[1]].thing)==conversion_syscall.at("TOINT").end() || find(conversion_syscall.at("TOINT").begin(),conversion_syscall.at("TOINT").end(),call.variablesdict_context[arg[1]].decele.typeinfo.typenames)==conversion_syscall.at("TOINT").end()) {
-            error("vodka.error.kernel.toint.wrong_type : "+arg[1]+" isn't a acceptable to convert into vodint.",call.file_name_context,{line},{call.cell_context.start.line+(int)call.iteration_number_context+1});
+        if (find(conversion_syscall.at("TOINT").begin(),conversion_syscall.at("TOINT").end(),call.variablesdict_context[arg[1]].thing)==conversion_syscall.at("TOINT").end()) {
+            error("vodka.error.kernel.toint.wrong_type : "+arg[1]+" isn't a acceptable type to convert into vodint.",call.file_name_context,{line},{call.cell_context.start.line+(int)call.iteration_number_context+1});
             return false;
         }
         log("Registering system call.",call.verbose_context,call.main_logstep_context,call.last_logstep_context,2,{(int)call.iteration_number_context+1,4},{call.cell_context.content.size(),4});
@@ -321,7 +321,47 @@ bool vodka::library::kernel::traitement::toint_int() {
     }
 }
 bool vodka::library::kernel::traitement::todec_int() {
-    return true;
+    log("Checking system call syntax.",call.verbose_context,call.main_logstep_context,call.last_logstep_context,2,{(int)call.iteration_number_context+1,1},{call.cell_context.content.size(),4});
+    auto eles=split(line," ");
+    if (eles.size()==3) {
+        log("Checking content existence.",call.verbose_context,call.main_logstep_context,call.last_logstep_context,2,{(int)call.iteration_number_context+1,2},{call.cell_context.content.size(),4});
+        auto arg=vector<string>(eles.begin()+1,eles.end());
+        for (int y=0;y<arg.size();++y) {
+            if (find(call.variableslist_context.begin(),call.variableslist_context.end(),arg[y])==call.variableslist_context.end()) {
+                error("vodka.error.variables.not_declared : "+arg[y]+" wasn't declared before instruction.",call.file_name_context,{line},{call.cell_context.start.line+(int)call.iteration_number_context+1});
+                return false;
+            }
+        }
+        if (eles[1].substr(0,2)=="$$" || eles[1].substr(0,1)=="$") {
+            error("vodka.error.variables.constant : Can't modify a constant.",call.file_name_context,{line},{call.cell_context.start.line+(int)call.iteration_number_context+1});
+            return false;
+        }
+        log("Checking content datatype.",call.verbose_context,call.main_logstep_context,call.last_logstep_context,2,{(int)call.iteration_number_context+1,3},{call.cell_context.content.size(),4});
+        if (call.variablesdict_context[arg[0]].thing!="vodec") {
+            error("vodka.error.kernel.todec.wrong_type : "+arg[0]+" isn't vodec type.",call.file_name_context,{line},{call.cell_context.start.line+(int)call.iteration_number_context+1});
+            return false;
+        }
+        if (find(conversion_syscall.at("TODEC").begin(),conversion_syscall.at("TODEC").end(),call.variablesdict_context[arg[1]].thing)==conversion_syscall.at("TODEC").end()) {
+            error("vodka.error.kernel.todec.wrong_type : "+arg[1]+" isn't a acceptable type to convert into vodec.",call.file_name_context,{line},{call.cell_context.start.line+(int)call.iteration_number_context+1});
+            return false;
+        }
+        log("Registering system call.",call.verbose_context,call.main_logstep_context,call.last_logstep_context,2,{(int)call.iteration_number_context+1,4},{call.cell_context.content.size(),4});
+        vodka::syscalls::TODEC todeccall;
+        if (call.variablesdict_context[arg[1]].thing=="vodint") {
+            todeccall.uid_source=call.variablesdict_context[arg[1]].intele.varinfo.uuid;
+        } else if (call.variablesdict_context[arg[1]].thing=="vodarg") {
+            todeccall.uid_source=call.variablesdict_context[arg[1]].argele.varinfo.uuid;
+        }
+        todeccall.uid_output=call.variablesdict_context[arg[0]].decele.varinfo.uuid;
+        vodka::syscalls::syscall_container syscont;
+        syscont.thing="TODEC";
+        syscont.todecele=todeccall;
+        syscall_output.push_back(syscont);
+        return true;
+    } else {
+        error("vodka.error.kernel.todec.invalid_syntax : Invalid syntax.",call.file_name_context,{line},{call.cell_context.start.line+(int)call.iteration_number_context+1});
+        return false;
+    }
 }
 //* Main function for parsing kernel internal library
 bool vodka::library::kernel::traitement::kernel_traitement() {

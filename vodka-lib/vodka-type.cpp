@@ -108,7 +108,7 @@ string vodka::type::vodint::calculate_sign(const string& value1,const string& va
         return "-";
     }
 }
-//* Calculate teh absolute value of a vodint value
+//* Calculate the absolute value of a vodint value
 string vodka::type::vodint::abs(const string& value) {
     if (value.substr(0,1)=="-") {
         return value.substr(1,value.length()-1);
@@ -151,6 +151,9 @@ string vodka::type::vodec::remove_zero(const string& value) {
     string out;
     bool negative;
     string newvalue;
+    if (value=="0.0" || value=="-0.0") {
+        return "0.0";
+    }
     if (value.substr(0,1)=="-") {
         negative=true;
         newvalue=value.substr(1,value.length()-1);

@@ -51,3 +51,10 @@ created new vodka namespace : vodka::library, this will contain every vodka libr
 added vodarg type, used internally for managing cells arguments, can't be created with vodka declaration
 vodarg variables can't be duplicated (for the moment)
 entire line can now be commented by putting a § at the start of the line
+
+added TOINT and TODEC syscalls with syntax : <syscall_name> <output_uid> <source_uid>
+these two syscalls aim to format the value into <source_uid> to integer or decimal number and them put it into <output_uid>
+added kernel.toint and kernel.todec to vodka codebase. their syntax are very similar to TOINT and TODEC
+for kernel.toint, <output_uid> must be vodint type and <source_uid> can be vodec or vodarg type
+for kernel.todec, <output_uid> must be vodec type and <source_uid> can be vodint or vodarg type
+added more output coming from comp.sh
