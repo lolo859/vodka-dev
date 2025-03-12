@@ -9,6 +9,7 @@
 #include <boost/uuid/uuid_io.hpp>
 #include <filesystem>
 using namespace std;
+using namespace vodka::errors;
 //* Some necessary functions
 namespace inside_analyser {
     std::vector<std::string> split(const std::string& str,const std::string& delimiter) {
@@ -37,7 +38,9 @@ namespace inside_analyser {
 }
 using namespace inside_analyser;
 //* Checking if the line is conform to vodka syntax (doesn't check the line argument)
-bool vodka::analyser::line::check() {
+bool vodka::analyser::line::check(sources_stack lclstack) {
+    auto srclclstack=lclstack;
+    srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (content=="") {
         skip=true;
         return true;
@@ -65,7 +68,9 @@ bool vodka::analyser::line::check() {
     return false;
 }
 //* Analyse the type of line (variable declaration, vodka instruction, library instruction, debug line)
-bool vodka::analyser::type_analyser::line_type_analyse() {
+bool vodka::analyser::type_analyser::line_type_analyse(sources_stack lclstack) {
+    auto srclclstack=lclstack;
+    srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (line_analyse.checked==false) {
         return false;
     } else {
@@ -97,7 +102,9 @@ bool vodka::analyser::type_analyser::line_type_analyse() {
     return false;
 }
 //* Parse the variable declaration (name, datatype, value, constant)
-bool vodka::analyser::var_dec_analyser::var_dec_analyse()   {
+bool vodka::analyser::var_dec_analyser::var_dec_analyse(sources_stack lclstack) {
+    auto srclclstack=lclstack;
+    srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (line_analyse.checked==false || line_analyse.line_analyse.checked==false || line_analyse.type!="var") {
         return false;
     }
@@ -140,7 +147,9 @@ bool vodka::analyser::var_dec_analyser::var_dec_analyse()   {
     }
 }
 //* Check the type and value of the variable (use vodka::type::<concerned type>::check_value(), if datatype is vodka, please include a list of already declared variables inside the context argument)
-bool vodka::analyser::var_dec_analyser::check_type_value(vector<string> context) {
+bool vodka::analyser::var_dec_analyser::check_type_value(vector<string> context,sources_stack lclstack) {
+    auto srclclstack=lclstack;
+    srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (checked) {
         bool f=false;
         for (auto a:vodka::internal_type) {
@@ -155,9 +164,9 @@ bool vodka::analyser::var_dec_analyser::check_type_value(vector<string> context)
             return false;
         }
         if (datatype=="vodint") {
-            return vodka::type::vodint::check_value(value);
+            return vodka::type::vodint::check_value(value,srclclstack);
         } else if (datatype=="vodec") {
-            return vodka::type::vodec::check_value(value);
+            return vodka::type::vodec::check_value(value,srclclstack);
         } else if (datatype=="vodka") {
             if (name.substr(0,2)=="$$") {
                 return false;
@@ -183,7 +192,9 @@ bool vodka::analyser::var_dec_analyser::check_type_value(vector<string> context)
     }
 }
 //* Make the corresponding vodka::variables::variable
-bool vodka::analyser::var_dec_analyser::make_info() {
+bool vodka::analyser::var_dec_analyser::make_info(sources_stack lclstack) {
+    auto srclclstack=lclstack;
+    srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (checked_type_value) {
         if (datatype!="vodka") {
             var.algo_dependant=false;
@@ -220,13 +231,15 @@ bool vodka::analyser::var_dec_analyser::make_info() {
     }
 }
 //* Make a pre-treatement of the value to store
-bool vodka::analyser::var_dec_analyser::pre_treatement() {
+bool vodka::analyser::var_dec_analyser::pre_treatement(sources_stack lclstack) {
+    auto srclclstack=lclstack;
+    srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (checked_type_value) {
         if (datatype=="vodint") {
-            value=vodka::type::vodint::remove_zero(value);
+            value=vodka::type::vodint::remove_zero(value,srclclstack);
             return true;
         } else if (datatype=="vodec") {
-            value=vodka::type::vodec::remove_zero(value);
+            value=vodka::type::vodec::remove_zero(value,srclclstack);
             return true;
         } else if (datatype=="vodka") {
             return true;
@@ -238,7 +251,9 @@ bool vodka::analyser::var_dec_analyser::pre_treatement() {
     }
 }
 //* Output the variable under a vodka::variable::variable_container object
-bool vodka::analyser::var_dec_analyser::output() {
+bool vodka::analyser::var_dec_analyser::output(sources_stack lclstack) {
+    auto srclclstack=lclstack;
+    srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (pre_treated) {
         if (datatype=="vodint") {
             vodka::variables::vodint varr;

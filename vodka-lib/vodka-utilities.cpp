@@ -1,5 +1,4 @@
 #include "vodka-lib.h"
-#include "termcolor.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -39,57 +38,6 @@ namespace inside_utils {
 }
 using namespace inside_utils;
 //* Utilities
-//* Error output function
-void vodka::utilities::error(const string& error,const string& file,vector<string> lines_content,vector<int> lines,vector<string> source) {
-    string linestr="";
-    if (source.size()!=0) {
-        for (int i=0;i<source.size();i++) {
-            auto path=split(source[i],">");
-            auto sourcename=path[path.size()-1];
-            path.pop_back();
-            auto sourcenamepath=split(sourcename,"::");
-            auto functionname=sourcenamepath[sourcenamepath.size()-1];
-            if (i!=0) {
-                cout<<"["+to_string(i+1)+"] Called function "<<termcolor::green<<termcolor::bold<<functionname<<termcolor::reset<<", located in :"<<endl;
-            } else {
-                cout<<"[1] Function "<<termcolor::green<<termcolor::bold<<functionname<<termcolor::reset<<", located in :"<<endl;
-            }
-            for (int y=0;y<path.size();++y) {
-                cout<<" ├─ "<<termcolor::blue<<termcolor::bold<<path[y]<<termcolor::reset<<" (file/directory)"<<endl;
-            }
-            for (int y=0;y<sourcenamepath.size();++y) {
-                if (sourcenamepath[y]==functionname) {
-                    cout<<" └─ "<<termcolor::green<<termcolor::bold<<sourcenamepath[y]<<termcolor::reset<<" (function)"<<endl;
-                } else {
-                    cout<<" ├─ "<<termcolor::cyan<<termcolor::bold<<sourcenamepath[y]<<termcolor::reset<<" (namespace)"<<endl;
-                }
-            }
-        }
-        cout<<endl<<"Raised the following exception :"<<endl;
-    }
-    if (lines.size()!=0) {
-        if (lines.size()>1) {
-            for (size_t i=0;i<lines.size();++i) {
-                if (i==lines.size()-1) {
-                    linestr=linestr+to_string(lines[i])+",";
-                } else {
-                    linestr=linestr+to_string(lines[i])+", ";
-                }
-            }
-        } else {
-            linestr=to_string(lines[0]);
-        }
-    }
-    if (file!="") {
-        cout<<"\nFile "<<termcolor::blue<<termcolor::bold<<file<<termcolor::reset<<":"+to_string(lines[0])+", line(s) "+linestr+" an error occured :"<<endl;
-    }
-    if (lines_content.size()!=0 && lines_content.size()!=0) {
-        for (size_t y=0;y<lines.size();++y) {
-            cout<<"  "<<lines[y]<<" | "<<lines_content[y]<<endl;
-        }
-    }
-    cout<<termcolor::red<<termcolor::bold<<error<<termcolor::reset<<endl;
-}
 //* UUID generator
 boost::uuids::uuid vodka::utilities::genuid() {
     boost::uuids::random_generator ran;

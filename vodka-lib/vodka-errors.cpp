@@ -1,7 +1,5 @@
-#include <iostream>
-#include "vodka-lib/vodka-lib.h"
-using namespace std;
-#include "dependencies/termcolor.hpp"
+#include "vodka-lib.h"
+#include "../dependencies/termcolor.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -40,25 +38,9 @@ namespace inside_errors {
     }
 }
 using namespace inside_errors;
-class sources_stack {
-    public:
-        vector<string> source;
-        vector<string> file;
-        //* Add a element to the source stack
-        void add(const string& src,const string& fil) {source.push_back(src);file.push_back(fil);}
-};
-//* Basic class for errors
-class error_container {
-    public:
-        string error_code;
-        string error;
-        string file="";
-        vector<string> lines_content={};
-        vector<int> lines={};
-        sources_stack source;
-};
 //* Error output function
-void raise(error_container element) {
+//* Error output function
+void vodka::errors::raise(error_container element) {
     auto error=element.error;
     auto file=element.file;
     auto lines=element.lines;
@@ -71,9 +53,8 @@ void raise(error_container element) {
         filepath=filepath+">";
         auto namepath=source[i];
         auto namepathsplit=split(namepath," ")[1];
-        replaceall(namepathsplit,"()","");
-        source[i]=filepath+namepathsplit;
-        cout<<source[i]<<endl;
+        auto namewithoutpar=split(namepathsplit,"(")[0];
+        source[i]=filepath+namewithoutpar;
     }
     string linestr="";
     if (source.size()!=0) {
@@ -128,22 +109,3 @@ void raise(error_container element) {
     }
     cout<<termcolor::red<<termcolor::bold<<error<<termcolor::reset<<endl;
 }
-sources_stack stack;
-namespace nametest {
-    void test() {
-        stack.add(__PRETTY_FUNCTION__,__FILE__);
-        error_container error;
-        error.error="vodka.error.test : This is a test error.";
-        error.file="test.vod";
-        error.lines={1};
-        error.lines_content={"test"};
-        error.source=stack;
-        raise(error);
-    }
-}
-int main() {
-    cout<<__FILE__<<endl;
-    stack.add(__PRETTY_FUNCTION__,__FILE__);
-    nametest::test();
-    return 0;
-}   

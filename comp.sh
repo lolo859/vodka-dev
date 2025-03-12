@@ -15,9 +15,11 @@ case "$1" in
         echo "Compiled vodka-analyser"
         g++ -c vodka-lib/vodka-instructions.cpp -o vodka-instructions.o
         echo "Compiled vodka-instructions"
+        g++ -c vodka-lib/vodka-errors.cpp -o vodka-errors.o
+        echo "Compiled vodka-errors"
         g++ -c vodka-lib/vodka-internal-library/vil-kernel.cpp -o vil-kernel.o
         echo "Compiled vil-kernel"
-        ar rcs libvodka.a vodka-json.o vodka-type.o vodka-syscalls.o vodka-utilities.o vodka-analyser.o vodka-instructions.o vil-kernel.o
+        ar rcs libvodka.a vodka-json.o vodka-type.o vodka-syscalls.o vodka-utilities.o vodka-analyser.o vodka-instructions.o vodka-errors.o vil-kernel.o
         echo "Library built under libvodka.a"
         ;;
     all)
@@ -35,13 +37,15 @@ case "$1" in
         echo "Compiled vodka-analyser"
         g++ -c vodka-lib/vodka-instructions.cpp -o vodka-instructions.o
         echo "Compiled vodka-instructions"
+        g++ -c vodka-lib/vodka-errors.cpp -o vodka-errors.o
+        echo "Compiled vodka-errors"
         g++ -c vodka-lib/vodka-internal-library/vil-kernel.cpp -o vil-kernel.o
         echo "Compiled vil-kernel"
-        ar rcs libvodka.a vodka-json.o vodka-type.o vodka-syscalls.o vodka-utilities.o vodka-analyser.o vodka-instructions.o vil-kernel.o
+        ar rcs libvodka.a vodka-json.o vodka-type.o vodka-syscalls.o vodka-utilities.o vodka-analyser.o vodka-instructions.o vodka-errors.o vil-kernel.o
         echo "Library built under libvodka.a"
         g++ vodka.cpp -o vodka -L. -lvodka
         echo "Vodka built under vodka"
-        rm vodka-utilities.o vodka-type.o vodka-syscalls.o vodka-json.o vodka-analyser.o vil-kernel.o vodka-instructions.o libvodka.a
+        rm vodka-utilities.o vodka-type.o vodka-syscalls.o vodka-json.o vodka-analyser.o vil-kernel.o vodka-instructions.o vodka-errors.o libvodka.a
         ;;
     vodka)
         echo "Building Vodka"
@@ -50,7 +54,7 @@ case "$1" in
         ;;
     clean)
         echo "Cleaning up"
-        rm vodka-utilities.o vodka-type.o vodka-syscalls.o vodka-json.o vodka-analyser.o vil-kernel.o vodka-instructions.o libvodka.a
+        rm vodka-utilities.o vodka-type.o vodka-syscalls.o vodka-json.o vodka-analyser.o vil-kernel.o vodka-instructions.o vodka-errors.o libvodka.a
         ;;
     *)
         echo "Building vodka transcoder"
@@ -67,13 +71,15 @@ case "$1" in
         echo "Compiled vodka-analyser"
         g++ -c vodka-lib/vodka-instructions.cpp -o vodka-instructions.o
         echo "Compiled vodka-instructions"
+        g++ -c vodka-lib/vodka-errors.cpp -o vodka-errors.o
+        echo "Compiled vodka-errors"
         g++ -c vodka-lib/vodka-internal-library/vil-kernel.cpp -o vil-kernel.o
         echo "Compiled vil-kernel"
-        ar rcs libvodka.a vodka-json.o vodka-type.o vodka-syscalls.o vodka-utilities.o vodka-analyser.o vodka-instructions.o vil-kernel.o
+        ar rcs libvodka.a vodka-json.o vodka-type.o vodka-syscalls.o vodka-utilities.o vodka-analyser.o vodka-instructions.o vodka-errors.o vil-kernel.o
         echo "Library built under libvodka.a"
         echo "Building Vodka"
         g++ vodka.cpp -o vodka -L. -lvodka
         echo "Vodka built under vodka"
-        rm vodka-utilities.o vodka-type.o vodka-syscalls.o vodka-json.o vodka-analyser.o vil-kernel.o vodka-instructions.o libvodka.a
+        rm vodka-utilities.o vodka-type.o vodka-syscalls.o vodka-json.o vodka-analyser.o vil-kernel.o vodka-instructions.o vodka-errors.o libvodka.a
         ;;
 esac

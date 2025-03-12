@@ -9,6 +9,7 @@
 #include <boost/uuid/uuid_io.hpp>
 #include <filesystem>
 using namespace std;
+using namespace vodka::errors;
 //* Some necessary functions
 namespace inside_type {
     std::vector<std::string> split(const std::string& str,const std::string& delimiter) {
@@ -37,7 +38,9 @@ namespace inside_type {
 }
 using namespace inside_type;
 //* Checking if the inputed value for vodint is correct
-bool vodka::type::vodint::check_value(const string& value) {
+bool vodka::type::vodint::check_value(const string& value,sources_stack lclstack) {
+    auto srclclstack=lclstack;
+    srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (value.empty() || value=="-") {
         return false;
     }
@@ -53,7 +56,9 @@ bool vodka::type::vodint::check_value(const string& value) {
     return true;
 }
 //* Removing the zero at the beginning of the value inputed for vodint
-string vodka::type::vodint::remove_zero(const string& value) {
+string vodka::type::vodint::remove_zero(const string& value,sources_stack lclstack) {
+    auto srclclstack=lclstack;
+    srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     bool reached=false;
     string out;
     bool negative;
@@ -89,7 +94,9 @@ string vodka::type::vodint::remove_zero(const string& value) {
     return out;
 }
 //* Invert value for vodint value
-string vodka::type::vodint::invert_value(const string& value) {
+string vodka::type::vodint::invert_value(const string& value,sources_stack lclstack) {
+    auto srclclstack=lclstack;
+    srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     string out;
     if (value.substr(0,1)=="-") {
         out=value.substr(1,value.length()-1);
@@ -99,7 +106,9 @@ string vodka::type::vodint::invert_value(const string& value) {
     return out;
 }
 //* Calculate the sign of a multiplication/division between two vodint values
-string vodka::type::vodint::calculate_sign(const string& value1,const string& value2) {
+string vodka::type::vodint::calculate_sign(const string& value1,const string& value2,sources_stack lclstack) {
+    auto srclclstack=lclstack;
+    srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (value1.substr(0,1)!="-" && value2.substr(0,1)!="-") {
         return "";
     } else if (value1.substr(0,1)=="-" && value2.substr(0,1)=="-") {
@@ -109,7 +118,9 @@ string vodka::type::vodint::calculate_sign(const string& value1,const string& va
     }
 }
 //* Calculate the absolute value of a vodint value
-string vodka::type::vodint::abs(const string& value) {
+string vodka::type::vodint::abs(const string& value,sources_stack lclstack) {
+    auto srclclstack=lclstack;
+    srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (value.substr(0,1)=="-") {
         return value.substr(1,value.length()-1);
     } else {
@@ -117,7 +128,9 @@ string vodka::type::vodint::abs(const string& value) {
     }
 }
 //* Checking if the inputed value for vodec is correct
-bool vodka::type::vodec::check_value(const string& value) {
+bool vodka::type::vodec::check_value(const string& value,sources_stack lclstack) {
+    auto srclclstack=lclstack;
+    srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (value.empty() || value=="-") {
         return false;
     }
@@ -146,7 +159,9 @@ bool vodka::type::vodec::check_value(const string& value) {
     return true;
 }
 //* Removing the zero at the beginning of the value inputed for vodec
-string vodka::type::vodec::remove_zero(const string& value) {
+string vodka::type::vodec::remove_zero(const string& value,sources_stack lclstack) {
+    auto srclclstack=lclstack;
+    srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     bool reached=false;
     string out;
     bool negative;
