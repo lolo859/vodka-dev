@@ -58,3 +58,5 @@ added kernel.toint and kernel.todec to vodka codebase. their syntax are very sim
 for kernel.toint, <output_uid> must be vodint type and <source_uid> can be vodec or vodarg type
 for kernel.todec, <output_uid> must be vodec type and <source_uid> can be vodint or vodarg type
 added more output coming from comp.sh
+added a new structure tree for error displaying, showing from where the error has been triggered (not implemented autmatically)
+added new color to certains element inside errors
