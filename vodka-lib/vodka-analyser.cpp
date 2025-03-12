@@ -97,7 +97,7 @@ bool vodka::analyser::type_analyser::line_type_analyse() {
     return false;
 }
 //* Parse the variable declaration (name, datatype, value, constant)
-bool vodka::analyser::var_dec_analyser::var_dec_analyse() {
+bool vodka::analyser::var_dec_analyser::var_dec_analyse()   {
     if (line_analyse.checked==false || line_analyse.line_analyse.checked==false || line_analyse.type!="var") {
         return false;
     }

@@ -1,5 +1,5 @@
 £VODTYPE app
 £VODSTART main hello
-vodka b=vodec 0.0
+vodka b=vodec 0.
 kernel.todec b hello
 £VODEND

@@ -41,6 +41,7 @@ void replaceall(std::string &str,const std::string &from,const std::string &to) 
 //* Some variables
 using namespace std;
 using namespace vodka::utilities;
+string error_source="vodka-transcoder";
 string verbose="e";
 bool debugmode=false;
 int x=1;
@@ -70,6 +71,7 @@ vector<string> cellnames;
 cellule maincell;
 //* Read file
 int read_file(string output,string mode) {
+    string error_local=error_source+">read_file";
     //* Source file fetching
     if (output=="" && mode=="compile" && mode=="jsonvodka" && mode=="jsonkernel") {
         cout<<"Please specify an output file for compiled code."<<endl;

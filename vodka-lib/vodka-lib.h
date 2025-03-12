@@ -352,7 +352,7 @@ namespace vodka {
     //* General utilities
     namespace utilities {
         //* Error output function
-        void error(const string& error,const string& file,vector<string> lines_content,vector<int> lines);
+        void error(const string& error,const string& file="",vector<string> lines_content={},vector<int> lines={},vector<string> source={});
         //* Vodka structure
         struct symbol {
             int line;
