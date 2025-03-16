@@ -65,9 +65,9 @@ void vodka::errors::raise(error_container element) {
             auto sourcenamepath=split(sourcename,"::");
             auto functionname=sourcenamepath[sourcenamepath.size()-1];
             if (i!=0) {
-                cout<<"["+to_string(i+1)+"] Called function "<<termcolor::green<<termcolor::bold<<functionname<<termcolor::reset<<", located in :"<<endl;
+                cout<<"["+to_string(i+1)+"] Called function "<<termcolor::magenta<<termcolor::bold<<functionname<<termcolor::reset<<", located in :"<<endl;
             } else {
-                cout<<"[1] Function "<<termcolor::green<<termcolor::bold<<functionname<<termcolor::reset<<", located in :"<<endl;
+                cout<<endl<<"[1] Function "<<termcolor::magenta<<termcolor::bold<<functionname<<termcolor::reset<<", located in :"<<endl;
             }
             for (int y=0;y<path.size();++y) {
                 if (y==path.size()-1) {
@@ -78,9 +78,13 @@ void vodka::errors::raise(error_container element) {
             }
             for (int y=0;y<sourcenamepath.size();++y) {
                 if (sourcenamepath[y]==functionname) {
-                    cout<<" └─ "<<termcolor::yellow<<termcolor::bold<<sourcenamepath[y]<<termcolor::reset<<" (function)"<<endl;
+                    cout<<" └─ "<<termcolor::magenta<<termcolor::bold<<sourcenamepath[y]<<termcolor::reset<<" (function)"<<endl;
                 } else {
-                    cout<<" ├─ "<<termcolor::green<<termcolor::bold<<sourcenamepath[y]<<termcolor::reset<<" (namespace)"<<endl;
+                    if (y==sourcenamepath.size()-2) {
+                        cout<<" ├─ "<<termcolor::yellow<<termcolor::bold<<sourcenamepath[y]<<termcolor::reset<<" (class/final namespace)"<<endl;
+                    } else {
+                        cout<<" ├─ "<<termcolor::green<<termcolor::bold<<sourcenamepath[y]<<termcolor::reset<<" (namespace)"<<endl;
+                    }
                 }
             }
         }

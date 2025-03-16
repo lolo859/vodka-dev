@@ -65,6 +65,7 @@ bool vodka::analyser::line::check(sources_stack lclstack) {
             return true;
         }
     }
+    raise(error_container("vodka.error.analyser.syntax : Invalid syntax.",file,{content},{line},srclclstack,true));
     return false;
 }
 //* Analyse the type of line (variable declaration, vodka instruction, library instruction, debug line)
@@ -72,6 +73,7 @@ bool vodka::analyser::type_analyser::line_type_analyse(sources_stack lclstack) {
     auto srclclstack=lclstack;
     srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (line_analyse.checked==false) {
+        raise(error_container("vodka.error.analyser.chain_error : Previous traitement hasn't been well executed.",line_analyse.file,{line_analyse.content},{line_analyse.line},srclclstack));
         return false;
     } else {
         if (line_analyse.content.substr(0,2)==">>") {
@@ -99,6 +101,7 @@ bool vodka::analyser::type_analyser::line_type_analyse(sources_stack lclstack) {
             }
         }
     }
+    raise(error_container("vodka.error.analyser.unknow_line_type : Can't identify the type of line.",line_analyse.file,{line_analyse.content},{line_analyse.line},srclclstack));
     return false;
 }
 //* Parse the variable declaration (name, datatype, value, constant)
@@ -106,6 +109,7 @@ bool vodka::analyser::var_dec_analyser::var_dec_analyse(sources_stack lclstack) 
     auto srclclstack=lclstack;
     srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (line_analyse.checked==false || line_analyse.line_analyse.checked==false || line_analyse.type!="var") {
+        raise(error_container("vodka.error.analyser.chain_error : Previous traitement hasn't been well executed.",line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
         return false;
     }
     if (line_analyse.line_analyse.content.substr(0,5)=="vodka") {
@@ -126,23 +130,28 @@ bool vodka::analyser::var_dec_analyser::var_dec_analyse(sources_stack lclstack) 
                 is_kernel_const=name.substr(0,2)=="$$";
                 is_vodka_const=name.substr(0,1)=="$";
             } else {
+                raise(error_container("vodka.error.variables.invalid_syntax : Invalid syntax.",line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
                 return false;
             }
             if (valuepart.size()>=2) {
                 datatype=valuepart[0];
                 value=valuestr.substr(datatype.size()+1);
                 if (datatype=="vodka" && name.substr(0,2)=="$$") {
+                    raise(error_container("vodka.error.variables.duplicate_kernel_constant : Can't create kernel constant from duplication.",line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
                     return false;
                 } else {
                     return true;
                 }
             } else {
+                raise(error_container("vodka.error.variables.invalid_syntax : Invalid syntax.",line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
                 return false;
             }
         } else {
+            raise(error_container("vodka.error.variables.invalid_syntax : Invalid syntax.",line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
             return false;
         }
     } else {
+        raise(error_container("vodka.error.variables.invalid_syntax : Invalid syntax.",line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
         return false;
     }
 }
@@ -161,14 +170,16 @@ bool vodka::analyser::var_dec_analyser::check_type_value(vector<string> context,
             }
         }
         if (!f) {
+            raise(error_container("vodka.error.variables.unknown_type : Unknow type : "+datatype,line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
             return false;
         }
         if (datatype=="vodint") {
-            return vodka::type::vodint::check_value(value,srclclstack);
+            return vodka::type::vodint::check_value(value,line_analyse.line_analyse,srclclstack);
         } else if (datatype=="vodec") {
-            return vodka::type::vodec::check_value(value,srclclstack);
+            return vodka::type::vodec::check_value(value,line_analyse.line_analyse,srclclstack);
         } else if (datatype=="vodka") {
             if (name.substr(0,2)=="$$") {
+                raise(error_container("vodka.error.variables.duplicate_kernel_constant : Can't duplicate kernel constant.",line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
                 return false;
             }
             bool fo=false;
@@ -181,13 +192,16 @@ bool vodka::analyser::var_dec_analyser::check_type_value(vector<string> context,
                 }
             }
             if (!fo) {
+                raise(error_container("vodka.error.variables.unknown_variable : Unknow variable : "+value,line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
                 return false;
             }
             return true;
         } else {
+            raise(error_container("vodka.error.variables.unknown_type : Unknow type : "+datatype,line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
             return false;
         }
     } else {
+        raise(error_container("vodka.error.analyser.chain_error : Previous traitement hasn't been well executed.",line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
         return false;
     }
 }
@@ -223,10 +237,12 @@ bool vodka::analyser::var_dec_analyser::make_info(sources_stack lclstack) {
                     return false;
                 }
             } else {
+                raise(error_container("vodka.error.analyser.argument_error : If datatype is vodka, please provide the duplicated variable in the source_duplication arg.",line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
                 return false;
             }
         }
     } else {
+        raise(error_container("vodka.error.analyser.chain_error : Previous traitement hasn't been well executed.",line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
         return false;
     }
 }
@@ -244,9 +260,11 @@ bool vodka::analyser::var_dec_analyser::pre_treatement(sources_stack lclstack) {
         } else if (datatype=="vodka") {
             return true;
         } else {
+            raise(error_container("vodka.error.variables.unknown_type : Unknow type : "+datatype,line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
             return false;
         }
     } else {
+        raise(error_container("vodka.error.analyser.chain_error : Previous traitement hasn't been well executed.",line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
         return false;
     }
 }
@@ -314,15 +332,19 @@ bool vodka::analyser::var_dec_analyser::output(sources_stack lclstack) {
                     vodka_object=dupcont;
                     return true;
                 } else {
+                    raise(error_container("vodka.error.analyser.argument_error : If datatype is vodka, please provide the duplicated variable in the source_duplication arg.",line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
                     return false;
                 }
             } else {
+                raise(error_container("vodka.error.analyser.argument_error : If datatype is vodka, please provide the duplicated variable in the source_duplication arg.",line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
                 return false;
             }
         } else {
+            raise(error_container("vodka.error.variables.unknown_type : Unknow type : "+datatype,line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
             return false;
         }
     } else {
+        raise(error_container("vodka.error.analyser.chain_error : Previous traitement hasn't been well executed.",line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
         return false;
     }
 }

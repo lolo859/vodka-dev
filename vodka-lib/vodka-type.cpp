@@ -38,18 +38,21 @@ namespace inside_type {
 }
 using namespace inside_type;
 //* Checking if the inputed value for vodint is correct
-bool vodka::type::vodint::check_value(const string& value,sources_stack lclstack) {
+bool vodka::type::vodint::check_value(const string& value,vodka::analyser::line context,sources_stack lclstack) {
     auto srclclstack=lclstack;
     srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (value.empty() || value=="-") {
+        raise(error_container("vodka.error.vodint.invalid_value : Invalid value for vodint : "+value,context.file,{context.content},{context.line},srclclstack));
         return false;
     }
     vector<char> num={'0','1','2','3','4','5','6','7','8','9','-'};
     for (auto v=0;v<value.length();++v) {
         if (v!=0 && value[v]=='-') {
+            raise(error_container("vodka.error.vodint.invalid_value : Invalid value for vodint : "+value,context.file,{context.content},{context.line},srclclstack));
             return false;
         }
         if (find(num.begin(),num.end(),value[v])==num.end()) {
+            raise(error_container("vodka.error.vodint.invalid_value : Invalid value for vodint : "+value,context.file,{context.content},{context.line},srclclstack));
             return false;
         }
     }
@@ -128,10 +131,11 @@ string vodka::type::vodint::abs(const string& value,sources_stack lclstack) {
     }
 }
 //* Checking if the inputed value for vodec is correct
-bool vodka::type::vodec::check_value(const string& value,sources_stack lclstack) {
+bool vodka::type::vodec::check_value(const string& value,vodka::analyser::line context,sources_stack lclstack) {
     auto srclclstack=lclstack;
     srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (value.empty() || value=="-") {
+        raise(error_container("vodka.error.vodec.invalid_value : Invalid value for vodec : "+value,context.file,{context.content},{context.line},srclclstack));
         return false;
     }
     int occ=0;
@@ -141,18 +145,22 @@ bool vodka::type::vodec::check_value(const string& value,sources_stack lclstack)
         }
     }
     if (occ!=1) {
+        raise(error_container("vodka.error.vodec.invalid_value : Invalid value for vodec : "+value,context.file,{context.content},{context.line},srclclstack));
         return false;
     }
     auto part=split(value,".");
     if (part.size()!=2 || part[0]=="-") {
+        raise(error_container("vodka.error.vodec.invalid_value : Invalid value for vodec : "+value,context.file,{context.content},{context.line},srclclstack));
         return false;
     }
     vector<char> num={'0','1','2','3','4','5','6','7','8','9','-','.'};
     for (auto v=0;v<value.length();++v) {
         if (v!=0 && value[v]=='-') {
+            raise(error_container("vodka.error.vodec.invalid_value : Invalid value for vodec : "+value,context.file,{context.content},{context.line},srclclstack));
             return false;
         }
         if (find(num.begin(),num.end(),value[v])==num.end()) {
+            raise(error_container("vodka.error.vodec.invalid_value : Invalid value for vodec : "+value,context.file,{context.content},{context.line},srclclstack));
             return false;
         }
     }

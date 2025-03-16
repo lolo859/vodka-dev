@@ -60,3 +60,5 @@ for kernel.todec, <output_uid> must be vodec type and <source_uid> can be vodint
 added more output coming from comp.sh
 added a new structure tree for error displaying, showing from where the error has been triggered (not implemented autmatically)
 added new color to certains element inside errors
+added new color to certains element inside verbose debug line
+added new errors for vodka::analyser and vodka::type that are directly raised inside the corresponding functions

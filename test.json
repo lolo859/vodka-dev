@@ -1,0 +1,68 @@
+{
+    "1:9a3924b0-62fb-4f88-98e6-e4c8ae34a2ac": {
+        "end": {
+            "name": "VODEND",
+            "uid": "020930a0-af76-4a96-8c2f-69c039cb4ace"
+        },
+        "line1": {
+            "decvalue": "5",
+            "name": "a",
+            "type": "var",
+            "uid": "a7645cc7-be01-4504-be6d-7bc110e5e43f",
+            "vartype": "vodint"
+        },
+        "line2": {
+            "decvalue": "0.0",
+            "name": "b",
+            "type": "var",
+            "uid": "4c612fdc-40e8-4336-bc5c-5ebef6a876a4",
+            "vartype": "vodec"
+        },
+        "line3": {
+            "arg1": "b",
+            "arg2": "a",
+            "library": "kernel",
+            "name": "kernel.todec",
+            "source": "<builtin>",
+            "type": "int",
+            "uid": "6afd97cc-1492-476f-9c72-bc2d70882489"
+        },
+        "name": {
+            "name": "main"
+        },
+        "start": {
+            "arg1": "main",
+            "name": "VODSTART",
+            "uid": "2ae737db-a281-4594-b2e4-684dde8bc78c"
+        },
+        "uid": {
+            "uid": "1:9a3924b0-62fb-4f88-98e6-e4c8ae34a2ac"
+        }
+    },
+    "metadata": {
+        "metadata": {
+            "json_type": "vodka",
+            "json_version": "3",
+            "source_file": "test.vod",
+            "timestamp": "2025-03-15T15:16:16Z",
+            "type": "metadata",
+            "vodka_version": "0.3 beta 1"
+        }
+    },
+    "symbols": {
+        "1:bb9d245e-6701-4632-a743-ccd5cd4ff6ad": {
+            "arg1": "app",
+            "name": "VODTYPE",
+            "uid": "a48f61cb-809e-4411-931e-503ff3d400be"
+        },
+        "2:ffd1bf15-125f-448c-a62b-735f61ff81e1": {
+            "arg1": "main",
+            "name": "VODSTART",
+            "uid": "2ae737db-a281-4594-b2e4-684dde8bc78c"
+        },
+        "3:f9a0de79-ac1b-4240-950c-17cfcc3504f3": {
+            "name": "VODEND",
+            "uid": "020930a0-af76-4a96-8c2f-69c039cb4ace"
+        }
+    }
+}

@@ -82,14 +82,14 @@ int read_file(string output,string mode,sources_stack srclclstack) {
     }
     log("Checking if source file exist.",verbose,x,last);
     if (filesystem::exists(file)==false) {
-        cout<<"Source file doesn't exist."<<endl;
+        raise(error_container("Source file doesn't exist.",file,{"<no line affected>"},{0},lclstack));
         return -1;
     }
     x=x+1;
     log("Checking file readability.",verbose,x,last);
     ifstream filee(file.c_str());
     if (filee.is_open()==false) {
-        cout<<"File can't be open."<<endl;
+        raise(error_container("File can't be open.",file,{"<no line affected>"},{0},lclstack));
         return -1;
     }
     x=x+1;
@@ -167,6 +167,10 @@ int detect_symbol(sources_stack srclclstack) {
                 return -1;
             }
         }
+    }
+    if (typefound==false) {
+        raise(error_container("vodka.error.vodtype.not_found : Can't find VODTYPE symbol.",file,{"<no line affected>"},{0},lclstack));
+        return -1;
     }
     return 0;
 }
@@ -385,11 +389,7 @@ int main (int argc,char* argv[]) {
     }
     x=x+1;
     int detectedSymbols=detect_symbol(lclstack);
-    if (readedFile==-1) {
-        return -1;
-    }
-    if (typefound==false) {
-        raise(error_container("vodka.error.vodtype.not_found : Can't find VODTYPE symbol.",file,{"<no line affected>"},{0},lclstack));
+    if (detectedSymbols==-1) {
         return -1;
     }
     x=x+1;
@@ -422,9 +422,10 @@ int main (int argc,char* argv[]) {
         string line=maincell.content[i];
         vodka::analyser::line actual_line;
         actual_line.content=line;
+        actual_line.line=maincell.start.line+(int)i+1;
+        actual_line.file=file;
         actual_line.checked=actual_line.check(lclstack);
         if (actual_line.checked==false) {
-            raise(error_container("vodka.error.analyser.syntax : Invalid syntax.",file,{line},{maincell.start.line+(int)i+1},lclstack));
             return -1;
         }
         if (actual_line.skip==true) {
@@ -434,7 +435,6 @@ int main (int argc,char* argv[]) {
         type_analyser.line_analyse=actual_line;
         type_analyser.checked=type_analyser.line_type_analyse(lclstack);
         if (type_analyser.checked==false) {
-            raise(error_container("vodka.error.analyser.line_type : Can't identify the type of line.",file,{line},{maincell.start.line+(int)i+1},lclstack));
             return -1;
         }
         //* Debug line processing
@@ -450,7 +450,6 @@ int main (int argc,char* argv[]) {
             var_dec_analyser.line_analyse=type_analyser;
             var_dec_analyser.checked=var_dec_analyser.var_dec_analyse(lclstack);
             if (var_dec_analyser.checked==false) {
-                raise(error_container("vodka.error.variables.invalid_syntax : Invalid syntax.",file,{line},{maincell.start.line+(int)i+1},lclstack));
                 return -1;
             }
             if (var_dec_analyser.name.substr(0,1)=="$" || var_dec_analyser.name.substr(0,2)=="$$") {
@@ -462,9 +461,8 @@ int main (int argc,char* argv[]) {
                 }
             }
             log("Checking vodka declaration type and value.",verbose,x,last,2,{(int)i+1,2},{maincell.content.size(),6});
-            var_dec_analyser.checked_type_value=var_dec_analyser.check_type_value(variableslist);
+            var_dec_analyser.checked_type_value=var_dec_analyser.check_type_value(variableslist,lclstack);
             if (var_dec_analyser.checked_type_value==false) {
-                raise(error_container("vodka.error.variables.invalid_declaration : Invalid declaration, this could be the the value or datatype that is incorrect or the variable to duplicate that doesn't exist.",file,{line},{maincell.start.line+(int)i+1},lclstack));
                 return -1;
             }
             log("Making metadata about vodka declaration.",verbose,x,last,2,{(int)i+1,3},{maincell.content.size(),6});
@@ -473,19 +471,16 @@ int main (int argc,char* argv[]) {
             }
             bool info=var_dec_analyser.make_info(lclstack);
             if (info==false) {
-                raise(error_container("vodka.error.variables.metadata : Can't make metadata about vodka declaration.",file,{line},{maincell.start.line+(int)i+1},lclstack));
                 return -1;
             }
             log("Pre-treating vodka declaration value.",verbose,x,last,2,{(int)i+1,4},{maincell.content.size(),6});
             var_dec_analyser.pre_treated=var_dec_analyser.pre_treatement(lclstack);
             if (var_dec_analyser.pre_treated==false) {
-                raise(error_container("vodka.error.variables.pre_treatement : Can't pre-treat vodka declaration value.",file,{line},{maincell.start.line+(int)i+1},lclstack));
                 return -1;
             }
             log("Compiling vodka declaration into variable container.",verbose,x,last,2,{(int)i+1,5},{maincell.content.size(),6});
             bool output=var_dec_analyser.output(lclstack);
             if (output==false) {
-                raise(error_container("vodka.error.variables.compile : Can't output vodka declaration.",file,{line},{maincell.start.line+(int)i+1},lclstack));
                 return -1;
             }
             log("Registering vodka declaration.",verbose,x,last,2,{(int)i+1,6},{maincell.content.size(),6});
@@ -613,7 +608,7 @@ int main (int argc,char* argv[]) {
         stringstream ss;
         bool endargs=false;
         ss<<put_time(&utc, "%Y-%m-%dT%H:%M:%SZ");
-        json_ints["metadata"]={{"type","metadata"},{"vodka_version","0.3 beta 1"},{"json_version","3"},{"source_file",file},{"timestamp",ss.str()},{"json_type","kernel"}};
+        json_ints["metadata"]={{"type","metadata"},{"vodka_version","0.3 beta 2"},{"json_version","3"},{"source_file",file},{"timestamp",ss.str()},{"json_type","kernel"}};
         vector<string> kernel_symbol={"code:","endcode","args:","endargs","data:","enddata"};
         for (const string& line:final) {
             log("Converting line "+to_string(a)+".",verbose,x,last,1,{a},{final.size()});
@@ -661,7 +656,7 @@ int main (int argc,char* argv[]) {
         tm utc=*std::gmtime(&now_c);
         stringstream ss;
         ss<<put_time(&utc, "%Y-%m-%dT%H:%M:%SZ");
-        json_ints_v["metadata"]={{"metadata",{{"type","metadata"},{"vodka_version","0.3 beta 1"},{"json_version","3"},{"source_file",file},{"timestamp",ss.str()},{"json_type","vodka"}}}};
+        json_ints_v["metadata"]={{"metadata",{{"type","metadata"},{"vodka_version","0.3 beta 2"},{"json_version","3"},{"source_file",file},{"timestamp",ss.str()},{"json_type","vodka"}}}};
         log("Converting symbols : ",verbose,x,last,1,{1},{2});
         json_ints_v["symbols"]={};
         bool cellstart=false;
