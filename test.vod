@@ -1,4 +1,5 @@
-£VODTYPE app
-£VODSTART main hello
-kernel.free hello
+£VODTYPE command
+£VODSTART main
+vodka $const=vodint 5
+vodka $$kernel_const=vodint 5
 £VODEND

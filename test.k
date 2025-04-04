@@ -1,10 +1,9 @@
-type app
+type command
 args:
 endargs
 data:
+d26d5244-984b-479a-9b95-08bcef4cd16f=5
 enddata
 code:
-ASSIGN 4eeb43c9-6e04-49a3-ad0c-5257735f23da 5
-ASSIGN 66c7c107-1bc7-4494-bfd9-da284ea970aa 0.0
-TODEC 66c7c107-1bc7-4494-bfd9-da284ea970aa 4eeb43c9-6e04-49a3-ad0c-5257735f23da
+ASSIGN b108f519-0c66-4a74-b307-c4c2c5f8bcf3 5
 endcode
