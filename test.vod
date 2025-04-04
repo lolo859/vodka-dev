@@ -1,6 +1,4 @@
 £VODTYPE app
-£VODSTART main
-vodka a=vodint 5
-vodka b=vodec 0.
-kernel.todec b a
+£VODSTART main hello
+kernel.free hello
 £VODEND

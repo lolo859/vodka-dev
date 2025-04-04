@@ -346,7 +346,7 @@ int main (int argc,char* argv[]) {
     while ((option=getopt(argc,argv,"hjJrdvVf:s:o:"))!=-1) {
         switch (option) {
         case 'h':
-            cout<<"Vodka v0.3 beta 1 - Vodka Objective Dictionary for Kernel Analyser\nOptions :\n  -h : show this help\n  -f object_to_find : (not working for the moment)\n  -s source_file : source file \n  -o output_file : output file\n  -v : set verbose mode to reduced\n  -V : set verbose mode to all\n  -d : enable debug mode\n  -j : export output to a json file specified with -o\n  -J : export .vod structure to a json file specified with -o\n  -r : disable define replacement"<<endl;
+            cout<<"Vodka v0.3 beta 2 - Vodka Objective Dictionary for Kernel Analyser\nOptions :\n  -h : show this help\n  -f object_to_find : (not working for the moment)\n  -s source_file : source file \n  -o output_file : output file\n  -v : set verbose mode to reduced\n  -V : set verbose mode to all\n  -d : enable debug mode\n  -j : export output to a json file specified with -o\n  -J : export .vod structure to a json file specified with -o\n  -r : disable define replacement"<<endl;
             return 0;
         case 'f':
             mode="find";
