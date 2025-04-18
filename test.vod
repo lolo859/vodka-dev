@@ -1,5 +1,6 @@
 £VODTYPE command
 £VODSTART main
-vodka $const=vodint 5
-vodka $$kernel_const=vodint 5
+vodka j=vodint 5
+vodka b=vodec 0.5
+kernel.divide b b b b
 £VODEND

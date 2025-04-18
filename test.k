@@ -2,8 +2,9 @@ type command
 args:
 endargs
 data:
-d26d5244-984b-479a-9b95-08bcef4cd16f=5
 enddata
-code:
-ASSIGN b108f519-0c66-4a74-b307-c4c2c5f8bcf3 5
-endcode
+main:
+ASSIGN 5a7d19b0-86a1-4ec7-b457-eef3459d4f92 5
+ASSIGN 2941a5c8-12fa-4db3-ae77-94ea71c76956 0.5
+DIVIDE 2941a5c8-12fa-4db3-ae77-94ea71c76956 2941a5c8-12fa-4db3-ae77-94ea71c76956 2941a5c8-12fa-4db3-ae77-94ea71c76956 5a7d19b0-86a1-4ec7-b457-eef3459d4f92
+endmain

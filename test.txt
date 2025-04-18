@@ -1,0 +1,12 @@
+  -h, --help : show this help
+  -f, --find object_to_find : (not working for the moment)
+  -s, --source-file source_file : source file 
+  -o, --output-file output_file : output file
+  -v, --verbose-reduced : set verbose mode to reduced
+  -V, --verbose-full : set verbose mode to full
+  -d, --debug-lines : enable debug mode
+  -j, --json-kernel : export output to a json file specified with -o
+  -J, --json-vodka : export .vod structure to a json file specified with -o
+  -r, --disable-replacements : disable define replacement
+  -w, --disable-all-warnings : disable warnings
+  --disable-variables-warning : disable variables warnings
