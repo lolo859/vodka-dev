@@ -63,4 +63,18 @@ added new color to certains element inside errors
 added new color to certains element inside verbose debug line
 added new errors for vodka::analyser and vodka::type that are directly raised inside the corresponding functions
 
-added a new error for signaling that vodarg datatype can't be duplicated
+kernel.add now supports vodec datatype but all arguments must of the same datatype
+variables list and dict are now stored only the cell being transcoded
+added vodka::utilities::var_warning, vodka::analyser::get_arguments 
+added indicator of each type of output in each line printed in the console
+added warnings for unused variables, can be disabled with the -w option
+completely rewritten vodka::type::vodint::remove_zero and vodka::type::vodec::remove_zero
+multiply now has two syntax :
+- multiply <vodint/vodec output> <vodint/vodec first term> <vodint/vodec second term>
+- multiply <vodec output> <vodec first term> <vodec second term> <vodint precision>
+these two new syntax result in way less syscalls than before. they use two new syscalls with identical syntax than multiply : MULINT and MULDEC
+added kernel.divide with syntax : kernel.divide <vodint/vodec output> <vodint/vodec first term> <vodint/vodec second term> <vodint precision>
+added DIVIDE syscall with same syntax
+
+planned : add vodec support to abs syscall
+planned : add kernel.mulint and kernel.muldec

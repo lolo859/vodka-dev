@@ -1,10 +1,12 @@
 type command
 args:
-de4862b8-8f49-4e07-beef-09dd83281fa6
+7c08a366-a61e-402a-985f-d419bb2bcb91
 endargs
 data:
 enddata
-code:
-ASSIGN 21cd9ce6-ee7f-40c3-89b3-a16a58fdd737 0
-TOINT 21cd9ce6-ee7f-40c3-89b3-a16a58fdd737 de4862b8-8f49-4e07-beef-09dd83281fa6
-endcode
+main:
+ASSIGN 863685a3-3d3c-47e0-a8ac-f64c14467a6c 5.0
+ASSIGN 625b0417-facb-441b-8e58-2d11c9efc670 5.5
+ASSIGN 1e4df31c-5f03-411c-bf09-d90c9a238b5d 0.0
+ASSIGN a70554c5-ad76-433e-820c-18071534f60d -5.5
+endmain
