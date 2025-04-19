@@ -10,7 +10,20 @@ Kernel code is the low-level, intermediate language designed to be the final tar
 - [Arguments](#arguments)
 - [Datas](#datas)
 - [Variables](#variables)
-- [Instructions]
+- [Instructions](#instructions)
+  - [PRINT](#print)
+  - [ADD](#add)
+  - [ASSIGN](#assign)
+  - [FREE](#free)
+  - [INVERT](#invert)
+  - [DUPLICATE](#duplicate)
+  - [ABS](#abs)
+  - [DIVMOD](#divmod)
+  - [TOINT](#toint)
+  - [TODEC](#todec)
+  - [MULDEC](#muldec)
+  - [MULINT](#mulint)
+  - [DIVIDE](#divide)
 
 ## Sections
 
@@ -61,19 +74,19 @@ ASSIGN <uid> <value>
 ## Instructions
 
 Instructions (or syscalls) are always written in capital letter and can't be added outside of section. All arguments are variables UID except for the value in the `ASSIGN` instruction. All arguments are separated by spaces. Here is the list of instructions:
-- [PRINT]
-- [ADD]
-- [ASSIGN]
-- [FREE]
-- [INVERT]
-- [DUPLICATE]
-- [ABS]
-- [DIVMOD]
-- [TOINT]
-- [TODEC]
-- [MULDEC]
-- [MULINT]
-- [DIVIDE]
+- [PRINT](#print)
+- [ADD](#add)
+- [ASSIGN](#assign)
+- [FREE](#free)
+- [INVERT](#invert)
+- [DUPLICATE](#duplicate)
+- [ABS](#abs)
+- [DIVMOD](#divmod)
+- [TOINT](#toint)
+- [TODEC](#todec)
+- [MULDEC](#muldec)
+- [MULINT](#mulint)
+- [DIVIDE](#divide)
 
 A lot of these instructions are accessible using the [kernel](vodka-codebase.md#kernel) internal library.
 
@@ -112,3 +125,45 @@ Syntax: `INVERT <uid>`
 The `DUPLICATE` instruction duplicates variables.
 
 Syntax: `DUPLICATE <output_uid> <source_uid>`
+
+### ABS
+
+The `ABS` instruction set a integer to positive. The argument must have a integer number syntax.
+
+Syntax: `ABS <uid>`
+
+### DIVMOD
+
+The `DIVMOD` instruction divide two integers and save both the quotient and the rest. The first and second term must have a integer number syntax.
+
+Syntax: `DIVMOD <output_uid> <rest_uid> <first_term> <second_term>`
+
+### TOINT
+
+The `TOINT` instruction remove the decimal part of a decimal number. The source variable must have a decimal number syntax.
+
+Syntax: `TOINT <output_uid> <source_uid>`
+
+### TODEC
+
+The `TODEC` instruction add a empty decimal part to a integer number. The source variable must have a integer number syntax.
+
+Syntax: `TODEC <output_uid> <source_uid>`
+
+### MULINT
+
+The `MULINT` instruction multiply two integers numbers together. The first and second term must have a integer number syntax.
+
+Syntax: `MULINT <output_uid> <first_term> <second_term>`
+
+### MULDEC
+
+The `MULDEC` instruction multiply two decimals numbers together. The first and second term must have a decimal number syntax and the precision must have a integer number syntax.
+
+Syntax: `MULDEC <output_uid> <first_term> <second_term> <precision_uid>`
+
+### DIVIDE
+
+The `DIVIDE` instruction divide two decimals numbers together. The first and second term must have a decimal number syntax and the precision must have a integer number syntax.
+
+Syntax: `DIVIDE <output_uid> <first_term> <second_term> <precision_uid>`
