@@ -62,3 +62,5 @@ added a new structure tree for error displaying, showing from where the error ha
 added new color to certains element inside errors
 added new color to certains element inside verbose debug line
 added new errors for vodka::analyser and vodka::type that are directly raised inside the corresponding functions
+
+added a new error for signaling that vodarg datatype can't be duplicated

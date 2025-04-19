@@ -234,6 +234,7 @@ bool vodka::analyser::var_dec_analyser::make_info(sources_stack lclstack) {
                     var.varname=name;
                     return true;
                 } else {
+                    raise(error_container("vodka.error.analyser.datatype_error : Can't duplicate this type : "+source_duplication.thing,line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
                     return false;
                 }
             } else {

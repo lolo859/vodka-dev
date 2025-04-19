@@ -17,7 +17,13 @@ Vodka is a high level language designed to be transcoded to Kernel code. It has 
   - [Debug lines](#debug-lines)
 - [Cells](#cells)
   - [Cells arguments](#cells-arguments)
-
+- [Variables](#variables)
+  - [Syntax](#syntax)
+  - [Constants and kernel constants](#constants-and-kernel-constants)
+    - [Constants](#constants)
+    - [Kernel constants](#kernel-constants)
+  - [Datatypes](#datatypes)
+  - [Duplication](#duplication)
 ## Program types
 
 Programs types are used to tell the kernel interpreter how the program should be executed. There is actually 7 possible types:
@@ -145,7 +151,7 @@ Since there aren't any kind of constants variables in Kernel code, there is two 
 
 #### Constants
 
-Constant are variables that can only be declared once (and at any time) in a vodka code. To create a constant, use the `$` as first caracter of their name. The equivalent variable without the `$` at the start the variable name is fully independant. The only thing impeaching constants from being modified is the transcoder, because these constants are only effective in the vodka code, not in the kernel code. They also can't be used as syscall output in the vodka code but they can be used as read-only variable.
+Constant are variables that can only be declared once (and at any time) in a vodka code. To create a constant, use the `$` as first caracter of their name. The equivalent variable without the `$` at the start the variable name is fully independant. The only thing impeaching constants from being modified is the transcoder, because these constants are only effective in the vodka code, not in the kernel code. They also can't be used as syscall output in the vodka code but they can be used as read-only variable. They can't be created from duplication (see [datatypes](#datatypes)) but can be duplicated.
 
 #### Kernel constants
 
@@ -171,3 +177,40 @@ code:
 ASSIGN b108f519-0c66-4a74-b307-c4c2c5f8bcf3 5
 endcode
 ```
+
+### Datatypes
+
+A variable can be from the following datatype :
+- `vodint` : integer
+- `vodec` : decimal number
+- `vodarg` : special type used for transmiting argument to the main cell. It can not be deleted, duplicated or created by a variable declaration.
+- `vodka` : special type used for duplicating variables (see next section)
+
+`vodint` and `vodec` can have an infinte amount of numbers before and after the floating point.
+
+#### Examples
+
+Code example:
+```
+vodka integer=vodint 5
+vodka float=vodec 5.0
+vodka duplicate=vodka integer 
+```
+
+Output:
+```
+type command
+args:
+endargs
+data:
+enddata
+code:
+ASSIGN a62d41e2-28af-428a-9bdb-ab27127d949e 5
+ASSIGN 6b18897a-c3cd-4df3-a120-a4e80916f762 5.0
+DUPLICATE 66830d10-3694-493d-92f5-f060cadeada2 a62d41e2-28af-428a-9bdb-ab27127d949e
+endcode
+```
+
+### Duplication 
+
+Variables duplication is possible throught the use of `vodka` datatype. It allow for recreating a variable with or without a fixed value by just changing his name and without changing anything in the original variable. It use the `DUPLICATE` syscall. Type that can be duplicated are all the non-special type.

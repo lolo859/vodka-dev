@@ -1,5 +1,4 @@
 £VODTYPE command
-£VODSTART main
-vodka $const=vodint 5
-vodka $$kernel_const=vodint 5
+£VODSTART main $j
+vodka integer=vodka $j
 £VODEND
