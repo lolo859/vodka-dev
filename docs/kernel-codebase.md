@@ -9,7 +9,7 @@ Kernel code is the low-level, intermediate language designed to be the final tar
 - [Sections](#sections)
 - [Arguments](#arguments)
 - [Datas](#datas)
-- [Variables]
+- [Variables](#variables)
 - [Instructions]
 
 ## Sections
@@ -39,7 +39,7 @@ endargs
 
 ## Datas
 
-Datas are basically [kernel constants](vodka-codebase.md#kernel-constants). These are read-only variables that can't be deleted, modified or added during runtime. They are accessible to all sections inside the file and can be duplicated. They are stored inside the `data` section.
+Datas are basically [kernel constants](vodka-codebase.md#kernel-constants). These are read-only variables that can't be deleted with [FREE](#free) or added during runtime. They are accessible to all sections inside the file and can be duplicated. They can't be overwritten by the [ASSIGN](#assign) or [DUPLICATE](#duplicate) instructions. They are stored inside the `data` section.
 
 Code example:
 ```
@@ -51,4 +51,64 @@ enddata
 
 ## Variables
 
-Variables are the core of the kernel code. They are declared using the [`ASSIGN`](#assign) syscall. Variables are identified by UID in order to be unique and can contain a infinity of caracters.
+Variables are the core of the kernel code. They are declared using the [ASSIGN](#assign) syscall. Variables are identified by UID in order to be unique and can contain a infinity of caracters. There is no distinction between local or global variables. A section can totally access a variable declared by another section.
+
+Code example:
+```
+ASSIGN <uid> <value>
+```
+
+## Instructions
+
+Instructions (or syscalls) are always written in capital letter and can't be added outside of section. All arguments are variables UID except for the value in the `ASSIGN` instruction. All arguments are separated by spaces. Here is the list of instructions:
+- [PRINT]
+- [ADD]
+- [ASSIGN]
+- [FREE]
+- [INVERT]
+- [DUPLICATE]
+- [ABS]
+- [DIVMOD]
+- [TOINT]
+- [TODEC]
+- [MULDEC]
+- [MULINT]
+- [DIVIDE]
+
+A lot of these instructions are accessible using the [kernel](vodka-codebase.md#kernel) internal library.
+
+### PRINT
+
+The `PRINT` instruction output variables to standard output.
+
+Syntax: `PRINT <uid_1> <uid_2> ... <uid_n>`
+
+### ADD
+
+The `ADD` instruction adds variables together. All arguments except the output must have either a integer or decimal number syntax.
+
+Syntax: `ADD <output_uid> <first_term> <second_term> ... <n_term>`
+
+### ASSIGN
+
+The `ASSIGN` instruction creates a variable. The value is the rest of the line.
+
+Syntax: `ASSIGN <uid> value`
+
+### FREE
+
+The `FREE` instruction deletes variables.
+
+Syntax: `FREE <uid_1> <uid_2> ... <uid_n>`
+
+### INVERT
+
+The `INVERT` instruction invert the sign of a integer or decimal number. The argument must have either a integer or decimal number syntax.
+
+Syntax: `INVERT <uid>`
+
+### DUPLICATE
+
+The `DUPLICATE` instruction duplicates variables.
+
+Syntax: `DUPLICATE <output_uid> <source_uid>`
