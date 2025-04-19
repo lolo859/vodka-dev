@@ -6,22 +6,24 @@ Welcome to the documentation for the Vodka transcoder and vodka-lib, the C++ lib
 
 ## Dependencies
 
-To ensure you have a smooth time compiling Vodka, please use the following command download all dependencies :
+To ensure you have a smooth time compiling Vodka, please use the following command download all dependencies:
 
-With apt : 
+With apt: 
 ```sh
 sudo apt update && sudo apt install -y libboost-all-dev nlohmann-json3-dev g++
 ```
 
-With dnf :
+With dnf:
 ```
 sudo dnf install -y boost-devel nlohmann-json-devel gcc-c++
 ```
 
-With pacman :
+With pacman:
 ```
 sudo pacman -S --needed boost nlohmann-json gcc
 ```
+
+**Warning:** since Vodka 0.3, the compilation process require Boost 1.88 which isn't available with packages manager. So you will have to compile it yourself. You can download it with [this link](https://archives.boost.io/release/1.88.0/source/boost_1_88_0.tar.gz)
 
 ## Installation
 
@@ -43,7 +45,7 @@ comp.sh
 
 This generate a static executable in the working directory. Please ensure you are in the root folder of the repository.
 
-Warning : the compiling script use g++ for compiling each file. Compiling with other compiler hasn't been tested and aren't officialy supported.
+Warning: the compiling script use g++ for compiling each file. Compiling with other compiler hasn't been tested and aren't officialy supported.
 
 ### vodka-lib
 
@@ -63,7 +65,7 @@ Compile the library with ```comp.sh library```. Don't forget to include the .a f
 
 ## References
 
-Please see any of these file for more details :
+Please see any of these file for more details:
 - [Vodka language syntax and codebase](https://github.com/lolo859/vodka/docs/vodka-codebase.md)
 - [Kernel code syntax and codebase](https://github.com/lolo859/vodka/docs/kernel-codebase.md)
 - [vodka-lib docs](https://github.com/lolo859/vodka/docs/vodka-lib-usage.md)

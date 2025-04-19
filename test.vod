@@ -1,6 +1,7 @@
 £VODTYPE command
-£VODSTART main
-vodka j=vodint 5
-vodka b=vodec 0.5
-kernel.divide b b b b
+£VODSTART main h
+vodka a=vodec 5.0
+vodka b=vodec 5.5
+vodka c=vodec 0.0
+vodka d=vodec -5.5
 £VODEND

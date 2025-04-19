@@ -75,3 +75,6 @@ multiply now has two syntax :
 these two new syntax result in way less syscalls than before. they use two new syscalls with identical syntax than multiply : MULINT and MULDEC
 added kernel.divide with syntax : kernel.divide <vodint/vodec output> <vodint/vodec first term> <vodint/vodec second term> <vodint precision>
 added DIVIDE syscall with same syntax
+
+planned : add vodec support to abs syscall
+planned : add kernel.mulint and kernel.muldec

@@ -17,6 +17,27 @@ Vodka is a high level language designed to be transcoded to Kernel code. It has 
   - [Debug lines](#debug-lines)
 - [Cells](#cells)
   - [Cells arguments](#cells-arguments)
+- [Variables](#variables)
+  - [Syntax](#syntax)
+  - [Constants and kernel constants](#constants-and-kernel-constants)
+  - [Variables duplication](#variables-duplication)
+- [Datatypes](#datatypes)
+  - [vodint](#vodint)
+  - [vodec](#vodec)
+  - [vodarg](#vodarg)
+  - [vodka](#vodka)
+- [Internal libraries](#internal-libraries)
+  - [kernel](#kernel)
+    - [add](#add)
+    - [invert](#invert)
+    - [free](#free)
+    - [abs](#abs)
+    - [divmod](#divmod)
+    - [toint](#toint)
+    - [todec](#todec)
+    - [divide](#divide)
+- [Internal instructions](#internal-instructions)
+  - [multiply](#multiply)
 
 ## Program types
 
@@ -92,7 +113,7 @@ Code example:
 
 Output:
 ```
-Debug line 2 in cell main from file example.vod : this is a detailled debug line
+Debug line 2 in cell main from file example.vod: this is a detailled debug line
 this is a simple debug line
 ```
 
@@ -121,7 +142,7 @@ Variables in Vodka each have a name, a datatype and a value. Values can be undef
 
 ### Syntax
 
-To declare a variable, follow the following syntax :
+To declare a variable, follow the following syntax:
 ```
 vodka <variable name>=<datatype> <value>
 ```
@@ -134,7 +155,7 @@ Code example:
 vodka a=vodint 5
 ```
 
-Kernel code output:
+Output:
 ```
 ASSIGN <uid> 5
 ```
@@ -163,11 +184,191 @@ Output:
 ```
 type command
 args:
+8aede3a1-c624-4b7d-ad6b-e3bd828dd9a3
 endargs
 data:
-d26d5244-984b-479a-9b95-08bcef4cd16f=5
+067df55e-97b3-453b-9cd0-9b24b5496db3=5
 enddata
-code:
-ASSIGN b108f519-0c66-4a74-b307-c4c2c5f8bcf3 5
-endcode
+main:
+ASSIGN 5780ef94-b86b-4eca-a72a-3610367a31fc 5
+endmain
 ```
+
+### Variables duplication
+
+Variables can be duplicated using the `vodka` datatype. Constants and kernel constants can't be created using duplication but can be duplicated to an other variable. They are duplicated using the `DUPLICATE` syscall.
+
+Code example:
+```
+vodka a=vodint 5
+vodka b=vodka a
+```
+
+Output:
+```
+type command
+args:
+e44d121d-33f2-48c3-aeb6-912634e67e02
+endargs
+data:
+enddata
+main:
+ASSIGN dbb97160-397e-40d6-a226-431ab5e45b2b 5
+DUPLICATE 12ac2165-d947-4dfe-acf3-a55672116900 dbb97160-397e-40d6-a226-431ab5e45b2b
+endmain
+```
+
+## Datatypes
+
+Variables can be of the following datatype with each their own syntax:
+- [vodint](#vodint)
+- [vodec](#vodec)
+- [vodarg](#vodarg)
+- [vodka](#vodka)
+
+### vodint
+
+The `vodint` datatype is used to store any integer, both positives and negatives numbers, without any decimal part. The number can be any size.
+
+Code example:
+```
+vodka a=vodint 5
+vodka b=vodint 0
+vodka c=vodint -5
+```
+
+Output:
+```
+type command
+args:
+e25191a5-0116-4ef1-89ea-558c645b7ee8
+endargs
+data:
+enddata
+main:
+ASSIGN 29282575-835d-48a4-a770-1ca1bf96c196 5
+ASSIGN f2d921cc-2885-4bd1-82c0-70b99ee5b72b 0
+ASSIGN df0d0baa-3d47-456e-9e4c-a17127ef871d -5
+endmain
+```
+
+### vodec
+
+The `vodec` datatype is used to store any floating point number, both positives and negatives numbers, with an integer and a decimal part. The number can be any size for both part.
+
+Code example:
+```
+vodka a=vodec 5.0
+vodka b=vodec 5.5
+vodka c=vodec 0.0
+vodka d=vodec -5.5
+```
+
+Code example:
+```
+type command
+args:
+7c08a366-a61e-402a-985f-d419bb2bcb91
+endargs
+data:
+enddata
+main:
+ASSIGN 863685a3-3d3c-47e0-a8ac-f64c14467a6c 5.0
+ASSIGN 625b0417-facb-441b-8e58-2d11c9efc670 5.5
+ASSIGN 1e4df31c-5f03-411c-bf09-d90c9a238b5d 0.0
+ASSIGN a70554c5-ad76-433e-820c-18071534f60d -5.5
+endmain
+```
+
+**Note:** scientific notation isn't supported yet.
+
+### vodarg
+
+The `vodarg` datatype is a datatype for cells arguments. Technically, it represent a string but it can be used instead of the following datatype: `vodint`, `vodec` (unless specified).
+Variables can't be created with the `vodarg` datatype and cells arguments with the `vodarg` datatype can't be modified or deleted.
+
+### vodka
+
+The `vodka` datatype is used to duplicate variables. See [variables duplication](#variables-duplication) for more infos.
+
+## Internal libraries
+
+Internal librairies are groups of functions directely integrated inside the vodka transcoder.
+
+### kernel
+
+The `kernel` internal librairy allow for the direct usage of syscalls. It contain the following functions: 
+
+- [add](#add)
+- [invert](#invert)
+- [free](#free)
+- [abs](#abs)
+- [divmod](#divmod)
+- [toint](#toint)
+- [todec](#todec)
+- [divide](#divide)
+
+#### add
+
+Used to add `vodint` or `vodec` variables, all arguments must be the same type.
+
+Syntax: `kernel.add kernel.add <output_variable> <add1> <add2> ... <add_n>`
+
+#### invert
+
+Used to invert the sign of a `vodint` or `vodec` variable.
+
+Syntax: `kernel.invert <variable_name>`
+
+#### free
+
+Used to delete variables. Can't be used to delete kernel constants or `vodarg` variable.
+
+Syntax: `kernel.free <var1> <var2> ... <var_n>`
+
+#### abs
+
+Used to get the absolute value of a `vodint` variable.
+
+Syntax: `kernel.abs <variable_name>`
+
+#### divmod
+
+Used to get the quotient and the rest of a euclidian division. All arguments must be vodint.
+
+Syntax: `kernel.divmod <result> <rest> <dividend> <divisor>`
+
+#### toint
+
+Used to automatically erase the decimal part of a `vodec` input. Ouput must be `vodint` type.
+
+Syntax: `kernel.toint <output_variable> <input_variable>`
+
+#### todec
+
+Used to automatically add a empty decimal part to a `vodint` input. Ouput must be `vodec` type.
+
+Syntax: `kernel.todec <output_variable> <input_variable>`
+
+#### divide
+
+Used to divide `vodec` variables. All arguments except the precision must be `vodec` type and the precision must be `vodint` type.
+
+Syntax: `kernel.divide <output_variable> <dividend_variable> <divisor_variable> <precision_variable>`
+
+## Internal instructions
+
+Internal instructions are like internal librairies but doesn't belong to any librairy. Here is the list of every internal instructions :
+- [multiply](#multiply)
+
+### multiply
+
+The `multiply` instruction is used to multiply two numbers together. It has two possibles syntaxs :
+- without explicit precision :
+  - Usage : multiply two `vodint` or `vodec` variables
+  - Syntax : `multiply <output_variable> <first_term_variable> <second_term_variable>`
+  - Note : all arguments must be of the same type, precision is set to 3 in this case
+- with explicit precision :
+  - Usage : multiply two `vodec` variables
+  - Syntax : `multiply <output_variable> <first_term_variable> <second_term_variable> <precision_variable>`
+  - Note : precision must be `vodint`. All other arguments must be `vodec`.
