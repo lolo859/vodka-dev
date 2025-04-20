@@ -78,3 +78,4 @@ added DIVIDE syscall with same syntax
 
 planned : add vodec support to abs syscall
 planned : add kernel.mulint and kernel.muldec
+planned : update json kernel export to support multiple section (should be modified only inside vodka.cpp)

@@ -1,42 +1,28 @@
 {
-    "1:9a3924b0-62fb-4f88-98e6-e4c8ae34a2ac": {
+    "1:e135d855-e39b-4332-8a54-bb24dd4d5348": {
         "end": {
             "name": "VODEND",
-            "uid": "020930a0-af76-4a96-8c2f-69c039cb4ace"
+            "uid": "9214244a-251a-402e-872b-bc376af47ac1"
         },
         "line1": {
-            "decvalue": "5",
-            "name": "a",
-            "type": "var",
-            "uid": "a7645cc7-be01-4504-be6d-7bc110e5e43f",
-            "vartype": "vodint"
-        },
-        "line2": {
-            "decvalue": "0.0",
-            "name": "b",
-            "type": "var",
-            "uid": "4c612fdc-40e8-4336-bc5c-5ebef6a876a4",
-            "vartype": "vodec"
-        },
-        "line3": {
-            "arg1": "b",
-            "arg2": "a",
+            "arg1": "j",
             "library": "kernel",
-            "name": "kernel.todec",
+            "name": "kernel.print",
             "source": "<builtin>",
             "type": "int",
-            "uid": "6afd97cc-1492-476f-9c72-bc2d70882489"
+            "uid": "f8a2b0a1-bfef-424d-a5d1-dffeee2f7fc8"
         },
         "name": {
             "name": "main"
         },
         "start": {
             "arg1": "main",
+            "arg2": "j",
             "name": "VODSTART",
-            "uid": "2ae737db-a281-4594-b2e4-684dde8bc78c"
+            "uid": "31f064bf-a3ea-4291-88fe-59b2ccd9e8cf"
         },
         "uid": {
-            "uid": "1:9a3924b0-62fb-4f88-98e6-e4c8ae34a2ac"
+            "uid": "1:e135d855-e39b-4332-8a54-bb24dd4d5348"
         }
     },
     "metadata": {
@@ -44,25 +30,26 @@
             "json_type": "vodka",
             "json_version": "3",
             "source_file": "test.vod",
-            "timestamp": "2025-03-15T15:16:16Z",
+            "timestamp": "2025-04-19T21:44:02Z",
             "type": "metadata",
             "vodka_version": "0.3 beta 3"
         }
     },
     "symbols": {
-        "1:bb9d245e-6701-4632-a743-ccd5cd4ff6ad": {
-            "arg1": "app",
+        "1:604e24f2-d079-4545-8bbc-0312bbd94b72": {
+            "arg1": "command",
             "name": "VODTYPE",
-            "uid": "a48f61cb-809e-4411-931e-503ff3d400be"
+            "uid": "5dc158de-e696-46ed-8e15-0b60ee761131"
         },
-        "2:ffd1bf15-125f-448c-a62b-735f61ff81e1": {
+        "2:21018f7a-1989-476b-9a3f-5b6f6e12ed0d": {
             "arg1": "main",
+            "arg2": "j",
             "name": "VODSTART",
-            "uid": "2ae737db-a281-4594-b2e4-684dde8bc78c"
+            "uid": "31f064bf-a3ea-4291-88fe-59b2ccd9e8cf"
         },
-        "3:f9a0de79-ac1b-4240-950c-17cfcc3504f3": {
+        "3:fabf8124-eb39-4f4a-8212-d96e72d7c96f": {
             "name": "VODEND",
-            "uid": "020930a0-af76-4a96-8c2f-69c039cb4ace"
+            "uid": "9214244a-251a-402e-872b-bc376af47ac1"
         }
     }
 }

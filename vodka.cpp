@@ -659,7 +659,7 @@ int main (int argc,char* argv[]) {
         bool endargs=false;
         ss<<put_time(&utc, "%Y-%m-%dT%H:%M:%SZ");
         json_ints["metadata"]={{"type","metadata"},{"vodka_version","0.3 beta 3"},{"json_version","3"},{"source_file",file},{"timestamp",ss.str()},{"json_type","kernel"}};
-        vector<string> kernel_symbol={"code:","endcode","args:","endargs","data:","enddata"};
+        vector<string> kernel_symbol={"main:","endmain","args:","endargs","data:","enddata"};
         for (const string& line:final) {
             log("Converting line "+to_string(a)+".",verbose,x,last,1,{a},{final.size()});
             if (find(kernel_symbol.begin(),kernel_symbol.end(),line)==kernel_symbol.end() && line.substr(0,4)!="type") {
