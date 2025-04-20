@@ -11,6 +11,7 @@
 #include <iostream>
 using namespace std;
 //* Vodka standard utilities
+//* For documentation, please refer to vodka-lib-usage.md
 namespace vodka {
     const string version="0.3 beta 3";
     const string json_version="3";

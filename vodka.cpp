@@ -6,12 +6,12 @@
 #include <filesystem>
 #include <algorithm>
 #include <unistd.h>
-#include <nlohmann/json.hpp>
 #include <cctype>
 #include <getopt.h>
 #include <cstring>
 #include <chrono>
 #include "vodka-lib/vodka-lib.h"
+#include "dependencies/json.hpp"
 //* Some necessary functions
 std::vector<std::string> split(const std::string& str,const std::string& delimiter) {
     std::vector<std::string> tokens;

@@ -6,24 +6,12 @@ Welcome to the documentation for the Vodka transcoder and vodka-lib, the C++ lib
 
 ## Dependencies
 
-To ensure you have a smooth time compiling Vodka, please use the following command download all dependencies:
+The Vodka transcoder and vodka-lib have the following dependencies in order to be build :
+- termcolor
+- nlohmann/json
+- boost
 
-With apt: 
-```sh
-sudo apt update && sudo apt install -y libboost-all-dev nlohmann-json3-dev g++
-```
-
-With dnf:
-```
-sudo dnf install -y boost-devel nlohmann-json-devel gcc-c++
-```
-
-With pacman:
-```
-sudo pacman -S --needed boost nlohmann-json gcc
-```
-
-**Warning:** since Vodka 0.3, the compilation process require Boost 1.88 which isn't available with packages manager. So you will have to compile it yourself. You can download it with [this link](https://archives.boost.io/release/1.88.0/source/boost_1_88_0.tar.gz)
+The first two are already included inside the dependencies folder. Boost version need to be at least 1.84 (1.88 is the recommended version) and, because of his unavaibality on packages managers, need to be compiled by hand. The compilation script need Boost to be located in the system folder.
 
 ## Installation
 
