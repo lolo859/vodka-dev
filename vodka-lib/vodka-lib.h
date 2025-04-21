@@ -130,7 +130,7 @@ namespace vodka {
                 syscall info;
             ABS() {
                 info.name="ABS";
-                info.support_multiple_argument=true;
+                info.support_multiple_argument=false;
             }
         };
         class DIVMOD {
