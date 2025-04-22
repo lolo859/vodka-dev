@@ -1,55 +1,21 @@
 {
-    "1:e135d855-e39b-4332-8a54-bb24dd4d5348": {
-        "end": {
-            "name": "VODEND",
-            "uid": "9214244a-251a-402e-872b-bc376af47ac1"
-        },
-        "line1": {
-            "arg1": "j",
-            "library": "kernel",
-            "name": "kernel.print",
-            "source": "<builtin>",
-            "type": "int",
-            "uid": "f8a2b0a1-bfef-424d-a5d1-dffeee2f7fc8"
-        },
-        "name": {
-            "name": "main"
-        },
-        "start": {
-            "arg1": "main",
-            "arg2": "j",
-            "name": "VODSTART",
-            "uid": "31f064bf-a3ea-4291-88fe-59b2ccd9e8cf"
-        },
-        "uid": {
-            "uid": "1:e135d855-e39b-4332-8a54-bb24dd4d5348"
-        }
+    "1:43db5de0-3ca4-4105-833e-6f964c9410de": {
+        "arg1": "",
+        "intname": "e7c2fe41-4137-4243-b7f1-8159b9aff7a0",
+        "type": "argument"
+    },
+    "2:f2e8b544-bfaf-45b9-b9f4-69607e55b5cb": {
+        "arg1": "e7c2fe41-4137-4243-b7f1-8159b9aff7a0",
+        "arg2": "e7c2fe41-4137-4243-b7f1-8159b9aff7a0",
+        "intname": "PRINT",
+        "type": "system_call"
     },
     "metadata": {
-        "metadata": {
-            "json_type": "vodka",
-            "json_version": "3",
-            "source_file": "test.vod",
-            "timestamp": "2025-04-19T21:44:02Z",
-            "type": "metadata",
-            "vodka_version": "0.3 beta 3"
-        }
-    },
-    "symbols": {
-        "1:604e24f2-d079-4545-8bbc-0312bbd94b72": {
-            "arg1": "command",
-            "name": "VODTYPE",
-            "uid": "5dc158de-e696-46ed-8e15-0b60ee761131"
-        },
-        "2:21018f7a-1989-476b-9a3f-5b6f6e12ed0d": {
-            "arg1": "main",
-            "arg2": "j",
-            "name": "VODSTART",
-            "uid": "31f064bf-a3ea-4291-88fe-59b2ccd9e8cf"
-        },
-        "3:fabf8124-eb39-4f4a-8212-d96e72d7c96f": {
-            "name": "VODEND",
-            "uid": "9214244a-251a-402e-872b-bc376af47ac1"
-        }
+        "json_type": "kernel",
+        "json_version": "3",
+        "source_file": "test.vod",
+        "timestamp": "2025-04-22T06:05:48Z",
+        "type": "metadata",
+        "vodka_version": "0.3 beta 3"
     }
 }

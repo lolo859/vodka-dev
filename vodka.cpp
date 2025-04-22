@@ -116,7 +116,6 @@ int detect_symbol(sources_stack srclclstack) {
         log("Detecting if line "+to_string(i+1)+" contain symbol :",verbose,x,last,1,{(int)i+1},{content.size()});
         if (line.rfind("£",0)==0) {
             log("Allocating memory.",verbose,x,last,2,{(int)i+1,1},{content.size(),3});
-            
             temp.line=i+1;
             temp.content=line;
             auto ele=split(line," ");
@@ -738,7 +737,7 @@ int main (int argc,char* argv[]) {
             json_ints_v["symbols"][to_string(i+1)+":"+to_string(genuid())]=symb.syntax();
         }
         log("Converting cells : ",verbose,x,last,1,{2},{2});
-        vector<string> vodkaints={"multiply"};
+        vector<string> vodkaints=vodka::vodka_instruction;
         for (int i=0;i<idencell.size();++i) {
             log("Converting cell "+cells[i].name+".",verbose,x,last,2,{2,i+1},{2,cells.size()});
             auto cellcontent=cells[i].content;

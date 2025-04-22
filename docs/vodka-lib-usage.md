@@ -55,10 +55,27 @@ vodka-lib is the static internal C++ library that powers the Vodka transcoder an
   - [vodka::type::vodec](#vodkatypevodec)
     - [bool vodka::type::vodec::check_value()](#bool-vodkatypevodeccheck_valuestdstring-value-vodkaanalyserline-context-vodkaerrorssources_stack-lclstack)
     - [std::string vodka::type::vodec::remove_zero()](#stdstring-vodkatypevodecremove_zerostdstring-value-vodkaerrorssources_stack-lclstack)
+- [vodka::json](#vodkajson)
+  - [vodka::json::kernel](#vodkajsonkernel)
+    - [class vodka::json::kernel::json_container](#class-vodkajsonkerneljson_container)
+  - [vodka::json::vodka](#vodkajsonvodka)
+    - [class vodka::json::vodka::instruction](#class-vodkajsonvodkainstruction)
+    - [class vodka::json::vodka::symbol](#class-vodkajsonvodkasymbol)
+    - [class vodka::json::vodka::var_declaration](#class-vodkajsonvodkavar_declaration)
+    - [class vodka::json::vodka::line_container](#class-vodkajsonvodkaline_container)
+    - [class vodka::json::vodka::cell](#class-vodkajsonvodkacell)
+- [vodka::utilities](#vodkautilities)
+  - [struct vodka::utilities::symbol](#struct-vodkautilitiessymbol)
+  - [struct vodka::utilities::cellule](#struct-vodkautilitiescellule)
+  - [struct vodka::utilities::import](#struct-vodkautilitiesimport)
+  - [boost::uuids::uuid vodka::utilities::genuid()](#boostuuidsuuid-vodkautilitiesgenuid)
+  - [void vodka::utilities::log()](#void-vodkautilitieslogstdstring-text-stdstring-verbose-int-x-stdstring-last-int-sublevel-stdvectorint-substep---stdvectorunsigned-long-subtotal)
+  - [void vodka::utilities::debuglog()](#void-vodkautilitiesdebuglogstdstring-text-int-line-stdstring-cell-bool-debugmode-stdstring-verbose-stdstring-file-bool-debug_info)
+  - [void vodka::utilities::var_warning()](#void-vodkautilitiesvar_warningstdstring-namevar-stdstring-typevar-stdstring-namecell-stdstring-line-bool-var_warning_enabled-stdstring-verbose)
 
 ## Main structure
 
-vodka-lib is divided into several namespaces for ease of coding :
+vodka-lib is divided into several namespaces for ease of coding:
 - `vodka::errors` : everything related to error output, used both by the Vodka transcoder and vodka-lib
 - `vodka::syscalls` : everything related to kernel code instructions and how to create their syntax, used both by the Vodka transcoder and vodka-lib
 - `vodka::variables` : everything related to variables and types storing in the Vodka language, used both by the Vodka transcoder and vodka-lib
@@ -85,11 +102,11 @@ The actual version of the json output format.
 
 The list of internal library for this version of vodka-lib.
 
-### `map<string,vector<string>> vodka::internal_library_functions`
+### `std::map<std::string,std::vector<std::string>> vodka::internal_library_functions`
 
 The map that indicate what functions each internal library has.
 
-### `vector<string> vodka::internal_type`
+### `std::vector<std::string> vodka::internal_type`
 
 The list of native type that can appear in a variable declaration.
 
@@ -437,9 +454,9 @@ This is the class a variable.
 - `std::string thing` : indicate which datatype is stored inside the object
 
 **According to the value in `thing`, one this attribute must be set:**
-- `vodint intele` : if `thing` contain `vodint`
-- `vodec decele` : if `thing` contain `vodec`
-- `vodarg argele` : if `thing` contain `vodarg`
+- `vodka::variables::vodint intele` : if `thing` contain `vodint`
+- `vodka::variables::vodec decele` : if `thing` contain `vodec`
+- `vodka::variables::vodarg argele` : if `thing` contain `vodarg`
 
 **This class has no methods.**
 
@@ -522,7 +539,7 @@ This is the class that will parse and convert a variable declaration into a usab
 
 **Methods (should be used in order):**
 - `bool var_dec_analyse(vodka::errors::sources_stack lclstack)` : parse the variable declaration and extract the five first attributes listed in the one that shouldn't be modified by the user. **This method raise his own error so you don't need to. It will raise an error if `line_analyse.checked` isn't `true`.**
-- `bool check_type_info(vodka::errors::sources_stack lclstack, vector<string> context)` : check the type and value of the variable, provide a list of already existing variable in `context`. **This method raise his own error so you don't need to. It will raise an error if `checked` isn't `true`.**
+- `bool check_type_info(vodka::errors::sources_stack lclstack, vector<std::string> context)` : check the type and value of the variable, provide a list of already existing variable in `context`. **This method raise his own error so you don't need to. It will raise an error if `checked` isn't `true`.**
 - `bool make_info(vodka::errors::sources_stack lclstack)` : set up the `var` attribute. **This method raise his own error so you don't need to. It will raise an error if `checked_type_value` isn't `true`.**
 - `bool pre_treatement(vodka::errors::sources_stack lclstack)` : pre-treat the value to store. **This method raise his own error so you don't need to. It will raise an error if `checked_type_value` isn't `true`.**
 - `bool output(vodka::errors::sources_stack lclstack)` : generate the `vodka::variables::element` container in order to store the variable and the `vodka::syscalls::syscall_container` in order to declare/duplicate the variable in the kernel code. **This method raise his own error so you don't need to. It will raise an error if `pre_treated` isn't `true`.**
@@ -566,3 +583,227 @@ This function check the value for the `vodec` datatype. The `context` argument n
 #### `std::string vodka::type::vodec::remove_zero(std::string value, vodka::errors::sources_stack lclstack)`
 
 This function remove the useless zeros for a `vodec` value.
+
+## `vodka::json`
+
+That namespace is responsible for translating the vodka code input or the kernel code output into a exploitable JSON file.
+
+---
+
+### `vodka::json::kernel`
+
+That namespace is responsible for translating the kernel code output into a exploitable JSON file.
+
+---
+
+#### `class vodka::json::kernel::json_container`
+
+This is the class for translating a line of kernel code into a JSON structure.
+
+**Arguments that should be set just after declaration:**
+- `std::string type` : specify the type of line. Could be `system_call`, `constant` or `argument`
+- `std::string intname` : the name of the instruction if `type` is `system_call` or the name of the variable if `type` is `constant` or `argument`
+- `std::vector<std::string> args` : the list of argument(s) of the line. Leave empty if `type` is `argument` or put one element with all the data behind the `=` if `type` is `constant`
+
+**Method:**
+- `std::map<std::string, std::string> syntax()` : generate the map to put inside the JSON file
+
+---
+
+### `vodka::json::vodka`
+
+That namespace is responsible for translating the vodka code input into a JSON structure.
+
+---
+
+#### `class vodka::json::vodka::instruction`
+
+This class make the output for a vodka instruction (with or without library).
+
+**Arguments that should be set just after declaration:**
+- `std::string name` : the name of the instruction
+- `std::string source` : the source of the instruction. **For the moment, all available source is `<builtin>`, signifying that the instruction isn't from a plugin.**
+- `std::string library` : the library from which the instruction come from. If the instruction is a cell defined into the source file or a instruction managed by the Vodka transcoder, this attribute should be set as `<no_library>`
+- `std::string uid` : the UID of the line
+- `std::vector<std::string> args` : the list of argument(s) of the line
+
+**Method:**
+- `std::map<std::string, std::string> syntax()` : generate the map to put inside the JSON file
+
+---
+
+#### `class vodka::json::vodka::symbol`
+
+This class make the output for a vodka symbol.
+
+**Arguments that should be set just after declaration:**
+- `std::string type` : the type of the symbol
+- `std::string uid` : the UID of the line
+- `std::vector<std::string> args` : the list of argument(s) of the symbol
+
+**Method:**
+- `std::map<std::string, std::string> syntax()` : generate the map to put inside the JSON file
+
+---
+
+#### `class vodka::json::vodka::var_declaration`
+
+This class make the output for a vodka variable declaration.
+
+**Arguments that should be set just after declaration:**
+- `std::string name` : the name of the variable
+- `std::string type` : the datatype of the variable
+- `std::string decvalue` : the value of the variable into the declaration
+- `std::string uid` : the UID of the line
+
+**Method:**
+- `std::map<std::string, std::string> syntax()` : generate the map to put inside the JSON file
+
+---
+
+#### `class vodka::json::vodka::line_container`
+
+This class make the output for a line.
+
+**Arguments that should be set just after declaration:**
+- `std::string thing` : the type of the line. Can be set to `int` for a vodka instruction (in a library or without a library) or `var` for a variable declaration
+- `vodka::json::vodka::var_declaration varele` : contain the variable declaration to be outputed. Should only be set if `thing` is `var`.
+- `vodka::json::vodka::instruction intele` : contain the vodka instruction to be outputed. Should only be set if `thing` is `int`.
+
+**Method:**
+- `std::map<std::string, std::string> syntax()` : generate the map to put inside the JSON file
+
+---
+
+#### `class vodka::json::vodka::cell`
+
+This class make the output for an entire cell.
+
+**Arguments that should be set just after declaration:**
+- `std::string name` : the name of the cell
+- `std::string uid` : the UID of the cell
+- `vodka::json::vodka::symbol start` : the symbol that start the cell (also contain the argument of the cell)
+- `vodka::json::vodka::symbol end` : the symbol that end the cell
+- `std::vector<vodka::json::vodka::line_container> lines` : the lines of the cell, ready to be converted into a JSON structure
+
+**Method:**
+- `std::map<std::string,std::map<std::string, std::string>> syntax()` : generate the map to put inside the JSON file
+
+## `vodka::utilities`
+
+That namespace is responsible for storing the necessary structure for early code analysis (symbols and cells detection) as well as logs functions and other utilities.
+
+---
+
+### `struct vodka::utilities::symbol`
+
+This is the structure responsible for storing a vodka symbol.
+
+**Attributes:**
+- `int line` : the line of the symbol
+- `std::string content` : the content of the line
+- `std::string type` : the type of the symbol, without the `£`
+
+---
+
+### `struct vodka::utilities::cellule`
+
+This is the structure responsible for storing a cell.
+
+**Attributes:**
+- `std::vector<std::string> content` : the list of each line of the cell
+- `std::string name` : the name of the cell
+- `std::vector<std::string> args` : the argument(s) of the cell
+- `std::vector<std::string> outs` : the output(s) of the cell
+- `vodka::utilities::symbol start` : the starting symbol of the cell
+- `vodka::utilities::symbol end` : the ending symbol of the cell
+
+---
+
+### `struct vodka::utilities::import`
+
+This is the structure responsible for storing an import. **It's not actually used in the transcoder or the library but will be in the future.**
+
+**Attributes:**
+- `std::string file` : the source file
+- `std::string type` : the type of import
+- `std::string importas` : the name used in the main vodka program to use this import
+- `std::vector<std::string> content` : the content imported
+
+---
+
+### `boost::uuids::uuid vodka::utilities::genuid()`
+
+This function is used to generate UID for all the elements inside the Vodka transcoder and vodka-lib. These UID can be directly translated into `std::string` using `std::to_string`.
+
+---
+
+### `void vodka::utilities::log(std::string text, std::string verbose, int x, std::string last, int sublevel, std::vector<int> substep = {}, std::vector<unsigned long> subtotal = {})`
+
+This fonction is used to output logs in a stepped format.
+
+**Arguments:**
+- `std::string text` : the text to log
+- `std::string verbose` : the verbose mode, used to determine the amount of line break that need to be printed in order to output a readable result. Could be `a` for all or `r` for reduced.
+- `int x` : the actual step for the first level of process
+- `std::string sublevel` : the number of sub-process inside the actual process (0 if no sub-process)
+- `std::string last` : the number of step inside the first level process
+- `std::vector<int> substep` : the actual step for each level of process except the first one
+- `std::vector<unsigned long> subtotal` : the number of step inside each level of process except the first one
+
+**Example:**
+```cpp
+log("this is a log","a",6,"12",2,{5,5},{10,10});
+```
+```
+[LOG]     (6/18) (5/10) (5/10) this is a log
+```
+
+**Warning:** this log function has been conceived for the Vodka transcoder which combine a specific schema for lines break that will probably result in a mess in your terminal. Use `e` for normal printing mode.
+
+---
+
+### `void vodka::utilities::debuglog(std::string text, int line, std::string cell, bool debugmode, std::string verbose, std::string file, bool debug_info)`
+
+This is the function used to print debug lines in the vodka code.
+
+**Arguments:**
+- `std::string text` : the text to print, should include `>` or `>>`
+- `int line` : the line number of the debug line
+- `std::string cell` : the name of the original cell
+- `bool debugmode` : if the debug mode has been actived by the user
+- `std::string verbose` : could be `a` for all, `r` for reduced or `e` for error only. This is mainly for deciding how line break should be inserted in the terminal.
+- `std::string file` : the source file in which the debug line was detected
+- `bool debug_info` : if debug infos such as `file`, `line` or `cell` should be printed as well
+
+**Example:**
+```cpp
+debuglog(">hello",5,"main",true,"a","file.vod",true);
+```
+```
+[DEBUG]   Debug line 5 in cell main from file /home/lolo859/project/cpp/vodka/file.vod : hello
+```
+
+**Warning:** this log function has been conceived for the Vodka transcoder which combine a specific schema for lines break that will probably result in a mess in your terminal. Use `e` for normal printing mode.
+
+### `void vodka::utilities::var_warning(std::string namevar, std::string typevar, std::string namecell, std::string line, bool var_warning_enabled, std::string verbose)`
+
+This is the function used to print unesed variables warning.
+
+**Arguments:**
+- `std::string namevar` : the name of the variable
+- `std::string typevar` : the datatype of the variable
+- `std::string namecell` : the name of the cell where of the variable is declared
+- `std::string line` : the line number where the variable is declared
+- `bool var_warning_enabled` : if the user enabled warnings about unused variables.
+- `std::string verbose` : could be `a` for all, `r` for reduced or `e` for error only. This is mainly for deciding how line break should be inserted in the terminal.
+
+**Example:**
+```cpp
+var_warning("var","vodint","main","6",true,"e");
+```
+```
+[WARNING] vodka.warnings.unused_variable : Variable var (vodint), declared line 6 in cell main, isn't used anywhere and may take useless memory.
+```
+
+**Warning:** this log function has been conceived for the Vodka transcoder which combine a specific schema for lines break that will probably result in a mess in your terminal. Use `e` for normal printing mode.

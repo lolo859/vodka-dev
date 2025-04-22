@@ -1,4 +1,4 @@
 £VODTYPE command
 £VODSTART main j
-kernel.print j
+kernel.print j j
 £VODEND

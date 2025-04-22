@@ -80,4 +80,6 @@ planned : add vodec support to abs syscall
 planned : add kernel.mulint and kernel.muldec
 planned : update json kernel export to support multiple section (should be modified only inside vodka.cpp)
 planned : remove the useless functions inside vodka::type::vodint
+planned : set default source for vodka::json::vodka::instruction::source to <builtin>
 vodka::syscalls::ABS::info.support_multiple_argument is now set to false
+compiling script now check if g++ is installed
