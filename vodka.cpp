@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <map>
 #include <vector>
@@ -10,6 +11,7 @@
 #include <getopt.h>
 #include <cstring>
 #include <chrono>
+#include <boost/hash2/sha3.hpp>
 #include "vodka-lib/vodka-lib.h"
 #include "dependencies/json.hpp"
 //* Some necessary functions
@@ -35,6 +37,16 @@ void replaceall(std::string &str,const std::string &from,const std::string &to) 
         str.replace(start_pos,from.length(),to);
         start_pos+=to.length();
     }
+}
+string sha3512(string origin) {
+    boost::hash2::sha3_512 hasher;
+    hasher.update(origin.data(),origin.size());
+    auto digest=hasher.result();
+    ostringstream out;
+    for (auto byte:digest) {
+        out<<std::hex<<std::setw(2)<<std::setfill('0')<<static_cast<int>(byte);
+    }
+    return out.str();
 }
 //* Some variables
 using namespace std;
@@ -67,6 +79,7 @@ string program_type;
 vector<cellule> cells;
 vector<string> cellnames;
 cellule maincell;
+vector<string> kernel_sections={"main"};
 //* Read file
 int read_file(string output,string mode,sources_stack srclclstack) {
     auto lclstack=srclclstack;
@@ -97,10 +110,12 @@ int read_file(string output,string mode,sources_stack srclclstack) {
     x=x+1;
     log("Removing comments.",verbose,x,last);
     for (int i=0;i<content.size();++i) {
-        if (content[i].find("§",0)==0) {
-            content[i]="";
-        } else {
-            content[i]=split(content[i],"§")[0];
+        if (content[i]!="") {
+            if (content[i].find("§",0)==0) {
+                content[i]="";
+            } else {
+                content[i]=split(content[i],"§")[0];
+            }
         }
     }
     filee.close();
@@ -361,7 +376,7 @@ int main (int argc,char* argv[]) {
             }
             break;
         case 'h':
-            cout<<"Vodka v0.3 beta 3 - Vodka Objective Dictionary for Kernel Analyser\nOptions :\n  -h, --help :\n    show this help\n  -f, --find object_to_find :\n    (not working for the moment)\n  -s, --source-file source_file :\n    source file \n  -o, --output-file output_file :\n    output file\n  -v, --verbose-reduced :\n    set verbose mode to reduced\n  -V, --verbose-full :\n    set verbose mode to full\n  -d, --debug-lines :\n    enable debug mode\n  -j, --json-kernel :\n    export output to a json file specified with -o\n  -J, --json-vodka :\n    export .vod structure to a json file specified with -o\n  -r, --disable-replacements :\n    disable define replacement\n  -w, --disable-all-warnings :\n    disable warnings\n  --disable-variables-warnings :\n    disable variables warnings"<<endl;
+            cout<<"Vodka v0.3 - Vodka Objective Dictionary for Kernel Analyser\nOptions :\n  -h, --help :\n    show this help\n  -f, --find object_to_find :\n    (not working for the moment)\n  -s, --source-file source_file :\n    source file \n  -o, --output-file output_file :\n    output file\n  -v, --verbose-reduced :\n    set verbose mode to reduced\n  -V, --verbose-full :\n    set verbose mode to full\n  -d, --debug-lines :\n    enable debug mode\n  -j, --json-kernel :\n    export output to a json file specified with -o\n  -J, --json-vodka :\n    export .vod structure to a json file specified with -o\n  -r, --disable-replacements :\n    disable define replacement\n  -w, --disable-all-warnings :\n    disable warnings\n  --disable-variables-warnings :\n    disable variables warnings"<<endl;
             return 0;
         case 'f':
             mode="find";
@@ -537,9 +552,9 @@ int main (int argc,char* argv[]) {
                 fcall.file_name_context=file;
                 fcall.variablesdict_context=main_variablesdict;
                 fcall.type_analyser=type_analyser;
-                vodka::library::kernel::traitement engine;
+                vodka::library::kernel::treatement engine;
                 engine.call=fcall;
-                engine.checked=engine.kernel_traitement(lclstack);
+                engine.checked=engine.kernel_treatement(lclstack);
                 if (engine.checked==false) {
                     return -1;
                 } else {
@@ -569,9 +584,9 @@ int main (int argc,char* argv[]) {
             icall.file_name_context=file;
             icall.variablesdict_context=main_variablesdict;
             icall.type_analyser=type_analyser;
-            vodka::instructions::instruction_traitement engine;
+            vodka::instructions::instruction_treatement engine;
             engine.call=icall;
-            engine.checked=engine.traitement(lclstack);
+            engine.checked=engine.treatement(lclstack);
             if (engine.checked==false) {
                 return -1;
             } else {
@@ -634,6 +649,7 @@ int main (int argc,char* argv[]) {
     ofstream outputfile(output);
     if (mode=="compile") {
         x=x+1;
+        // for (int i=0;i<final.size();++i)
         log("Writing in output file :",verbose,x,last);
         if (outputfile.is_open()) {
             a=1;
@@ -657,9 +673,14 @@ int main (int argc,char* argv[]) {
         stringstream ss;
         bool endargs=false;
         ss<<put_time(&utc, "%Y-%m-%dT%H:%M:%SZ");
-        json_ints["metadata"]={{"type","metadata"},{"vodka_version","0.3 beta 3"},{"json_version","3"},{"source_file",file},{"timestamp",ss.str()},{"json_type","kernel"}};
-        vector<string> kernel_symbol={"main:","endmain","args:","endargs","data:","enddata"};
+        json_ints["metadata"]={{"type","metadata"},{"vodka_version","0.3"},{"json_version","4"},{"source_file",file},{"timestamp",ss.str()},{"json_type","kernel"}};
+        vector<string> kernel_symbol={"args:","endargs","data:","enddata"};
+        for (auto b:kernel_sections) {
+            kernel_symbol.push_back(b+":");
+            kernel_symbol.push_back("end"+b);
+        }
         for (const string& line:final) {
+            string actualcell="main";
             log("Converting line "+to_string(a)+".",verbose,x,last,1,{a},{final.size()});
             if (find(kernel_symbol.begin(),kernel_symbol.end(),line)==kernel_symbol.end() && line.substr(0,4)!="type") {
                 if (std::isalpha(line[0]) && std::isupper(line[0])) {
@@ -668,7 +689,7 @@ int main (int argc,char* argv[]) {
                     jsonth.intname=split(line," ")[0];
                     auto eles=split(line," ");
                     jsonth.args=vector<string>(eles.begin()+1,eles.end());
-                    json_ints[to_string(a)+":"+to_string(genuid())]=jsonth.syntax();
+                    json_ints[to_string(a)+"@"+actualcell+":"+to_string(genuid())]=jsonth.syntax();
                     a=a+1;
                 } else {
                     vodka::json::kernel::json_container jsonth;
@@ -685,11 +706,11 @@ int main (int argc,char* argv[]) {
                     }
                     jsonth.args={otherside};
                     json_ints[to_string(a)+":"+to_string(genuid())]=jsonth.syntax();
-                    a=a+1;
                 }
             } else if (line=="endargs") {
                 endargs=true;
             }
+            a=a+1;
         }
         x=x+1;
         log("Writing json file.",verbose,x,last);
@@ -705,7 +726,7 @@ int main (int argc,char* argv[]) {
         tm utc=*std::gmtime(&now_c);
         stringstream ss;
         ss<<put_time(&utc, "%Y-%m-%dT%H:%M:%SZ");
-        json_ints_v["metadata"]={{"metadata",{{"type","metadata"},{"vodka_version","0.3 beta 3"},{"json_version","3"},{"source_file",file},{"timestamp",ss.str()},{"json_type","vodka"}}}};
+        json_ints_v["metadata"]={{"metadata",{{"type","metadata"},{"vodka_version","0.3"},{"json_version","4"},{"source_file",file},{"timestamp",ss.str()},{"json_type","vodka"}}}};
         log("Converting symbols : ",verbose,x,last,1,{1},{2});
         json_ints_v["symbols"]={};
         bool cellstart=false;

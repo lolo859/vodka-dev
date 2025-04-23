@@ -1,21 +1,7 @@
-{
-    "1:43db5de0-3ca4-4105-833e-6f964c9410de": {
-        "arg1": "",
-        "intname": "e7c2fe41-4137-4243-b7f1-8159b9aff7a0",
-        "type": "argument"
-    },
-    "2:f2e8b544-bfaf-45b9-b9f4-69607e55b5cb": {
-        "arg1": "e7c2fe41-4137-4243-b7f1-8159b9aff7a0",
-        "arg2": "e7c2fe41-4137-4243-b7f1-8159b9aff7a0",
-        "intname": "PRINT",
-        "type": "system_call"
-    },
-    "metadata": {
-        "json_type": "kernel",
-        "json_version": "3",
-        "source_file": "test.vod",
-        "timestamp": "2025-04-22T06:05:48Z",
-        "type": "metadata",
-        "vodka_version": "0.3 beta 3"
-    }
-}
+type app
+args:
+endargs
+data:
+enddata
+main:
+endmain

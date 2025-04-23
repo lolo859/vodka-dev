@@ -76,10 +76,21 @@ these two new syntax result in way less syscalls than before. they use two new s
 added kernel.divide with syntax : kernel.divide <vodint/vodec output> <vodint/vodec first term> <vodint/vodec second term> <vodint precision>
 added DIVIDE syscall with same syntax
 
-planned : add vodec support to abs syscall
-planned : add kernel.mulint and kernel.muldec
-planned : update json kernel export to support multiple section (should be modified only inside vodka.cpp)
-planned : remove the useless functions inside vodka::type::vodint
-planned : set default source for vodka::json::vodka::instruction::source to <builtin>
+add vodec support to abs syscall
+add kernel.mulint and kernel.muldec
+update json kernel export to support multiple section (should be modified only inside vodka.cpp)
+remove the useless functions inside vodka::type::vodint
+set default source for vodka::json::vodka::instruction::source to <builtin>
+rename vodka::library::kernel::traitement to vodka::library::kernel::treatement
+rename vodka::library::kernel::traitement::kernel_traitement() with vodka::library::kernel::traitement::kernel_treatement()
+same thing with vodka instruction
+planned : add the integrity system
+planned : add % and #
 vodka::syscalls::ABS::info.support_multiple_argument is now set to false
 compiling script now check if g++ is installed
+
+for vodka 4.0 beta 1:
+planned : introduce `enum class` in vodka-lib everywhere it's pertinent 
+planned : introduce `constexpr` in vodka-lib
+planned : introduce a datatype checking technic common to all libraries and instructions thats also allow users to use it
+planned : rename every single attribute, variable and class that need it in order to be more standard and explicit

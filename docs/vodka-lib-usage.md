@@ -72,6 +72,13 @@ vodka-lib is the static internal C++ library that powers the Vodka transcoder an
   - [void vodka::utilities::log()](#void-vodkautilitieslogstdstring-text-stdstring-verbose-int-x-stdstring-last-int-sublevel-stdvectorint-substep---stdvectorunsigned-long-subtotal)
   - [void vodka::utilities::debuglog()](#void-vodkautilitiesdebuglogstdstring-text-int-line-stdstring-cell-bool-debugmode-stdstring-verbose-stdstring-file-bool-debug_info)
   - [void vodka::utilities::var_warning()](#void-vodkautilitiesvar_warningstdstring-namevar-stdstring-typevar-stdstring-namecell-stdstring-line-bool-var_warning_enabled-stdstring-verbose)
+- [vodka::library](#vodkalibrary)
+  - [class vodka::library::function_call](#class-vodkalibraryfunction_call)
+  - [vodka::library::kernel](#vodkalibrarykernel)
+    - [class vodka::library::kernel::treatement](#class-vodkalibrarykerneltreatement)
+- [vodka::instruction](#vodkainstruction)
+  - [class vodka::instruction::instruction_call](#class-vodkainstructioninstruction_call)
+  - [class vodka::instruction::treatement](#class-vodkainstructiontreatement)
 
 ## Main structure
 
@@ -484,7 +491,7 @@ This is the class responsible for checking the basic syntax of each line : all a
 **Attributes that indicate the output:**
 - `bool skip` : tell the main program to skip the line. Only happen if the line is empty
 
-**Attribute that should be set by methods:**
+**Attributes that should be set by methods:**
 - `bool checked` : should be set with the value returned by the `check` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `check`, the line doesn't pass the test and can't be transmitted to the next step.
 
 **Method:**
@@ -502,7 +509,7 @@ This is the class responsible for deciding of which type the line is (debug line
 **Attributes that indicate the output:**
 - `string type` : the result of the test, set by the `line_type_analyse` method. Can be `debug_one`, `debug_two`, `var`, `internal_library` or `vodka_instruction`
 
-**Attribute that should be set by methods:**
+**Attributes that should be set by methods:**
 - `bool checked` : should be set with the value returned by the `line_type_analyse` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `check`, the line doesn't pass the test and can't be transmitted to the next step.
 - `std::string library_name` : indicate the name of the detected internal library, will only be set if `type` is `internal_library`
 - `std::string instruction_name` : indicate the name of the detected instruction, will only be set if `type` is `vodka_instruction`
@@ -532,7 +539,7 @@ This is the class that will parse and convert a variable declaration into a usab
 - `vodka::variables::element var_object` : the variable in his internal form, ready to be stored and used by other compoments of the library
 - `vodka::syscalls::syscall_container vodka_object` : the syscall to put into the kernel code in order to declare the variable
 
-**Attribute that should be set by methods:**
+**Attributes that should be set by methods:**
 - `bool checked` : should be set with the value returned by the `var_dec_analyse` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `check`, the line doesn't pass the test and can't be transmitted to the next step.
 - `bool checked_type_value` : should be set with the value returned by the `check_type_value` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `check`, the line doesn't pass the test and can't be transmitted to the next step.
 - `bool pre_treated` : should be set with the value returned by the `pre_treatement` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `check`, the line doesn't pass the test and can't be transmitted to the next step.
@@ -807,3 +814,89 @@ var_warning("var","vodint","main","6",true,"e");
 ```
 
 **Warning:** this log function has been conceived for the Vodka transcoder which combine a specific schema for lines break that will probably result in a mess in your terminal. Use `e` for normal printing mode.
+
+## `vodka::library`
+
+That namespace is responsible for the transcoding of internal libraries function call.
+
+---
+
+### `class vodka::library::function_call`
+
+This class store all the context needed to transcode an internal library function call.
+
+**Arguments that should be set just after declaration:**
+- `vodka::analyser::type_analyser type_analyser` : the line to analyse
+- `std::vector<std::string> variableslist_context` : the list of variables already existing before this instruction
+- `vodka::utilities::cellule cell_context` : the cell structure from which the function call came from
+- `int iteration_number_context` : since the analyse of all the lines in the cell should be done in a `for` loop, we need the iterator of this loop to determine the line number.
+- `std::string file_name_context` : the name of the file being transcoded
+- `std::string verbose_context` : the verbose mode selected by the user, `a`, `r` or `e`. Choose `e` for normal output mode.
+- `int main_logstep_context` : the step of the main process of transcoding. Put any number if `verbose_context` is `e`.
+- `std::string last_logstep_context` : the number of step in the main process. Put any string if `verbose_context` is `e`.
+- `std::map<std::string,vodka::variables::element>` : the map of all the variables already existing before this instruction
+
+---
+
+### `vodka::library::kernel`
+
+This namespace is responsible for the transcoding of internal libraries function call.
+
+---
+
+#### `class vodka::library::kernel::treatement`
+
+This is the class that transcode kernel internal library function call into a list of usable `vodka::syscalls::syscall_container`.
+
+**Arguments that should be set just after declaration:**
+- `vodka::library::function_call call` : the function call with all his context
+
+**Arguments that indicate the output (only set after treatement):**
+- `std::vector<vodka::syscalls::syscall_container> syscall_output` : the list of syscall object that should be added in the kernel code output
+- `bool var_flag` : indicate if the main program should replace his list and map of existing variables with the one into the function call object that was modified
+
+**Arguments that should be set by method:**
+- `bool checked` : should be set with the value returned by the `kernel_treatement` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `treatement`, the line doesn't pass the test and can't be consideer valid.
+
+**Method:**
+- `bool kernel_treatement(sources_stack lclstack)` : automatically choose the expected treatement for the function call and transcode it into syscall. The output should be put inside the `checked` attribute. **This method raise his own error so you don't need to. It will return `false` if `call.type_analyser.checked` isn't `true` or `call.type_analyser.type` isn't `internal_library`.**
+
+## `vodka::instruction`
+
+That namespace is responsible for the transcoding of vodka instructions call.
+
+---
+
+### `class vodka::instruction::instruction_call`
+
+This class store all the context needed to transcode a vodka instructions call.
+
+**Arguments that should be set just after declaration:**
+- `vodka::analyser::type_analyser type_analyser` : the line to analyse
+- `std::vector<std::string> variableslist_context` : the list of variables already existing before this instruction
+- `vodka::utilities::cellule cell_context` : the cell structure from which the instruction call came from
+- `int iteration_number_context` : since the analyse of all the lines in the cell should be done in a `for` loop, we need the iterator of this loop to determine the line number.
+- `std::string file_name_context` : the name of the file being transcoded
+- `std::string verbose_context` : the verbose mode selected by the user, `a`, `r` or `e`. Choose `e` for normal output mode.
+- `int main_logstep_context` : the step of the main process of transcoding. Put any number if `verbose_context` is `e`.
+- `std::string last_logstep_context` : the number of step in the main process. Put any string if `verbose_context` is `e`.
+- `std::map<std::string,vodka::variables::element>` : the map of all the variables already existing before this instruction
+
+---
+
+### `class vodka::instruction::treatement`
+
+This is the class that transcode vodka instruction call into a list of usable `vodka::syscalls::syscall_container`.
+
+**Arguments that should be set just after declaration:**
+- `vodka::library::instruction_call call` : the instruction call with all his context
+
+**Arguments that indicate the output (only set after treatement):**
+- `std::vector<vodka::syscalls::syscall_container> syscall_output` : the list of syscall object that should be added in the kernel code output
+- `bool var_flag` : indicate if the main program should replace his list and map of existing variables with the one into the instruction call object that was modified
+
+**Arguments that should be set by method:**
+- `bool checked` : should be set with the value returned by the `treatement` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `treatement`, the line doesn't pass the test and can't be consideer valid.
+
+**Method:**
+- `bool treatement(sources_stack lclstack)` : automatically choose the expected treatement for the instruction call and transcode it into syscall. The output should be put inside the `checked` attribute. **This method raise his own error so you don't need to. It will return `false` if `call.type_analyser.checked` isn't `true` or `call.type_analyser.type` isn't `vodka_instruction`.**
