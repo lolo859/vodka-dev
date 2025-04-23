@@ -1,3 +1,4 @@
 £VODTYPE app
-£VODSTART main
+£VODSTART main d
+kernel.print d
 £VODEND

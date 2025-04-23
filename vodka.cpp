@@ -6,6 +6,7 @@
 #include <string>
 #include <filesystem>
 #include <algorithm>
+#include <bitset>
 #include <unistd.h>
 #include <cctype>
 #include <getopt.h>
@@ -42,11 +43,19 @@ string sha3512(string origin) {
     boost::hash2::sha3_512 hasher;
     hasher.update(origin.data(),origin.size());
     auto digest=hasher.result();
-    ostringstream out;
+    string out;
     for (auto byte:digest) {
-        out<<std::hex<<std::setw(2)<<std::setfill('0')<<static_cast<int>(byte);
+        bitset<8> bits(static_cast<unsigned char>(byte));
+        auto str=bits.to_string();
+        for (auto a:str) {
+            if (a=='0') {
+                out=out+u8"\u200B";
+            } else {
+                out=out+u8"\u2063";
+            }
+        }
     }
-    return out.str();
+    return out;
 }
 //* Some variables
 using namespace std;
@@ -56,6 +65,7 @@ using namespace vodka::errors;
 string verbose="e";
 bool debugmode=false;
 bool var_warning_enabled=true;
+bool disable_integrity_hash=false;
 int x=1;
 string last;
 string file;
@@ -72,6 +82,7 @@ map<string,string> replacement;
 vector<string> symbollist={"VODSTART","VODEND","VODIMPORT","VODTYPE","VODSTRUCT","VODCLASS","VODENDCLASS","VODEFINE"};
 vector<string> typelist={"app","command","shell","gui","logonui","logonshell","service"};
 vector<string> content;
+vector<string> output_file_to_check;
 vector<symbol> symbols;
 symbol temp;
 bool typefound=false;
@@ -79,47 +90,102 @@ string program_type;
 vector<cellule> cells;
 vector<string> cellnames;
 cellule maincell;
-vector<string> kernel_sections={"main"};
 //* Read file
 int read_file(string output,string mode,sources_stack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
     //* Source file fetching
-    if (output=="" && mode=="compile" && mode=="jsonvodka" && mode=="jsonkernel") {
+    if (output=="") {
         raise(error_container("vodka.error.file.output_not_provided","<no file>",{"<no line affected>"},{0},lclstack));
         return -1;
     }
-    log("Checking if source file exist.",verbose,x,last);
-    if (filesystem::exists(file)==false) {
-        raise(error_container("Source file doesn't exist.",file,{"<no line affected>"},{0},lclstack));
-        return -1;
-    }
-    x=x+1;
-    log("Checking file readability.",verbose,x,last);
-    ifstream filee(file.c_str());
-    if (filee.is_open()==false) {
-        raise(error_container("File can't be open.",file,{"<no line affected>"},{0},lclstack));
-        return -1;
-    }
-    x=x+1;
-    log("Reading file.",verbose,x,last);
-    string lineread;
-    while (getline(filee,lineread)) {
-        content.push_back(lineread);
-    }
-    x=x+1;
-    log("Removing comments.",verbose,x,last);
-    for (int i=0;i<content.size();++i) {
-        if (content[i]!="") {
-            if (content[i].find("§",0)==0) {
-                content[i]="";
-            } else {
-                content[i]=split(content[i],"§")[0];
+    if (mode=="check") {
+        log("Checking if source and output file exist.",verbose,x,last);
+        if (filesystem::exists(file)==false) {
+            raise(error_container("Source file doesn't exist.",file,{"<no line affected>"},{0},lclstack));
+            return -1;
+        }
+        if (filesystem::exists(output)==false) {
+            raise(error_container("Output file doesn't exist.",file,{"<no line affected>"},{0},lclstack));
+            return -1;
+        }
+        x=x+1;
+        log("Checking files readability.",verbose,x,last);
+        ifstream filee(file.c_str());
+        if (filee.is_open()==false) {
+            raise(error_container("File can't be open.",file,{"<no line affected>"},{0},lclstack));
+            return -1;
+        }
+        ifstream fileee(output.c_str());
+        if (fileee.is_open()==false) {
+            raise(error_container("File can't be open.",output,{"<no line affected>"},{0},lclstack));
+            return -1;
+        }
+        x=x+1;
+        log("Reading files.",verbose,x,last);
+        string lineread;
+        while (getline(filee,lineread)) {
+            content.push_back(lineread);
+        }
+        string linereade;
+        while (getline(fileee,linereade)) {
+            output_file_to_check.push_back(linereade);
+        }
+        x=x+1;
+        log("Removing comments.",verbose,x,last);
+        for (int i=0;i<content.size();++i) {
+            if (content[i]!="") {
+                if (content[i].find("§",0)==0) {
+                    content[i]="";
+                } else {
+                    content[i]=split(content[i],"§")[0];
+                }
             }
         }
+        for (int i=0;i<output_file_to_check.size();++i) {
+            if (output_file_to_check[i]!="") {
+                if (output_file_to_check[i].find("§",0)==0) {
+                    output_file_to_check[i]="";
+                } else {
+                    output_file_to_check[i]=split(output_file_to_check[i],"§")[0];
+                }
+            }
+        }
+        filee.close();
+        return 0;
+    } else {
+        log("Checking if source file exist.",verbose,x,last);
+        if (filesystem::exists(file)==false) {
+            raise(error_container("Source file doesn't exist.",file,{"<no line affected>"},{0},lclstack));
+            return -1;
+        }
+        x=x+1;
+        log("Checking file readability.",verbose,x,last);
+        ifstream filee(file.c_str());
+        if (filee.is_open()==false) {
+            raise(error_container("File can't be open.",file,{"<no line affected>"},{0},lclstack));
+            return -1;
+        }
+        x=x+1;
+        log("Reading file.",verbose,x,last);
+        string lineread;
+        while (getline(filee,lineread)) {
+            content.push_back(lineread);
+        }
+        x=x+1;
+        log("Removing comments.",verbose,x,last);
+        for (int i=0;i<content.size();++i) {
+            if (content[i]!="") {
+                if (content[i].find("§",0)==0) {
+                    content[i]="";
+                } else {
+                    content[i]=split(content[i],"§")[0];
+                }
+            }
+        }
+        filee.close();
+        return 0;
     }
-    filee.close();
-    return 0;
 }
 //* Detect symbols 
 int detect_symbol(sources_stack srclclstack) {
@@ -365,10 +431,12 @@ int main (int argc,char* argv[]) {
         {"disable-replacements",no_argument,nullptr,'r'},
         {"disable-all-warnings",no_argument,nullptr,'w'},
         {"disable-variables-warnings",no_argument,nullptr,0},
+        {"disable-integrity-hash",no_argument,nullptr,'H'},
+        {"check-mode",no_argument,nullptr,'c'},
         {nullptr, 0, nullptr, 0}
     };
     //* Args management
-    while ((option=getopt_long(argc,argv,"hjJrdvVwf:s:o:",options,nullptr))!=-1) {
+    while ((option=getopt_long(argc,argv,"hHjJrdvVcwf:s:o:",options,nullptr))!=-1) {
         switch (option) {
         case 0:
             if (string(argv[optind-1])=="disable-variables-warnings") {
@@ -376,7 +444,7 @@ int main (int argc,char* argv[]) {
             }
             break;
         case 'h':
-            cout<<"Vodka v0.3 - Vodka Objective Dictionary for Kernel Analyser\nOptions :\n  -h, --help :\n    show this help\n  -f, --find object_to_find :\n    (not working for the moment)\n  -s, --source-file source_file :\n    source file \n  -o, --output-file output_file :\n    output file\n  -v, --verbose-reduced :\n    set verbose mode to reduced\n  -V, --verbose-full :\n    set verbose mode to full\n  -d, --debug-lines :\n    enable debug mode\n  -j, --json-kernel :\n    export output to a json file specified with -o\n  -J, --json-vodka :\n    export .vod structure to a json file specified with -o\n  -r, --disable-replacements :\n    disable define replacement\n  -w, --disable-all-warnings :\n    disable warnings\n  --disable-variables-warnings :\n    disable variables warnings"<<endl;
+            cout<<"Vodka v0.3 - Vodka Objective Dictionary for Kernel Analyser\nOptions :\n  -h, --help :\n    show this help\n  -f, --find object_to_find :\n    (not working for the moment)\n  -s, --source-file source_file :\n    source file \n  -o, --output-file output_file :\n    output file\n  -v, --verbose-reduced :\n    set verbose mode to reduced\n  -V, --verbose-full :\n    set verbose mode to full\n  -d, --debug-lines :\n    enable debug mode\n  -j, --json-kernel :\n    export output to a json file specified with -o\n  -J, --json-vodka :\n    export .vod structure to a json file specified with -o\n  -r, --disable-replacements :\n    disable define replacement\n  -w, --disable-all-warnings :\n    disable warnings\n  --disable-variables-warnings :\n    disable variables warnings\n  -H, --disable-integrity-hash :\n    disable the integrity hash integration into the output\n  -c, --check-mode :\n    verify the integrity between the inputed file witn -s and the output file specified with -o"<<endl;
             return 0;
         case 'f':
             mode="find";
@@ -408,6 +476,12 @@ int main (int argc,char* argv[]) {
             break;
         case 'w':
             var_warning_enabled=false;
+            break;
+        case 'H':
+            disable_integrity_hash=true;
+            break;
+        case 'c':
+            mode="check";
             break;
         case '?':
             cout<<"Invalid argument."<<endl;
@@ -637,19 +711,68 @@ int main (int argc,char* argv[]) {
     x=x+1;
     log("Writing main code section :",verbose,x,last);
     a=1;
+    vector<string> kernel_sections={"main"};
+    vector<int> kernel_sections_line={(int)final.size()};
+    map<string,string> kernel_sections_content;
+    map<string,string> vodka_cell_hash;
     final.push_back("main:");
     for (auto i:instructions_main) {
         log("Writing "+i.thing+" instruction.",verbose,x,last,1,{a},{instructions_main.size()});
         final.push_back(i.syntax());
+        kernel_sections_content["main"]=kernel_sections_content["main"]+"\n"+i.syntax();
         a=a+1;
     }
-    final.push_back("endmain");
-    x=x+1;
-    log("Opening output file.",verbose,x,last);
-    ofstream outputfile(output);
-    if (mode=="compile") {
+    for (auto cell:cells) {
+        string content;
+        for (auto line:cell.content) {content=content+"\n"+line;}
+        vodka_cell_hash[cell.name]=sha3512(content);
+    }
+    if (disable_integrity_hash==false) {
+        final.push_back(vodka_cell_hash["main"]+"endmain");
+        for (int i=0;i<kernel_sections_line.size();++i) {
+            final[kernel_sections_line[i]]=sha3512(kernel_sections_content[kernel_sections[i]])+final[kernel_sections_line[i]];
+        }
+    } else {
+        final.push_back("endmain");
+    }
+    if (mode=="check") {
         x=x+1;
-        // for (int i=0;i<final.size();++i)
+        log("Retrieving checksum.",verbose,x,last);
+        map<string,string> vodka_checksum;
+        map<string,string> checksum_line;
+        vector<string> founded_sections;
+        for (auto line:output_file_to_check) {
+            for (auto cellcheck:cells) {
+                if (line.substr(line.size()-cellcheck.name.size(),cellcheck.name.size())==cellcheck.name) {
+                    checksum_line[cellcheck.name]=line;
+                    founded_sections.push_back(cellcheck.name);
+                    break;
+                }
+            }
+        }
+        x=x+1;
+        log("Extracting checksum.",verbose,x,last);
+        for (auto sect:founded_sections) {
+            auto linet=checksum_line.at(sect);
+            string checksum=linet.substr(0,1536);
+            vodka_checksum[sect]=checksum;
+        }
+        x=x+1;
+        log("Checking checksum.",verbose,x,last);
+        cout<<endl<<"Check result:"<<endl;
+        for (auto checksum:vodka_checksum) {
+            cout<<" - "+checksum.first+": ";
+            if (checksum.second==vodka_cell_hash.at(checksum.first)) {
+                cout<<"pass"<<endl;
+            } else {
+                cout<<"failed"<<endl;
+            }
+        }
+    } else if (mode=="compile") {
+        x=x+1;
+        log("Opening output file.",verbose,x,last);
+        ofstream outputfile(output);
+        x=x+1;
         log("Writing in output file :",verbose,x,last);
         if (outputfile.is_open()) {
             a=1;
@@ -664,6 +787,9 @@ int main (int argc,char* argv[]) {
             if (verbose=="r" || verbose=="a") {cout<<"\nSucessfully compile "+file+" to "+output<<endl;}
         }
     } else if (mode=="jsonkernel") {
+        x=x+1;
+        log("Opening output file.",verbose,x,last);
+        ofstream outputfile(output);
         x=x+1;
         log("Converting kernel code to json format :",verbose,x,last);
         a=1;
@@ -719,6 +845,9 @@ int main (int argc,char* argv[]) {
         outputfile.close();
         if (verbose=="r" || verbose=="a") {cout<<"\nSucessfully compile "+file+" to "+output<<endl;}
     } else if (mode=="jsonvodka") {
+        x=x+1;
+        log("Opening output file.",verbose,x,last);
+        ofstream outputfile(output);
         x=x+1;
         log("Converting vodka code to json format :",verbose,x,last);
         auto now=chrono::system_clock::now();

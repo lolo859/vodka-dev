@@ -84,7 +84,7 @@ set default source for vodka::json::vodka::instruction::source to <builtin>
 rename vodka::library::kernel::traitement to vodka::library::kernel::treatement
 rename vodka::library::kernel::traitement::kernel_traitement() with vodka::library::kernel::traitement::kernel_treatement()
 same thing with vodka instruction
-planned : add the integrity system
+vodka transcoder now add checksum inside the output. can be disabled with -H/--disable-integrity-hash and can be rechecked with -c or --check-mode
 planned : add % and #
 vodka::syscalls::ABS::info.support_multiple_argument is now set to false
 compiling script now check if g++ is installed
