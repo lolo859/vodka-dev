@@ -39,7 +39,7 @@ void replaceall(std::string &str,const std::string &from,const std::string &to) 
         start_pos+=to.length();
     }
 }
-string sha3512(string origin) {
+string hash_then_encode(string origin) {
     boost::hash2::sha3_512 hasher;
     hasher.update(origin.data(),origin.size());
     auto digest=hasher.result();
@@ -56,6 +56,22 @@ string sha3512(string origin) {
         }
     }
     return out;
+}
+string encode_to_bin(string input) {
+    string binar;
+    for (unsigned char a:input) {
+        bitset<8> bits(a);
+        binar=binar+bits.to_string();
+    }
+    string out;
+    for (auto a:binar) {
+        if (a=='0') {
+            out=out+u8"\u200B";
+        } else {
+            out=out+u8"\u2063";
+        }
+    }
+    return hash_then_encode(out);
 }
 //* Some variables
 using namespace std;
@@ -250,7 +266,7 @@ int detect_symbol(sources_stack srclclstack) {
     }
     return 0;
 }
-int detect_program_type(sources_stack srclclstack) {
+int detect_program_type(string output,sources_stack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
     log("Detecting program type :",verbose,x,last);
@@ -274,7 +290,11 @@ int detect_program_type(sources_stack srclclstack) {
             log("The symbol isn't the type symbol.",verbose,x,last,2,{(int)i+1,1},{symbols.size(),1});
         }
     }
-    final.push_back("type "+program_type);
+    if (disable_integrity_hash) {
+        final.push_back(encode_to_bin(output)+"type "+program_type);
+    } else {
+        final.push_back("type "+program_type);
+    }
     return 0;
 }
 int detect_cells(sources_stack srclclstack) {
@@ -379,7 +399,7 @@ int verify_main_cell(sources_stack srclclstack) {
     }
     return 0;
 }
-int make_args_section(bool replace,sources_stack srclclstack) {
+int code_pre_treatement(bool replace,sources_stack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
     log("Writing args section.",verbose,x,last);
@@ -404,7 +424,113 @@ int make_args_section(bool replace,sources_stack srclclstack) {
                 }
             }
         }
-    
+    }
+    x=x+1;
+    log("Started datatypes replacement process.",verbose,x,last);
+    vector<string> directs_data;
+    for (int i=0;i<maincell.content.size();++i) {
+        vodka::analyser::line localline;
+        localline.line=maincell.start.line+i+1;
+        localline.file=file;
+        localline.content=maincell.content[i];
+        auto direct_declared_data=split(maincell.content[i]," ");
+        if (direct_declared_data.size()>2) {
+            if (direct_declared_data[0]!="vodka") {
+                direct_declared_data.erase(direct_declared_data.begin(),direct_declared_data.begin()+1);
+                for (auto arg:direct_declared_data) {
+                    if (arg.substr(0,1)=="#" && find(directs_data.begin(),directs_data.end(),arg)==directs_data.end()) {
+                        if (vodka::type::vodint::check_value(arg.substr(1,arg.size()-1),localline,lclstack)) {
+                            vodka::variables::vodint intele;
+                            intele.varinfo.algo_dependant=false;
+                            intele.varinfo.consts=true;
+                            intele.varinfo.write=true;
+                            intele.varinfo.define=true;
+                            intele.varinfo.uuid=to_string(vodka::utilities::genuid());
+                            intele.value=vodka::type::vodint::remove_zero(arg.substr(1,arg.size()-1));
+                            vodka::variables::element contele;
+                            contele.intele=intele;
+                            contele.thing="vodint";
+                            variablesdict[arg]=contele;
+                            variableslist.push_back(arg);
+                            directs_data.push_back(arg);
+                        } else {
+                            return -1;
+                        }
+                    } else if (arg.substr(0,1)=="%" && find(directs_data.begin(),directs_data.end(),arg)==directs_data.end()) {
+                        if (vodka::type::vodec::check_value(arg.substr(1,arg.size()-1),localline,lclstack)) {
+                            vodka::variables::vodec decele;
+                            decele.varinfo.algo_dependant=false;
+                            decele.varinfo.consts=true;
+                            decele.varinfo.write=true;
+                            decele.varinfo.define=true;
+                            decele.varinfo.uuid=to_string(vodka::utilities::genuid());
+                            decele.value=vodka::type::vodec::remove_zero(arg.substr(1,arg.size()-1));
+                            vodka::variables::element contele;
+                            contele.decele=decele;
+                            contele.thing="vodec";
+                            variablesdict[arg]=contele;
+                            variableslist.push_back(arg);
+                            directs_data.push_back(arg);
+                        } else {
+                            return -1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    for (auto cell:cells) {
+        for (int i=0;i<cell.content.size();++i) {
+            vodka::analyser::line localline;
+            localline.line=cell.start.line+i+1;
+            localline.file=file;
+            localline.content=cell.content[i];
+            auto direct_declared_data=split(cell.content[i]," ");
+            if (direct_declared_data.size()>2) {
+                if (direct_declared_data[0]!="vodka") {
+                    direct_declared_data.erase(direct_declared_data.begin(),direct_declared_data.begin()+1);
+                    for (auto arg:direct_declared_data) {
+                        if (arg.substr(0,1)=="#" && find(directs_data.begin(),directs_data.end(),arg)==directs_data.end()) {
+                            if (vodka::type::vodint::check_value(arg.substr(1,arg.size()-1),localline,lclstack)) {
+                                vodka::variables::vodint intele;
+                                intele.varinfo.algo_dependant=false;
+                                intele.varinfo.consts=true;
+                                intele.varinfo.write=true;
+                                intele.varinfo.define=true;
+                                intele.varinfo.uuid=to_string(vodka::utilities::genuid());
+                                intele.value=vodka::type::vodint::remove_zero(arg.substr(1,arg.size()-1));
+                                vodka::variables::element contele;
+                                contele.intele=intele;
+                                contele.thing="vodint";
+                                variablesdict[arg]=contele;
+                                variableslist.push_back(arg);
+                                directs_data.push_back(arg);
+                            } else {
+                                return -1;
+                            }
+                        } else if (arg.substr(0,1)=="%" && find(directs_data.begin(),directs_data.end(),arg)==directs_data.end()) {
+                            if (vodka::type::vodec::check_value(arg.substr(1,arg.size()-1),localline,lclstack)) {
+                                vodka::variables::vodec decele;
+                                decele.varinfo.algo_dependant=false;
+                                decele.varinfo.consts=true;
+                                decele.varinfo.write=true;
+                                decele.varinfo.define=true;
+                                decele.varinfo.uuid=to_string(vodka::utilities::genuid());
+                                decele.value=vodka::type::vodec::remove_zero(arg.substr(1,arg.size()-1));
+                                vodka::variables::element contele;
+                                contele.decele=decele;
+                                contele.thing="vodec";
+                                variablesdict[arg]=contele;
+                                variableslist.push_back(arg);
+                                directs_data.push_back(arg);
+                            } else {
+                                return -1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     return 0;
 }
@@ -500,7 +626,7 @@ int main (int argc,char* argv[]) {
         return -1;
     }
     x=x+1;
-    int detectedProgramType=detect_program_type(lclstack);
+    int detectedProgramType=detect_program_type(output,lclstack);
     if (detectedProgramType==-1) {
         return -1;
     }
@@ -516,8 +642,8 @@ int main (int argc,char* argv[]) {
     }
     final.push_back("args:");
     x=x+1;
-    int makedArgSection=make_args_section(replace,lclstack);
-    if (makedArgSection==-1) {
+    int codePreTreatement=code_pre_treatement(replace,lclstack);
+    if (codePreTreatement==-1) {
         return -1;
     }
     x=x+1;
@@ -725,18 +851,26 @@ int main (int argc,char* argv[]) {
     for (auto cell:cells) {
         string content;
         for (auto line:cell.content) {content=content+"\n"+line;}
-        vodka_cell_hash[cell.name]=sha3512(content);
+        vodka_cell_hash[cell.name]=hash_then_encode(content);
     }
     if (disable_integrity_hash==false) {
         final.push_back(vodka_cell_hash["main"]+"endmain");
         for (int i=0;i<kernel_sections_line.size();++i) {
-            final[kernel_sections_line[i]]=sha3512(kernel_sections_content[kernel_sections[i]])+final[kernel_sections_line[i]];
+            final[kernel_sections_line[i]]=hash_then_encode(kernel_sections_content[kernel_sections[i]])+final[kernel_sections_line[i]];
         }
     } else {
         final.push_back("endmain");
     }
     if (mode=="check") {
         x=x+1;
+        if (output_file_to_check[0].substr(0,3)==u8"\u200B" || output_file_to_check[0].substr(0,3)==u8"\u2063") {
+            string binfile=split(output_file_to_check[0],"type")[0];
+            if (encode_to_bin(output)==binfile) {
+                cout<<"The output file hasn't been compiled with integrity checksum enabled. If you think there are checksum in the output file, remove all the invisibles caracters at the start of the first line and then retry."<<endl;
+            } else {
+                cout<<"The output file may have been compiled with integrity checksum enabled but someone tried to mask it by adding a wrong no-integrity tag. Remove all the invisibles caracters at the start of the first line and then retry."<<endl;
+            }
+        }
         log("Retrieving checksum.",verbose,x,last);
         map<string,string> vodka_checksum;
         map<string,string> checksum_line;
@@ -749,6 +883,13 @@ int main (int argc,char* argv[]) {
                     break;
                 }
             }
+        }
+        if (find(founded_sections.begin(),founded_sections.end(),"main")==founded_sections.end()) {
+            cout<<"Can't found main section.";
+            return -1;
+        } else if (founded_sections.size()==0) {
+            cout<<"Doesn't found any section.";
+            return -1;
         }
         x=x+1;
         log("Extracting checksum.",verbose,x,last);

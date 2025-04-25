@@ -138,6 +138,10 @@ bool vodka::analyser::var_dec_analyser::var_dec_analyse(sources_stack lclstack) 
                 raise(error_container("vodka.error.variables.invalid_syntax : Invalid syntax.",line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
                 return false;
             }
+            if (name.substr(0,1)=="#" || name.substr(0,1)=="%") {
+                raise(error_container("vodka.error.variables.invalid_name : Can't create variable starting with # or %.",line_analyse.line_analyse.file,{line_analyse.line_analyse.content},{line_analyse.line_analyse.line},srclclstack));
+                return false;
+            }
             if (valuepart.size()>=2) {
                 datatype=valuepart[0];
                 value=valuestr.substr(datatype.size()+1);

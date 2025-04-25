@@ -1,19 +1,51 @@
-#include <boost/hash2/sha3.hpp>
-#include <iostream>
-#include <iomanip>
-#include <string>
-
-int main() {
-    std::string input = "Hello, world!";
-    
-    // Create SHA3-512 hasher
-    boost::hash2::sha3_512 hasher;
-    hasher.update(input.data(),input.size());
-    auto digest=hasher.result();
-    for (auto byte : digest) {
-        std::cout << std::hex << std::setw(2) << std::setfill('0')
-                  << static_cast<int>(byte);
+    for (int i=0;i<cell.content.size();++i) {
+        vodka::analyser::line localline;
+        localline.line=cell.start.line+i+1;
+        localline.file=file;
+        localline.content=cell.content[i];
+        auto direct_declared_data=split(cell.content[i]," ");
+        if (direct_declared_data.size()>2) {
+            if (direct_declared_data[0]!="vodka") {
+                direct_declared_data.erase(direct_declared_data.begin(),direct_declared_data.begin()+1);
+                for (auto arg:direct_declared_data) {
+                    if (arg.substr(0,1)=="#" && find(directs_data.begin(),directs_data.end(),arg)==directs_data.end()) {
+                        if (vodka::type::vodint::check_value(arg.substr(1,arg.size()-1),localline,lclstack)) {
+                            vodka::variables::vodint intele;
+                            intele.varinfo.algo_dependant=false;
+                            intele.varinfo.consts=true;
+                            intele.varinfo.write=true;
+                            intele.varinfo.define=true;
+                            intele.varinfo.uuid=to_string(vodka::utilities::genuid());
+                            intele.value=vodka::type::vodint::remove_zero(arg.substr(1,arg.size()-1));
+                            vodka::variables::element contele;
+                            contele.intele=intele;
+                            contele.thing="vodint";
+                            variablesdict[arg]=contele;
+                            variableslist.push_back(arg);
+                            directs_data.push_back(arg);
+                        } else {
+                            return -1;
+                        }
+                    } else if (arg.substr(0,1)=="%" && find(directs_data.begin(),directs_data.end(),arg)==directs_data.end()) {
+                        if (vodka::type::vodec::check_value(arg.substr(1,arg.size()-1),localline,lclstack)) {
+                            vodka::variables::vodec decele;
+                            decele.varinfo.algo_dependant=false;
+                            decele.varinfo.consts=true;
+                            decele.varinfo.write=true;
+                            decele.varinfo.define=true;
+                            decele.varinfo.uuid=to_string(vodka::utilities::genuid());
+                            decele.value=vodka::type::vodec::remove_zero(arg.substr(1,arg.size()-1));
+                            vodka::variables::element contele;
+                            contele.decele=decele;
+                            contele.thing="vodec";
+                            variablesdict[arg]=contele;
+                            variableslist.push_back(arg);
+                            directs_data.push_back(arg);
+                        } else {
+                            return -1;
+                        }
+                    }
+                }
+            }
+        }
     }
-    std::cout << std::endl;
-    return 0;
-}

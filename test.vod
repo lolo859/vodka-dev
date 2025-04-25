@@ -1,4 +1,5 @@
 £VODTYPE app
-£VODSTART main d
-kernel.print d
+£VODSTART main
+vodka a=vodec 0.0
+multiply a %6.0 %-6.0 #5
 £VODEND

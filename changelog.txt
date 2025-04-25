@@ -85,12 +85,15 @@ rename vodka::library::kernel::traitement to vodka::library::kernel::treatement
 rename vodka::library::kernel::traitement::kernel_traitement() with vodka::library::kernel::traitement::kernel_treatement()
 same thing with vodka instruction
 vodka transcoder now add checksum inside the output. can be disabled with -H/--disable-integrity-hash and can be rechecked with -c or --check-mode
-planned : add % and #
+add % and # to create decimal and integers variables on the fly without having to declare it
+variables can't start with # or %
 vodka::syscalls::ABS::info.support_multiple_argument is now set to false
 compiling script now check if g++ is installed
 
 for vodka 4.0 beta 1:
+planned : clean transcoder code mainly by reorganizing and renamming
 planned : introduce `enum class` in vodka-lib everywhere it's pertinent 
 planned : introduce `constexpr` in vodka-lib
 planned : introduce a datatype checking technic common to all libraries and instructions thats also allow users to use it
 planned : rename every single attribute, variable and class that need it in order to be more standard and explicit
+planned : add a timer system for log substep
