@@ -36,6 +36,8 @@ Vodka is a high level language designed to be transcoded to Kernel code. It has 
     - [toint](#toint)
     - [todec](#todec)
     - [divide](#divide)
+    - [mulint](#mulint)
+    - [muldec](#muldec)
 - [Internal instructions](#internal-instructions)
   - [multiply](#multiply)
 
@@ -146,7 +148,7 @@ To declare a variable, follow the following syntax:
 ```
 vodka <variable name>=<datatype> <value>
 ```
-Spaces before and after the equal sign are supported and optional. These syntax is translated using the ASSIGN syscall in kernel code (see [datatypes](#datatypes) for more infos). Variables are represented using unique identifier in kernel code.
+Spaces before and after the equal sign are supported and optional. These syntax is translated using the ASSIGN syscall in kernel code (see [datatypes](#datatypes) for more infos). Variables are represented using unique identifier in kernel code. Variables names can't start with `#` or `%`.
 
 #### Example
 
@@ -252,6 +254,8 @@ ASSIGN df0d0baa-3d47-456e-9e4c-a17127ef871d -5
 endmain
 ```
 
+Use the `#` to directely insert a `vodint` value in a function/instruction call.
+
 ### vodec
 
 The `vodec` datatype is used to store any floating point number, both positives and negatives numbers, with an integer and a decimal part. The number can be any size for both part.
@@ -280,6 +284,8 @@ ASSIGN a70554c5-ad76-433e-820c-18071534f60d -5.5
 endmain
 ```
 
+Use the `%` to directely insert a `vodint` value in a function/instruction call.
+
 **Note:** scientific notation isn't supported yet.
 
 ### vodarg
@@ -307,6 +313,8 @@ The `kernel` internal librairy allow for the direct usage of syscalls. It contai
 - [toint](#toint)
 - [todec](#todec)
 - [divide](#divide)
+- [mulint](#mulint)
+- [muldec](#muldec)
 
 #### add
 
@@ -328,7 +336,7 @@ Syntax: `kernel.free <var1> <var2> ... <var_n>`
 
 #### abs
 
-Used to get the absolute value of a `vodint` variable.
+Used to get the absolute value of a `vodint` or `vodec` variable.
 
 Syntax: `kernel.abs <variable_name>`
 
@@ -355,6 +363,18 @@ Syntax: `kernel.todec <output_variable> <input_variable>`
 Used to divide `vodec` variables. All arguments except the precision must be `vodec` type and the precision must be `vodint` type.
 
 Syntax: `kernel.divide <output_variable> <dividend_variable> <divisor_variable> <precision_variable>`
+
+#### mulint
+
+Used to multiply two integers together. All arguments must be `vodint` datatype.
+
+Syntax: `kernel.mulint <output_uid> <first_term_uid> <second_term_uid>`
+
+#### muldec
+
+Used to multiply `vodec` variables. All arguments except the precision must be `vodec` type and the precision must be `vodint` type.
+
+Syntax: `kernel.muldec <output_uid> <first_term_uid> <second_term_uid> <precision_uid>`
 
 ## Internal instructions
 
