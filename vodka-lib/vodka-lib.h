@@ -13,7 +13,7 @@ using namespace std;
 //* Vodka standard utilities
 //* For documentation, please refer to vodka-lib-usage.md
 namespace vodka {
-    const string version="0.3";
+    const string version="0.4 beta 1";
     const string json_version="4";
     //* Every library that has a reserved name inside the transcoder
     const vector<string> internal_library={"kernel"};
@@ -35,7 +35,7 @@ namespace vodka {
                 vector<string> source;
                 vector<string> file;
                 //* Add a element to the source stack
-                void add(const string& src,const string& fil) {source.push_back(src);file.push_back(fil);}
+                void add(string src,string fil) {source.push_back(src);file.push_back(fil);}
         };
         //* Basic class for errors
         class error_container {
@@ -60,78 +60,61 @@ namespace vodka {
     }
     //* Syscall utilities (instruction starting with "kernel.<something>")
     namespace syscalls {
-        //* Base class for syscalls, doesn't modify when inside a syscall_class !
-        class syscall {
-            public:
-                string name;
-                bool support_multiple_argument;
+        //* Enum class for representating each syscall
+        enum class list_syscall {
+            PRINT,
+            ADD,
+            ASSIGN,
+            FREE,
+            INVERT,
+            DUPLICATE,
+            ABS,
+            DIVMOD,
+            TOINT,
+            TODEC,
+            MULDEC,
+            MULINT,
+            DIVIDE
         };
+        string syscall_to_string(list_syscall syscall);
         //* Each syscall has his own class without heritating from the base one
         class PRINT {
             public:
                 vector<string> argument_uid;
-                syscall info;
-            PRINT() {
-                info.name="PRINT";
-                info.support_multiple_argument=true;
-            }
+                string name="PRINT";
         };
         class ADD {
             public:
                 vector<string> argument_uid;
                 string output_uid;
-                syscall info;
-            ADD() {
-                info.name="ADD";
-                info.support_multiple_argument=true;
-            }
+                string name="ADD";
         };
         class ASSIGN {
             public:
                 string value;
                 string output_uid;
-                syscall info;
-            ASSIGN() {
-                info.name="ASSIGN";
-                info.support_multiple_argument=true;
-            }
+                string name="ASSIGN";
         };
         class FREE {
             public:
                 vector<string> argument_uid;
-                syscall info;
-            FREE() {
-                info.name="FREE";
-                info.support_multiple_argument=true;
-            }
+                string name="FREE";
         };
         class INVERT {
             public:
                 string uid;
-                syscall info;
-            INVERT() {
-                info.name="INVERT";
-                info.support_multiple_argument=false;
-            }
+                string name="INVERT";
         };
         class DUPLICATE {
             public:
                 string source_uid;
                 string output_uid;
-                syscall info;
-            DUPLICATE() {
-                info.name="DUPLICATE";
-                info.support_multiple_argument=true;
-            }
+                string name="DUPLICATE";
         };
         class ABS {
             public:
                 string uid;
-                syscall info;
-            ABS() {
-                info.name="ABS";
-                info.support_multiple_argument=false;
-            }
+                string name="ABS";
         };
         class DIVMOD {
             public:
@@ -139,31 +122,19 @@ namespace vodka {
                 string rest_uid;
                 string divisor_uid;
                 string dividend_uid;
-                syscall info;
-            DIVMOD() {
-                info.name="DIVMOD";
-                info.support_multiple_argument=true;
-            }
+                string name="DIVMOD";
         };
         class TOINT {
             public:
                 string uid_source;
                 string uid_output;
-                syscall info;
-            TOINT() {
-                info.name="TOINT";
-                info.support_multiple_argument=true;
-            }
+                string name="TOINT";
         };
         class TODEC {
             public:
                 string uid_source;
                 string uid_output;
-                syscall info;
-            TODEC() {
-                info.name="TODEC";
-                info.support_multiple_argument=true;
-            }
+                string name="TODEC";
         };
         class MULDEC {
             public:
@@ -171,22 +142,14 @@ namespace vodka {
                 string first_uid;
                 string second_uid;
                 string precision_uid;
-                syscall info;
-            MULDEC() {
-                info.name="MULDEC";
-                info.support_multiple_argument=true;
-            }
+                string name="MULDEC";
         };
         class MULINT {
             public:
                 string output_uid;
                 string first_uid;
                 string second_uid;
-                syscall info;
-            MULINT() {
-                info.name="MULINT";
-                info.support_multiple_argument=true;
-            }
+                string name="MULINT";
         };
         class DIVIDE {
             public:
@@ -194,17 +157,13 @@ namespace vodka {
                 string first_uid;
                 string second_uid;
                 string precision_uid;
-                syscall info;
-            DIVIDE() {
-                info.name="DIVIDE";
-                info.support_multiple_argument=true;
-            }
+                string name="DIVIDE";
         };
         //* For registering a syscall, it need to be encapsuled into a syscall_container object
         class syscall_container {
             public:
                 //* Type of syscall must be put into thing variable
-                string thing;
+                list_syscall thing;
                 PRINT printele;
                 ADD addele;
                 ASSIGN assignele;
@@ -339,13 +298,13 @@ namespace vodka {
         using namespace vodka::errors;
         //* Vodint utilities (see vodka-lib.cpp for more informations)
         namespace vodint {
-            bool check_value(const string& value,vodka::analyser::line context,sources_stack lclstack={});
-            string remove_zero(const string& value,sources_stack lclstack={});
+            bool check_value(string value,vodka::analyser::line context,sources_stack lclstack={});
+            string remove_zero(string value,sources_stack lclstack={});
         }
         //* Vodec utilities (see vodka-lib.cpp for more informations)
         namespace vodec {
-            bool check_value(const string& value,vodka::analyser::line context,sources_stack lclstack={});
-            string remove_zero(const string& value,sources_stack lclstack={});
+            bool check_value(string value,vodka::analyser::line context,sources_stack lclstack={});
+            string remove_zero(string value,sources_stack lclstack={});
         }
     }
     //* Json utilities
@@ -435,8 +394,8 @@ namespace vodka {
         //* UUID generator
         boost::uuids::uuid genuid();
         //* Logs functions
-        void log(const string& text,string verbose,int x,string last,int sublevel=0,vector<int> substep={},vector<unsigned long> subtotal={});
-        void debuglog(const string& text,int line,const string& cell,bool debugmode,string verbose,string file,bool debug_info=true);
+        void log(string text,string verbose,int x,string last,int sublevel=0,vector<int> substep={},vector<unsigned long> subtotal={});
+        void debuglog(string text,int line,string cell,bool debugmode,string verbose,string file,bool debug_info=true);
         void var_warning(string namevar,string typevar,string namecell,string line,bool var_warning_enabled,string verbose);
     }
     //* Internal library

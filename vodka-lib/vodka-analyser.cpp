@@ -293,7 +293,7 @@ bool vodka::analyser::var_dec_analyser::output(sources_stack lclstack) {
             asscall.output_uid=var.uuid;
             asscall.value=value;
             vodka::syscalls::syscall_container asscont;
-            asscont.thing="ASSIGN";
+            asscont.thing=vodka::syscalls::list_syscall::ASSIGN;
             asscont.assignele=asscall;
             vodka_object=asscont;
             return true;
@@ -307,7 +307,7 @@ bool vodka::analyser::var_dec_analyser::output(sources_stack lclstack) {
             asscall.output_uid=var.uuid;
             asscall.value=value;
             vodka::syscalls::syscall_container asscont;
-            asscont.thing="ASSIGN";
+            asscont.thing=vodka::syscalls::list_syscall::ASSIGN;
             asscont.assignele=asscall;
             vodka_object=asscont;
             return true;
@@ -323,7 +323,7 @@ bool vodka::analyser::var_dec_analyser::output(sources_stack lclstack) {
                     dupcall.output_uid=var.uuid;
                     dupcall.source_uid=source_duplication.intele.varinfo.uuid;
                     vodka::syscalls::syscall_container dupcont;
-                    dupcont.thing="DUPLICATE";
+                    dupcont.thing=vodka::syscalls::list_syscall::DUPLICATE;
                     dupcont.duplicateele=dupcall;
                     vodka_object=dupcont;
                     return true;
@@ -337,7 +337,7 @@ bool vodka::analyser::var_dec_analyser::output(sources_stack lclstack) {
                     dupcall.output_uid=var.uuid;
                     dupcall.source_uid=source_duplication.intele.varinfo.uuid;
                     vodka::syscalls::syscall_container dupcont;
-                    dupcont.thing="DUPLICATE";
+                    dupcont.thing=vodka::syscalls::list_syscall::DUPLICATE;
                     dupcont.duplicateele=dupcall;
                     vodka_object=dupcont;
                     return true;

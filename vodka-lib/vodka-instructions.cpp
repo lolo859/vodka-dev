@@ -85,7 +85,7 @@ bool vodka::instructions::instruction_treatement::multiply(sources_stack lclstac
             mulintcall.second_uid=uidargs[2];
             syscall_container mulintcont;
             mulintcont.mulintele=mulintcall;
-            mulintcont.thing="MULINT";
+            mulintcont.thing=vodka::syscalls::list_syscall::MULINT;
             syscalls_output.push_back(mulintcont);
             return true;
         } else if (call.variablesdict_context[argsname[0]].thing=="vodec") {
@@ -100,7 +100,7 @@ bool vodka::instructions::instruction_treatement::multiply(sources_stack lclstac
             asscall.value="3";
             syscall_container asscont;
             asscont.assignele=asscall;
-            asscont.thing="ASSIGN";
+            asscont.thing=vodka::syscalls::list_syscall::ASSIGN;
             syscalls_output.push_back(asscont);
             MULDEC muldeccall;
             muldeccall.output_uid=uidargs[0];
@@ -109,12 +109,12 @@ bool vodka::instructions::instruction_treatement::multiply(sources_stack lclstac
             muldeccall.precision_uid=precision_uid;
             syscall_container muldeccont;
             muldeccont.muldecele=muldeccall;
-            muldeccont.thing="MULDEC";
+            muldeccont.thing=vodka::syscalls::list_syscall::MULDEC;
             syscalls_output.push_back(muldeccont);
             FREE freecall;
             freecall.argument_uid={precision_uid};
             syscall_container freecont;
-            freecont.thing="FREE";
+            freecont.thing=vodka::syscalls::list_syscall::FREE;
             freecont.freeele=freecall;
             syscalls_output.push_back(freecont);
             return true;
@@ -158,7 +158,7 @@ bool vodka::instructions::instruction_treatement::multiply(sources_stack lclstac
         muldeccall.precision_uid=uidargs[3];
         syscall_container muldeccont;
         muldeccont.muldecele=muldeccall;
-        muldeccont.thing="MULDEC";
+        muldeccont.thing=vodka::syscalls::list_syscall::MULDEC;
         syscalls_output.push_back(muldeccont);
         return true;
     } else {

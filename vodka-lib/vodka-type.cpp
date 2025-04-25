@@ -38,7 +38,7 @@ namespace inside_type {
 }
 using namespace inside_type;
 //* Checking if the inputed value for vodint is correct
-bool vodka::type::vodint::check_value(const string& value,vodka::analyser::line context,sources_stack lclstack) {
+bool vodka::type::vodint::check_value(string value,vodka::analyser::line context,sources_stack lclstack) {
     auto srclclstack=lclstack;
     srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (value.empty() || value=="-") {
@@ -59,7 +59,7 @@ bool vodka::type::vodint::check_value(const string& value,vodka::analyser::line 
     return true;
 }
 //* Removing the zero at the beginning of the value inputed for vodint
-string vodka::type::vodint::remove_zero(const string& value,sources_stack lclstack) {
+string vodka::type::vodint::remove_zero(string value,sources_stack lclstack) {
     auto srclclstack=lclstack;
     srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     bool reached=false;
@@ -91,7 +91,7 @@ string vodka::type::vodint::remove_zero(const string& value,sources_stack lclsta
     return out;
 }
 //* Checking if the inputed value for vodec is correct
-bool vodka::type::vodec::check_value(const string& value,vodka::analyser::line context,sources_stack lclstack) {
+bool vodka::type::vodec::check_value(string value,vodka::analyser::line context,sources_stack lclstack) {
     auto srclclstack=lclstack;
     srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (value.empty() || value=="-") {
@@ -127,7 +127,7 @@ bool vodka::type::vodec::check_value(const string& value,vodka::analyser::line c
     return true;
 }
 //* Removing the zero at the beginning of the value inputed for vodec
-string vodka::type::vodec::remove_zero(const string& value,sources_stack lclstack) {
+string vodka::type::vodec::remove_zero(string value,sources_stack lclstack) {
     auto srclclstack=lclstack;
     srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     string out;

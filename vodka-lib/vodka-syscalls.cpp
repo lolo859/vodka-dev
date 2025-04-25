@@ -38,48 +38,67 @@ namespace inside_syscalls {
 using namespace inside_syscalls;
 //* Syntax function for syscalls
 string vodka::syscalls::syscall_container::syntax() {
-    if (thing=="PRINT") {
+    if (thing==vodka::syscalls::list_syscall::PRINT) {
         string args;
         for (auto a:printele.argument_uid) {
             args=args+" "+a;
         }
         args=args.substr(1,args.size()-1);
-        return printele.info.name+" "+args;
-    } else if (thing=="ADD") {
+        return printele.name+" "+args;
+    } else if (thing==vodka::syscalls::list_syscall::ADD) {
         string args;
         for (auto a:addele.argument_uid) {
             args=args+" "+a;
         }
         args=args.substr(1,args.size()-1);
-        return addele.info.name+" "+addele.output_uid+" "+args;
-    } else if (thing=="ASSIGN") {
-        return assignele.info.name+" "+assignele.output_uid+" "+assignele.value;
-    } else if (thing=="FREE") {
+        return addele.name+" "+addele.output_uid+" "+args;
+    } else if (thing==vodka::syscalls::list_syscall::ASSIGN) {
+        return assignele.name+" "+assignele.output_uid+" "+assignele.value;
+    } else if (thing==vodka::syscalls::list_syscall::FREE) {
         string args;
         for (auto a:freeele.argument_uid) {
             args=args+" "+a;
         }
         args=args.substr(1,args.size()-1);
-        return freeele.info.name+" "+args;
-    } else if (thing=="INVERT") {
-        return invertele.info.name+" "+invertele.uid;
-    } else if (thing=="DUPLICATE") {
-        return duplicateele.info.name+" "+duplicateele.output_uid+" "+duplicateele.source_uid;
-    } else if (thing=="ABS") {
-        return absele.info.name+" "+absele.uid;
-    } else if (thing=="DIVMOD") {
-        return divmodele.info.name+" "+divmodele.quotient_uid+" "+divmodele.rest_uid+" "+divmodele.dividend_uid+" "+divmodele.divisor_uid;
-    } else if (thing=="TOINT") {
-        return tointele.info.name+" "+tointele.uid_output+" "+tointele.uid_source;
-    } else if (thing=="TODEC") {
-        return todecele.info.name+" "+todecele.uid_output+" "+todecele.uid_source;
-    } else if (thing=="MULINT") {
-        return mulintele.info.name+" "+mulintele.output_uid+" "+mulintele.first_uid+" "+mulintele.second_uid;
-    } else if (thing=="MULDEC") {
-        return muldecele.info.name+" "+muldecele.output_uid+" "+muldecele.first_uid+" "+muldecele.second_uid+" "+muldecele.precision_uid;
-    } else if (thing=="DIVIDE") {
-        return divideele.info.name+" "+divideele.output_uid+" "+divideele.first_uid+" "+divideele.second_uid+" "+divideele.precision_uid;
+        return freeele.name+" "+args;
+    } else if (thing==vodka::syscalls::list_syscall::INVERT) {
+        return invertele.name+" "+invertele.uid;
+    } else if (thing==vodka::syscalls::list_syscall::DUPLICATE) {
+        return duplicateele.name+" "+duplicateele.output_uid+" "+duplicateele.source_uid;
+    } else if (thing==vodka::syscalls::list_syscall::ABS) {
+        return absele.name+" "+absele.uid;
+    } else if (thing==vodka::syscalls::list_syscall::DIVMOD) {
+        return divmodele.name+" "+divmodele.quotient_uid+" "+divmodele.rest_uid+" "+divmodele.dividend_uid+" "+divmodele.divisor_uid;
+    } else if (thing==vodka::syscalls::list_syscall::TOINT) {
+        return tointele.name+" "+tointele.uid_output+" "+tointele.uid_source;
+    } else if (thing==vodka::syscalls::list_syscall::TODEC) {
+        return todecele.name+" "+todecele.uid_output+" "+todecele.uid_source;
+    } else if (thing==vodka::syscalls::list_syscall::MULINT) {
+        return mulintele.name+" "+mulintele.output_uid+" "+mulintele.first_uid+" "+mulintele.second_uid;
+    } else if (thing==vodka::syscalls::list_syscall::MULDEC) {
+        return muldecele.name+" "+muldecele.output_uid+" "+muldecele.first_uid+" "+muldecele.second_uid+" "+muldecele.precision_uid;
+    } else if (thing==vodka::syscalls::list_syscall::DIVIDE) {
+        return divideele.name+" "+divideele.output_uid+" "+divideele.first_uid+" "+divideele.second_uid+" "+divideele.precision_uid;
     } else {
         return "error";
+    }
+}
+//* Convert list_syscall to string
+string vodka::syscalls::syscall_to_string(list_syscall syscall) {
+    switch (syscall) {
+        case list_syscall::PRINT:return "PRINT";
+        case list_syscall::ADD:return "ADD";
+        case list_syscall::ASSIGN:return "ASSIGN";
+        case list_syscall::FREE:return "FREE";
+        case list_syscall::INVERT:return "INVERT";
+        case list_syscall::DUPLICATE:return "DUPLICATE";
+        case list_syscall::ABS:return "ABS";
+        case list_syscall::DIVMOD:return "DIVMOD";
+        case list_syscall::TOINT:return "TOINT";
+        case list_syscall::TODEC:return "TODEC";
+        case list_syscall::MULDEC:return "MULDEC";
+        case list_syscall::MULINT:return "MULINT";
+        case list_syscall::DIVIDE:return "DIVIDE";
+        default:return "Unknown";
     }
 }

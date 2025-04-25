@@ -570,7 +570,7 @@ int main (int argc,char* argv[]) {
             }
             break;
         case 'h':
-            cout<<"Vodka v0.3 - Vodka Objective Dictionary for Kernel Analyser\nOptions :\n  -h, --help :\n    show this help\n  -f, --find object_to_find :\n    (not working for the moment)\n  -s, --source-file source_file :\n    source file \n  -o, --output-file output_file :\n    output file\n  -v, --verbose-reduced :\n    set verbose mode to reduced\n  -V, --verbose-full :\n    set verbose mode to full\n  -d, --debug-lines :\n    enable debug mode\n  -j, --json-kernel :\n    export output to a json file specified with -o\n  -J, --json-vodka :\n    export .vod structure to a json file specified with -o\n  -r, --disable-replacements :\n    disable define replacement\n  -w, --disable-all-warnings :\n    disable warnings\n  --disable-variables-warnings :\n    disable variables warnings\n  -H, --disable-integrity-hash :\n    disable the integrity hash integration into the output\n  -c, --check-mode :\n    verify the integrity between the inputed file witn -s and the output file specified with -o"<<endl;
+            cout<<"Vodka v0.4 beta 1 - Vodka Objective Dictionary for Kernel Analyser\nOptions :\n  -h, --help :\n    show this help\n  -f, --find object_to_find :\n    (not working for the moment)\n  -s, --source-file source_file :\n    source file \n  -o, --output-file output_file :\n    output file\n  -v, --verbose-reduced :\n    set verbose mode to reduced\n  -V, --verbose-full :\n    set verbose mode to full\n  -d, --debug-lines :\n    enable debug mode\n  -j, --json-kernel :\n    export output to a json file specified with -o\n  -J, --json-vodka :\n    export .vod structure to a json file specified with -o\n  -r, --disable-replacements :\n    disable define replacement\n  -w, --disable-all-warnings :\n    disable warnings\n  --disable-variables-warnings :\n    disable variables warnings\n  -H, --disable-integrity-hash :\n    disable the integrity hash integration into the output\n  -c, --check-mode :\n    verify the integrity between the inputed file witn -s and the output file specified with -o"<<endl;
             return 0;
         case 'f':
             mode="find";
@@ -843,7 +843,7 @@ int main (int argc,char* argv[]) {
     map<string,string> vodka_cell_hash;
     final.push_back("main:");
     for (auto i:instructions_main) {
-        log("Writing "+i.thing+" instruction.",verbose,x,last,1,{a},{instructions_main.size()});
+        log("Writing "+vodka::syscalls::syscall_to_string(i.thing)+" instruction.",verbose,x,last,1,{a},{instructions_main.size()});
         final.push_back(i.syntax());
         kernel_sections_content["main"]=kernel_sections_content["main"]+"\n"+i.syntax();
         a=a+1;
@@ -940,7 +940,7 @@ int main (int argc,char* argv[]) {
         stringstream ss;
         bool endargs=false;
         ss<<put_time(&utc, "%Y-%m-%dT%H:%M:%SZ");
-        json_ints["metadata"]={{"type","metadata"},{"vodka_version","0.3"},{"json_version","4"},{"source_file",file},{"timestamp",ss.str()},{"json_type","kernel"}};
+        json_ints["metadata"]={{"type","metadata"},{"vodka_version","0.4 beta 1"},{"json_version","4"},{"source_file",file},{"timestamp",ss.str()},{"json_type","kernel"}};
         vector<string> kernel_symbol={"args:","endargs","data:","enddata"};
         for (auto b:kernel_sections) {
             kernel_symbol.push_back(b+":");
@@ -996,7 +996,7 @@ int main (int argc,char* argv[]) {
         tm utc=*std::gmtime(&now_c);
         stringstream ss;
         ss<<put_time(&utc, "%Y-%m-%dT%H:%M:%SZ");
-        json_ints_v["metadata"]={{"metadata",{{"type","metadata"},{"vodka_version","0.3"},{"json_version","4"},{"source_file",file},{"timestamp",ss.str()},{"json_type","vodka"}}}};
+        json_ints_v["metadata"]={{"metadata",{{"type","metadata"},{"vodka_version","0.4 beta 1"},{"json_version","4"},{"source_file",file},{"timestamp",ss.str()},{"json_type","vodka"}}}};
         log("Converting symbols : ",verbose,x,last,1,{1},{2});
         json_ints_v["symbols"]={};
         bool cellstart=false;

@@ -69,7 +69,7 @@ bool vodka::library::kernel::treatement::print_int(sources_stack lclstack) {
         vodka::syscalls::PRINT syscal;
         syscal.argument_uid=uidtoprint;
         vodka::syscalls::syscall_container syscont;
-        syscont.thing="PRINT";
+        syscont.thing=vodka::syscalls::list_syscall::PRINT;
         syscont.printele=syscal;
         syscall_output.push_back(syscont);
         return true;
@@ -123,7 +123,7 @@ bool vodka::library::kernel::treatement::add_int(sources_stack lclstack) {
         syscal.argument_uid=vector<string>(uidargs.begin()+1,uidargs.end());
         syscal.output_uid=uidargs[0];
         vodka::syscalls::syscall_container syscont;
-        syscont.thing="ADD";
+        syscont.thing=vodka::syscalls::list_syscall::ADD;
         syscont.addele=syscal;
         syscall_output.push_back(syscont);
         return true;
@@ -158,7 +158,7 @@ bool vodka::library::kernel::treatement::invert_int(sources_stack lclstack) {
         vodka::syscalls::INVERT syscal;
         syscal.uid=uidarg;
         vodka::syscalls::syscall_container syscont;
-        syscont.thing="INVERT";
+        syscont.thing=vodka::syscalls::list_syscall::INVERT;
         syscont.invertele=syscal;
         syscall_output.push_back(syscont);
         return true;
@@ -201,7 +201,7 @@ bool vodka::library::kernel::treatement::free_int(sources_stack lclstack) {
         freecall.argument_uid=argsuid;
         vodka::syscalls::syscall_container syscont;
         syscont.freeele=freecall;
-        syscont.thing="FREE";
+        syscont.thing=vodka::syscalls::list_syscall::FREE;
         syscall_output.push_back(syscont);
         var_flag=true;
         auto args_erase=vector<string>(eles.begin()+1,eles.end());
@@ -248,7 +248,7 @@ bool vodka::library::kernel::treatement::abs_int(sources_stack lclstack) {
         vodka::syscalls::ABS abscall;
         abscall.uid=uidarg;
         vodka::syscalls::syscall_container syscont;
-        syscont.thing="ABS";
+        syscont.thing=vodka::syscalls::list_syscall::ABS;
         syscont.absele=abscall;
         syscall_output.push_back(syscont);
         return true;
@@ -297,7 +297,7 @@ bool vodka::library::kernel::treatement::divmod_int(sources_stack lclstack) {
         divmodcall.dividend_uid=divid;
         divmodcall.divisor_uid=divis;
         vodka::syscalls::syscall_container syscont;
-        syscont.thing="DIVMOD";
+        syscont.thing=vodka::syscalls::list_syscall::DIVMOD;
         syscont.divmodele=divmodcall;
         syscall_output.push_back(syscont);
         return true;
@@ -342,7 +342,7 @@ bool vodka::library::kernel::treatement::toint_int(sources_stack lclstack) {
         }
         tointcall.uid_output=call.variablesdict_context[arg[0]].intele.varinfo.uuid;
         vodka::syscalls::syscall_container syscont;
-        syscont.thing="TOINT";
+        syscont.thing=vodka::syscalls::list_syscall::TOINT;
         syscont.tointele=tointcall;
         syscall_output.push_back(syscont);
         return true;
@@ -387,7 +387,7 @@ bool vodka::library::kernel::treatement::todec_int(sources_stack lclstack) {
         }
         todeccall.uid_output=call.variablesdict_context[arg[0]].decele.varinfo.uuid;
         vodka::syscalls::syscall_container syscont;
-        syscont.thing="TODEC";
+        syscont.thing=vodka::syscalls::list_syscall::TODEC;
         syscont.todecele=todeccall;
         syscall_output.push_back(syscont);
         return true;
@@ -430,7 +430,7 @@ bool vodka::library::kernel::treatement::divide_int(sources_stack lclstack) {
         dividecall.precision_uid=call.variablesdict_context[arg[3]].intele.varinfo.uuid;
         vodka::syscalls::syscall_container dividecont;
         dividecont.divideele=dividecall;
-        dividecont.thing="DIVIDE";
+        dividecont.thing=vodka::syscalls::list_syscall::DIVIDE;
         syscall_output.push_back(dividecont);
         return true;
     } else {
@@ -470,7 +470,7 @@ bool vodka::library::kernel::treatement::mulint_int(sources_stack lclstack) {
         mulintcall.first_uid=call.variablesdict_context[arg[1]].intele.varinfo.uuid;
         mulintcall.second_uid=call.variablesdict_context[arg[2]].intele.varinfo.uuid;
         vodka::syscalls::syscall_container syscont;
-        syscont.thing="MULINT";
+        syscont.thing=vodka::syscalls::list_syscall::MULINT;
         syscont.mulintele=mulintcall;
         syscall_output.push_back(syscont);
         return true;
@@ -512,7 +512,7 @@ bool vodka::library::kernel::treatement::muldec_int(sources_stack lclstack) {
         muldeccall.second_uid=call.variablesdict_context[arg[2]].decele.varinfo.uuid;
         muldeccall.precision_uid=call.variablesdict_context[arg[3]].intele.varinfo.uuid;
         vodka::syscalls::syscall_container syscont;
-        syscont.thing="MULDEC";
+        syscont.thing=vodka::syscalls::list_syscall::MULDEC;
         syscont.muldecele=muldeccall;
         syscall_output.push_back(syscont);
         return true;

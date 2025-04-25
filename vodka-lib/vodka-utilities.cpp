@@ -46,7 +46,7 @@ boost::uuids::uuid vodka::utilities::genuid() {
     return uuid;
 }
 //* Logs functions
-void vodka::utilities::log(const string& text,string verbose,int x,string last,int sublevel,vector<int> substep,vector<unsigned long> subtotal) {
+void vodka::utilities::log(string text,string verbose,int x,string last,int sublevel,vector<int> substep,vector<unsigned long> subtotal) {
     if (verbose=="a" || verbose=="r") {
         if (sublevel==0) {
             if (verbose=="a" || verbose=="r") {
@@ -73,7 +73,7 @@ void vodka::utilities::log(const string& text,string verbose,int x,string last,i
         }
     }
 }
-void vodka::utilities::debuglog(const string& text,int line,const string& cell,bool debugmode,string verbose,string file,bool debug_info) {
+void vodka::utilities::debuglog(string text,int line,string cell,bool debugmode,string verbose,string file,bool debug_info) {
     if (debugmode==true) {
         if (debug_info==true) {
             if (verbose=="e") {
