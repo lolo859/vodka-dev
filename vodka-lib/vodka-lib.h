@@ -76,6 +76,7 @@ namespace vodka {
             MULINT,
             DIVIDE
         };
+        //* Convert list_syscall object to string
         string syscall_to_string(list_syscall syscall);
         //* Each syscall has his own class without heritating from the base one
         class PRINT {
