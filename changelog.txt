@@ -92,9 +92,11 @@ compiling script now check if g++ is installed
 
 for vodka 4.0 beta 1:
 planned : clean transcoder code mainly by reorganizing and renamming
-planned : introduce `enum class` in vodka-lib everywhere it's pertinent 
+introduce `enum class` in vodka-lib everywhere it's pertinent 
 replaced some `const string&` with `string`
 planned : introduce a datatype checking technic common to all libraries and instructions thats also allow users to use it
 planned : rename every single attribute, variable and class that need it in order to be more standard and explicit
 planned : add a timer system for log substep
 planned : put split and the other functions inside vodka-lib
+planned : add support for vodec datatype to kernel.invert, kernel.free
+the metadata of a variable is now stored in the general container and not into the datatype-specific container

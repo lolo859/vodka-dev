@@ -12,8 +12,8 @@
                         if (vodka::type::vodint::check_value(arg.substr(1,arg.size()-1),localline,lclstack)) {
                             vodka::variables::vodint intele;
                             intele.varinfo.algo_dependant=false;
-                            intele.varinfo.consts=true;
-                            intele.varinfo.write=true;
+                            intele.varinfo.is_vodka_constant=true;
+                            intele.varinfo.in_data_section=true;
                             intele.varinfo.define=true;
                             intele.varinfo.uuid=to_string(vodka::utilities::genuid());
                             intele.value=vodka::type::vodint::remove_zero(arg.substr(1,arg.size()-1));
@@ -30,8 +30,8 @@
                         if (vodka::type::vodec::check_value(arg.substr(1,arg.size()-1),localline,lclstack)) {
                             vodka::variables::vodec decele;
                             decele.varinfo.algo_dependant=false;
-                            decele.varinfo.consts=true;
-                            decele.varinfo.write=true;
+                            decele.varinfo.is_vodka_constant=true;
+                            decele.varinfo.in_data_section=true;
                             decele.varinfo.define=true;
                             decele.varinfo.uuid=to_string(vodka::utilities::genuid());
                             decele.value=vodka::type::vodec::remove_zero(arg.substr(1,arg.size()-1));

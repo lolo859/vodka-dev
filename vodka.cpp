@@ -85,14 +85,14 @@ bool disable_integrity_hash=false;
 int x=1;
 string last;
 string file;
-sources_stack srcstack;
+SourcesStack srcstack;
 vector<string> final;
 map<string,map<string,string>> json_ints;
 map<string,map<string,map<string,string>>> json_ints_v;
 //* Vectors and maps for code and code structure analysis
 vector<string> mainargslist;
-map<string,vodka::variables::element> mainargsdict;
-map<string,vodka::variables::element> variablesdict;
+map<string,vodka::variables::VariableContainer> mainargsdict;
+map<string,vodka::variables::VariableContainer> variablesdict;
 vector<string> variableslist;
 map<string,string> replacement;
 vector<string> symbollist={"VODSTART","VODEND","VODIMPORT","VODTYPE","VODSTRUCT","VODCLASS","VODENDCLASS","VODEFINE"};
@@ -107,34 +107,34 @@ vector<cellule> cells;
 vector<string> cellnames;
 cellule maincell;
 //* Read file
-int read_file(string output,string mode,sources_stack srclclstack) {
+int read_file(string output,string mode,SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
     //* Source file fetching
     if (output=="") {
-        raise(error_container("vodka.error.file.output_not_provided","<no file>",{"<no line affected>"},{0},lclstack));
+        raise(ErrorContainer("vodka.error.file.output_not_provided","<no file>",{"<no line affected>"},{0},lclstack));
         return -1;
     }
     if (mode=="check") {
         log("Checking if source and output file exist.",verbose,x,last);
         if (filesystem::exists(file)==false) {
-            raise(error_container("Source file doesn't exist.",file,{"<no line affected>"},{0},lclstack));
+            raise(ErrorContainer("Source file doesn't exist.",file,{"<no line affected>"},{0},lclstack));
             return -1;
         }
         if (filesystem::exists(output)==false) {
-            raise(error_container("Output file doesn't exist.",file,{"<no line affected>"},{0},lclstack));
+            raise(ErrorContainer("Output file doesn't exist.",file,{"<no line affected>"},{0},lclstack));
             return -1;
         }
         x=x+1;
         log("Checking files readability.",verbose,x,last);
         ifstream filee(file.c_str());
         if (filee.is_open()==false) {
-            raise(error_container("File can't be open.",file,{"<no line affected>"},{0},lclstack));
+            raise(ErrorContainer("File can't be open.",file,{"<no line affected>"},{0},lclstack));
             return -1;
         }
         ifstream fileee(output.c_str());
         if (fileee.is_open()==false) {
-            raise(error_container("File can't be open.",output,{"<no line affected>"},{0},lclstack));
+            raise(ErrorContainer("File can't be open.",output,{"<no line affected>"},{0},lclstack));
             return -1;
         }
         x=x+1;
@@ -172,14 +172,14 @@ int read_file(string output,string mode,sources_stack srclclstack) {
     } else {
         log("Checking if source file exist.",verbose,x,last);
         if (filesystem::exists(file)==false) {
-            raise(error_container("Source file doesn't exist.",file,{"<no line affected>"},{0},lclstack));
+            raise(ErrorContainer("Source file doesn't exist.",file,{"<no line affected>"},{0},lclstack));
             return -1;
         }
         x=x+1;
         log("Checking file readability.",verbose,x,last);
         ifstream filee(file.c_str());
         if (filee.is_open()==false) {
-            raise(error_container("File can't be open.",file,{"<no line affected>"},{0},lclstack));
+            raise(ErrorContainer("File can't be open.",file,{"<no line affected>"},{0},lclstack));
             return -1;
         }
         x=x+1;
@@ -204,7 +204,7 @@ int read_file(string output,string mode,sources_stack srclclstack) {
     }
 }
 //* Detect symbols 
-int detect_symbol(sources_stack srclclstack) {
+int detect_symbol(SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
     log("Detecting symbols.",verbose,x,last);
@@ -220,7 +220,7 @@ int detect_symbol(sources_stack srclclstack) {
             log("Checking symbol.",verbose,x,last,2,{(int)i+1,2},{content.size(),3});
             if (find(symbollist.begin(),symbollist.end(),temp.type)==symbollist.end()) {
                 int linenum=i+1;
-                raise(error_container("vodka.error.symbol.unknow_symbol : Unknow symbol found : "+temp.type,file,{line},{linenum},lclstack));
+                raise(ErrorContainer("vodka.error.symbol.unknow_symbol : Unknow symbol found : "+temp.type,file,{line},{linenum},lclstack));
                 return -1;
             } else {
                 log("Saving symbol.",verbose,x,last,2,{(int)i+1,3},{content.size(),3});
@@ -240,7 +240,7 @@ int detect_symbol(sources_stack srclclstack) {
                 replacement[eles[1]]=eles[2];
                 log("Replacement found. "+eles[1]+" will be replaced with "+eles[2]+".",verbose,x,last,2,{(int)i+1,1},{symbols.size(),1});
             } else {
-                raise(error_container("vodka.error.vodefine.invalid_syntax : Invalid syntax for define replacement declaration.",file,{symbols[i].content},{symbols[i].line},lclstack));
+                raise(ErrorContainer("vodka.error.vodefine.invalid_syntax : Invalid syntax for define replacement declaration.",file,{symbols[i].content},{symbols[i].line},lclstack));
                 return -1;
             }
         } else {
@@ -255,18 +255,18 @@ int detect_symbol(sources_stack srclclstack) {
             if (typefound==false) {
                 typefound=true;
             } else {
-                raise(error_container("vodka.error.vodtype.confusion : A vodka program can only contain one VODTYPE symbol.",file,{symbols[i].content},{symbols[i].line},lclstack));
+                raise(ErrorContainer("vodka.error.vodtype.confusion : A vodka program can only contain one VODTYPE symbol.",file,{symbols[i].content},{symbols[i].line},lclstack));
                 return -1;
             }
         }
     }
     if (typefound==false) {
-        raise(error_container("vodka.error.vodtype.not_found : Can't find VODTYPE symbol.",file,{"<no line affected>"},{0},lclstack));
+        raise(ErrorContainer("vodka.error.vodtype.not_found : Can't find VODTYPE symbol.",file,{"<no line affected>"},{0},lclstack));
         return -1;
     }
     return 0;
 }
-int detect_program_type(string output,sources_stack srclclstack) {
+int detect_program_type(string output,SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
     log("Detecting program type :",verbose,x,last);
@@ -276,12 +276,12 @@ int detect_program_type(string output,sources_stack srclclstack) {
             log("Checking syntax.",verbose,x,last,2,{(int)i+1,1},{symbols.size(),3});
             auto ele=split(symbols[i].content," ");
             if (ele.size()!=2) {
-                raise(error_container("vodka.error.vodtype.invalid_syntax : Invalid syntax for program type declaration.",file,{symbols[i].content},{symbols[i].line},lclstack));
+                raise(ErrorContainer("vodka.error.vodtype.invalid_syntax : Invalid syntax for program type declaration.",file,{symbols[i].content},{symbols[i].line},lclstack));
                 return -1;
             }
             log("Checking program type.",verbose,x,last,2,{(int)i+1,2},{symbols.size(),3});
             if (find(typelist.begin(),typelist.end(),ele[1])==typelist.end()) {
-                raise(error_container("vodka.error.vodtype.unknow_type : Unknow type : "+ele[1],file,{symbols[i].content},{symbols[i].line},lclstack));
+                raise(ErrorContainer("vodka.error.vodtype.unknow_type : Unknow type : "+ele[1],file,{symbols[i].content},{symbols[i].line},lclstack));
                 return -1;
             }
             log("Saving program type.",verbose,x,last,2,{(int)i+1,3},{symbols.size(),3});
@@ -297,7 +297,7 @@ int detect_program_type(string output,sources_stack srclclstack) {
     }
     return 0;
 }
-int detect_cells(sources_stack srclclstack) {
+int detect_cells(SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
     log("Detecting cells :",verbose,x,last);
@@ -315,7 +315,7 @@ int detect_cells(sources_stack srclclstack) {
                 if (args.size()>1) {
                     temp.name=args[1];
                 } else {
-                    raise(error_container("vodka.error.vodstart.name_not_found : Can't find cell's name.",file,{symbols[i].content},{symbols[i].line},lclstack));
+                    raise(ErrorContainer("vodka.error.vodstart.name_not_found : Can't find cell's name.",file,{symbols[i].content},{symbols[i].line},lclstack));
                     return -1;
                 }
                 log("Checking if an cell with the same name already exist in the program.",verbose,x,last,1,{5},{10});
@@ -337,7 +337,7 @@ int detect_cells(sources_stack srclclstack) {
                     lineerror.push_back(temp.start.line);
                     indicatorpos.push_back(11+to_string(temp.start.line).length()-1);
                     indicatorlen.push_back(args[1].length());
-                    raise(error_container("vodka.error.cell.confusion : An existing cell with the same name already exists.",file,contenterror,lineerror,lclstack));
+                    raise(ErrorContainer("vodka.error.cell.confusion : An existing cell with the same name already exists.",file,contenterror,lineerror,lclstack));
                     return -1;
                 }
                 log("Detecting cell argument.",verbose,x,last,1,{6},{10});
@@ -363,18 +363,18 @@ int detect_cells(sources_stack srclclstack) {
                     maincell=temp;
                     for (auto a:maincell.args) {
                         auto uid=to_string(genuid());
-                        vodka::variables::variable argsinfo;
+                        vodka::variables::VariableMetadata argsinfo;
                         argsinfo.algo_dependant=true;
-                        argsinfo.consts=false;
-                        argsinfo.define=false;
-                        argsinfo.write=false;
+                        argsinfo.is_vodka_constant=false;
+                        argsinfo.is_kernel_constant=false;
+                        argsinfo.in_data_section=false;
                         argsinfo.uuid=to_string(genuid());
-                        argsinfo.varname=a;
-                        vodka::variables::vodarg argscont;
-                        argscont.varinfo=argsinfo;
-                        vodka::variables::element varcont;
-                        varcont.thing="vodarg";
-                        varcont.argele=argscont;
+                        argsinfo.name=a;
+                        vodka::variables::VodargVariable argscont;
+                        vodka::variables::VariableContainer varcont;
+                        varcont.thing=vodka::variables::DatatypesNames::vodarg;
+                        varcont.variable_metadata=argsinfo;
+                        varcont.vodarg_element=argscont;
                         mainargsdict[a]=varcont;
                         mainargslist.push_back(a);
                         variableslist.push_back(a);
@@ -382,29 +382,29 @@ int detect_cells(sources_stack srclclstack) {
                     }
                 }
             } else {
-                raise(error_container("vodka.error.vodend.not_found : Can't find corresponding VODEND symbol to the previous VODSTART.",file,{symbols[i].content},{symbols[i].line},lclstack));
+                raise(ErrorContainer("vodka.error.vodend.not_found : Can't find corresponding VODEND symbol to the previous VODSTART.",file,{symbols[i].content},{symbols[i].line},lclstack));
                 return -1;
             }
         }
     }
     return 0;
 }
-int verify_main_cell(sources_stack srclclstack) {
+int verify_main_cell(SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
     log("Verifying if program contain a main cell.",verbose,x,last);
     if (maincell.name!="main") {
-        raise(error_container("vodka.error.main.not_found : Can't find the main cell.",file,{"<no line affected>"},{0},lclstack));
+        raise(ErrorContainer("vodka.error.main.not_found : Can't find the main cell.",file,{"<no line affected>"},{0},lclstack));
         return -1;
     }
     return 0;
 }
-int code_pre_treatement(bool replace,sources_stack srclclstack) {
+int code_pre_treatement(bool replace,SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
     log("Writing args section.",verbose,x,last);
     for (auto argm:mainargsdict) {
-        final.push_back(argm.second.argele.varinfo.uuid);
+        final.push_back(argm.second.variable_metadata.uuid);
     }
     if (replace==false) {
         x=x+1;
@@ -429,8 +429,8 @@ int code_pre_treatement(bool replace,sources_stack srclclstack) {
     log("Started datatypes replacement process.",verbose,x,last);
     vector<string> directs_data;
     for (int i=0;i<maincell.content.size();++i) {
-        vodka::analyser::line localline;
-        localline.line=maincell.start.line+i+1;
+        vodka::analyser::LineSyntaxChecker localline;
+        localline.line_number=maincell.start.line+i+1;
         localline.file=file;
         localline.content=maincell.content[i];
         auto direct_declared_data=split(maincell.content[i]," ");
@@ -440,16 +440,19 @@ int code_pre_treatement(bool replace,sources_stack srclclstack) {
                 for (auto arg:direct_declared_data) {
                     if (arg.substr(0,1)=="#" && find(directs_data.begin(),directs_data.end(),arg)==directs_data.end()) {
                         if (vodka::type::vodint::check_value(arg.substr(1,arg.size()-1),localline,lclstack)) {
-                            vodka::variables::vodint intele;
-                            intele.varinfo.algo_dependant=false;
-                            intele.varinfo.consts=true;
-                            intele.varinfo.write=true;
-                            intele.varinfo.define=true;
-                            intele.varinfo.uuid=to_string(vodka::utilities::genuid());
+                            vodka::variables::VodintVariable intele;
                             intele.value=vodka::type::vodint::remove_zero(arg.substr(1,arg.size()-1));
-                            vodka::variables::element contele;
-                            contele.intele=intele;
-                            contele.thing="vodint";
+                            vodka::variables::VariableContainer contele;
+                            vodka::variables::VariableMetadata varinfo;
+                            varinfo.is_vodka_constant=true;
+                            varinfo.name=arg;
+                            varinfo.in_data_section=true;
+                            varinfo.algo_dependant=false;
+                            varinfo.is_kernel_constant=true;
+                            varinfo.uuid=to_string(vodka::utilities::genuid());
+                            contele.variable_metadata=varinfo;
+                            contele.vodint_element=intele;
+                            contele.thing=vodka::variables::DatatypesNames::vodint;
                             variablesdict[arg]=contele;
                             variableslist.push_back(arg);
                             directs_data.push_back(arg);
@@ -458,16 +461,19 @@ int code_pre_treatement(bool replace,sources_stack srclclstack) {
                         }
                     } else if (arg.substr(0,1)=="%" && find(directs_data.begin(),directs_data.end(),arg)==directs_data.end()) {
                         if (vodka::type::vodec::check_value(arg.substr(1,arg.size()-1),localline,lclstack)) {
-                            vodka::variables::vodec decele;
-                            decele.varinfo.algo_dependant=false;
-                            decele.varinfo.consts=true;
-                            decele.varinfo.write=true;
-                            decele.varinfo.define=true;
-                            decele.varinfo.uuid=to_string(vodka::utilities::genuid());
+                            vodka::variables::VodecVariable decele;
                             decele.value=vodka::type::vodec::remove_zero(arg.substr(1,arg.size()-1));
-                            vodka::variables::element contele;
-                            contele.decele=decele;
-                            contele.thing="vodec";
+                            vodka::variables::VariableContainer contele;
+                            vodka::variables::VariableMetadata varinfo;
+                            varinfo.algo_dependant=false;
+                            varinfo.is_vodka_constant=true;
+                            varinfo.in_data_section=true;
+                            varinfo.is_kernel_constant=true;
+                            varinfo.uuid=to_string(vodka::utilities::genuid());
+                            varinfo.name=arg;
+                            contele.variable_metadata=varinfo;
+                            contele.vodec_element=decele;
+                            contele.thing=vodka::variables::DatatypesNames::vodec;
                             variablesdict[arg]=contele;
                             variableslist.push_back(arg);
                             directs_data.push_back(arg);
@@ -481,8 +487,8 @@ int code_pre_treatement(bool replace,sources_stack srclclstack) {
     }
     for (auto cell:cells) {
         for (int i=0;i<cell.content.size();++i) {
-            vodka::analyser::line localline;
-            localline.line=cell.start.line+i+1;
+            vodka::analyser::LineSyntaxChecker localline;
+            localline.line_number=cell.start.line+i+1;
             localline.file=file;
             localline.content=cell.content[i];
             auto direct_declared_data=split(cell.content[i]," ");
@@ -492,16 +498,19 @@ int code_pre_treatement(bool replace,sources_stack srclclstack) {
                     for (auto arg:direct_declared_data) {
                         if (arg.substr(0,1)=="#" && find(directs_data.begin(),directs_data.end(),arg)==directs_data.end()) {
                             if (vodka::type::vodint::check_value(arg.substr(1,arg.size()-1),localline,lclstack)) {
-                                vodka::variables::vodint intele;
-                                intele.varinfo.algo_dependant=false;
-                                intele.varinfo.consts=true;
-                                intele.varinfo.write=true;
-                                intele.varinfo.define=true;
-                                intele.varinfo.uuid=to_string(vodka::utilities::genuid());
+                                vodka::variables::VodintVariable intele;
                                 intele.value=vodka::type::vodint::remove_zero(arg.substr(1,arg.size()-1));
-                                vodka::variables::element contele;
-                                contele.intele=intele;
-                                contele.thing="vodint";
+                                vodka::variables::VariableContainer contele;
+                                vodka::variables::VariableMetadata varinfo;
+                                varinfo.algo_dependant=false;
+                                varinfo.is_vodka_constant=true;
+                                varinfo.in_data_section=true;
+                                varinfo.is_kernel_constant=true;
+                                varinfo.uuid=to_string(vodka::utilities::genuid());
+                                varinfo.name=arg;
+                                contele.variable_metadata=varinfo;
+                                contele.vodint_element=intele;
+                                contele.thing=vodka::variables::DatatypesNames::vodint;
                                 variablesdict[arg]=contele;
                                 variableslist.push_back(arg);
                                 directs_data.push_back(arg);
@@ -510,16 +519,19 @@ int code_pre_treatement(bool replace,sources_stack srclclstack) {
                             }
                         } else if (arg.substr(0,1)=="%" && find(directs_data.begin(),directs_data.end(),arg)==directs_data.end()) {
                             if (vodka::type::vodec::check_value(arg.substr(1,arg.size()-1),localline,lclstack)) {
-                                vodka::variables::vodec decele;
-                                decele.varinfo.algo_dependant=false;
-                                decele.varinfo.consts=true;
-                                decele.varinfo.write=true;
-                                decele.varinfo.define=true;
-                                decele.varinfo.uuid=to_string(vodka::utilities::genuid());
+                                vodka::variables::VodecVariable decele;
                                 decele.value=vodka::type::vodec::remove_zero(arg.substr(1,arg.size()-1));
-                                vodka::variables::element contele;
-                                contele.decele=decele;
-                                contele.thing="vodec";
+                                vodka::variables::VariableContainer contele;
+                                vodka::variables::VariableMetadata varinfo;
+                                varinfo.algo_dependant=false;
+                                varinfo.is_vodka_constant=true;
+                                varinfo.in_data_section=true;
+                                varinfo.is_kernel_constant=true;
+                                varinfo.uuid=to_string(vodka::utilities::genuid());
+                                varinfo.name=arg;
+                                contele.variable_metadata=varinfo;
+                                contele.vodec_element=decele;
+                                contele.thing=vodka::variables::DatatypesNames::vodec;
                                 variablesdict[arg]=contele;
                                 variableslist.push_back(arg);
                                 directs_data.push_back(arg);
@@ -650,26 +662,26 @@ int main (int argc,char* argv[]) {
     log("Started analysing main cell :",verbose,x,last);
     //* Here happen all the magic
     final.push_back("endargs");
-    vector<vodka::syscalls::syscall_container> instructions_main;
-    map<string,vodka::variables::element> main_variablesdict=variablesdict;
+    vector<vodka::syscalls::SyscallContainer> instructions_main;
+    map<string,vodka::variables::VariableContainer> main_variablesdict=variablesdict;
     vector<string> main_variableslist=variableslist;
     map<string,vector<string>> main_vars_used;
     for (size_t i=0;i<maincell.content.size();++i) {
         log("Analysing line "+to_string(i+1)+" :",verbose,x,last,1,{(int)i+1},{maincell.content.size()});
         string line=maincell.content[i];
-        vodka::analyser::line actual_line;
+        vodka::analyser::LineSyntaxChecker actual_line;
         actual_line.content=line;
-        actual_line.line=maincell.start.line+(int)i+1;
+        actual_line.line_number=maincell.start.line+(int)i+1;
         actual_line.file=file;
         actual_line.checked=actual_line.check(lclstack);
         if (actual_line.checked==false) {
             return -1;
         }
-        if (actual_line.skip==true) {
+        if (actual_line.shoulb_be_skip==true) {
             continue;
         }
-        vodka::analyser::type_analyser type_analyser;
-        type_analyser.line_analyse=actual_line;
+        vodka::analyser::LineTypeChecker type_analyser;
+        type_analyser.line_checked=actual_line;
         type_analyser.checked=type_analyser.line_type_analyse(lclstack);
         if (type_analyser.checked==false) {
             return -1;
@@ -683,53 +695,53 @@ int main (int argc,char* argv[]) {
         //* Vodka instruction processing
         else if (type_analyser.type=="var") {
             log("Checking vodka declaration syntax.",verbose,x,last,2,{(int)i+1,1},{maincell.content.size(),6});
-            vodka::analyser::var_dec_analyser var_dec_analyser;
-            var_dec_analyser.line_analyse=type_analyser;
-            var_dec_analyser.checked=var_dec_analyser.var_dec_analyse(lclstack);
-            if (var_dec_analyser.checked==false) {
+            vodka::analyser::VariableDeclarationAnalyser VariableDeclarationAnalyser;
+            VariableDeclarationAnalyser.line_checked=type_analyser;
+            VariableDeclarationAnalyser.checked=VariableDeclarationAnalyser.parser(lclstack);
+            if (VariableDeclarationAnalyser.checked==false) {
                 return -1;
             }
-            if (var_dec_analyser.name.substr(0,1)=="$" || var_dec_analyser.name.substr(0,2)=="$$") {
+            if (VariableDeclarationAnalyser.name.substr(0,1)=="$" || VariableDeclarationAnalyser.name.substr(0,2)=="$$") {
                 for (auto a:main_variableslist) {
-                    if (a==var_dec_analyser.name) {
-                        raise(error_container("vodka.error.variables.constant : Can't modify a constant.",file,{line},{maincell.start.line+(int)i+1},lclstack));
+                    if (a==VariableDeclarationAnalyser.name) {
+                        raise(ErrorContainer("vodka.error.variables.constant : Can't modify a constant.",file,{line},{maincell.start.line+(int)i+1},lclstack));
                         return -1;
                     }
                 }
             }
             log("Checking vodka declaration type and value.",verbose,x,last,2,{(int)i+1,2},{maincell.content.size(),6});
-            var_dec_analyser.checked_type_value=var_dec_analyser.check_type_value(main_variableslist,lclstack);
-            if (var_dec_analyser.checked_type_value==false) {
+            VariableDeclarationAnalyser.checked_type_value=VariableDeclarationAnalyser.check_type_value(main_variableslist,lclstack);
+            if (VariableDeclarationAnalyser.checked_type_value==false) {
                 return -1;
             }
             log("Making metadata about vodka declaration.",verbose,x,last,2,{(int)i+1,3},{maincell.content.size(),6});
-            if (var_dec_analyser.datatype=="vodka") {
-                var_dec_analyser.source_duplication=main_variablesdict[var_dec_analyser.value];
+            if (VariableDeclarationAnalyser.datatype=="vodka") {
+                VariableDeclarationAnalyser.duplication_source_variable=main_variablesdict[VariableDeclarationAnalyser.value];
             }
-            bool info=var_dec_analyser.make_info(lclstack);
+            bool info=VariableDeclarationAnalyser.make_info(lclstack);
             if (info==false) {
                 return -1;
             }
             log("Pre-treating vodka declaration value.",verbose,x,last,2,{(int)i+1,4},{maincell.content.size(),6});
-            var_dec_analyser.pre_treated=var_dec_analyser.pre_treatement(lclstack);
-            if (var_dec_analyser.pre_treated==false) {
+            VariableDeclarationAnalyser.pre_treated=VariableDeclarationAnalyser.value_pre_treatement(lclstack);
+            if (VariableDeclarationAnalyser.pre_treated==false) {
                 return -1;
             }
             log("Compiling vodka declaration into variable container.",verbose,x,last,2,{(int)i+1,5},{maincell.content.size(),6});
-            bool output=var_dec_analyser.output(lclstack);
+            bool output=VariableDeclarationAnalyser.make_output(lclstack);
             if (output==false) {
                 return -1;
             }
             log("Registering vodka declaration.",verbose,x,last,2,{(int)i+1,6},{maincell.content.size(),6});
-            main_variablesdict[var_dec_analyser.name]=var_dec_analyser.var_object;
-            main_variableslist.push_back(var_dec_analyser.name);
-            if (!var_dec_analyser.is_kernel_const) {
-                instructions_main.push_back(var_dec_analyser.vodka_object);
-                main_vars_used[var_dec_analyser.name]={"f",to_string(actual_line.line)};
+            main_variablesdict[VariableDeclarationAnalyser.name]=VariableDeclarationAnalyser.variable_container;
+            main_variableslist.push_back(VariableDeclarationAnalyser.name);
+            if (!VariableDeclarationAnalyser.is_kernel_constant) {
+                instructions_main.push_back(VariableDeclarationAnalyser.syscall_container);
+                main_vars_used[VariableDeclarationAnalyser.name]={"f",to_string(actual_line.line_number)};
             }
-            if (var_dec_analyser.is_kernel_const) {
-                variablesdict[var_dec_analyser.name]=var_dec_analyser.var_object;
-                variableslist.push_back(var_dec_analyser.name);   
+            if (VariableDeclarationAnalyser.is_kernel_constant) {
+                variablesdict[VariableDeclarationAnalyser.name]=VariableDeclarationAnalyser.variable_container;
+                variableslist.push_back(VariableDeclarationAnalyser.name);   
             }
         //* Kernel function analysis
         } else if (type_analyser.type=="internal_library") {
@@ -799,7 +811,7 @@ int main (int argc,char* argv[]) {
                 main_variableslist=engine.call.variableslist_context;
             }
         } else {
-            raise(error_container("vodka.error.function.unknow : Unknow function.",file,{line},{maincell.start.line+(int)i+1},lclstack));
+            raise(ErrorContainer("vodka.error.function.unknow : Unknow function.",file,{line},{maincell.start.line+(int)i+1},lclstack));
             return -1;
         }
     }
@@ -815,19 +827,19 @@ int main (int argc,char* argv[]) {
     final.push_back("data:");
     int a=1;
     for (auto i:variablesdict) {
-        if (i.second.thing=="vodint") {
-            if (i.second.intele.varinfo.write==true) {
-                log("Writing "+i.second.intele.varinfo.uuid+".",verbose,x,last,1,{a},{variablesdict.size()});
-                if (i.second.intele.varinfo.define==true) {
-                    final.push_back(i.second.intele.varinfo.uuid+"="+i.second.intele.value);
+        if (vodka::variables::datatype_to_string(i.second.thing)=="vodint") {
+            if (i.second.variable_metadata.in_data_section==true) {
+                log("Writing "+i.second.variable_metadata.uuid+".",verbose,x,last,1,{a},{variablesdict.size()});
+                if (i.second.variable_metadata.is_kernel_constant==true) {
+                    final.push_back(i.second.variable_metadata.uuid+"="+i.second.vodint_element.value);
                 }
                 a=a+1;
             }
-        } else if (i.second.thing=="vodec") {
-            if (i.second.decele.varinfo.write==true) {
-                log("Writing "+i.second.decele.varinfo.uuid+".",verbose,x,last,1,{a},{variablesdict.size()});
-                if (i.second.decele.varinfo.define==true) {
-                    final.push_back(i.second.decele.varinfo.uuid+"="+i.second.decele.value);
+        } else if (vodka::variables::datatype_to_string(i.second.thing)=="vodec") {
+            if (i.second.variable_metadata.in_data_section==true) {
+                log("Writing "+i.second.variable_metadata.uuid+".",verbose,x,last,1,{a},{variablesdict.size()});
+                if (i.second.variable_metadata.is_kernel_constant==true) {
+                    final.push_back(i.second.variable_metadata.uuid+"="+i.second.vodec_element.value);
                 }
                 a=a+1;
             }
@@ -940,7 +952,7 @@ int main (int argc,char* argv[]) {
         stringstream ss;
         bool endargs=false;
         ss<<put_time(&utc, "%Y-%m-%dT%H:%M:%SZ");
-        json_ints["metadata"]={{"type","metadata"},{"vodka_version","0.4 beta 1"},{"json_version","4"},{"source_file",file},{"timestamp",ss.str()},{"json_type","kernel"}};
+        json_ints["metadata"]={{"type","metadata"},{"vodka_version",vodka::LibraryVersion},{"json_version","4"},{"source_file",file},{"timestamp",ss.str()},{"json_type","kernel"}};
         vector<string> kernel_symbol={"args:","endargs","data:","enddata"};
         for (auto b:kernel_sections) {
             kernel_symbol.push_back(b+":");
@@ -996,7 +1008,7 @@ int main (int argc,char* argv[]) {
         tm utc=*std::gmtime(&now_c);
         stringstream ss;
         ss<<put_time(&utc, "%Y-%m-%dT%H:%M:%SZ");
-        json_ints_v["metadata"]={{"metadata",{{"type","metadata"},{"vodka_version","0.4 beta 1"},{"json_version","4"},{"source_file",file},{"timestamp",ss.str()},{"json_type","vodka"}}}};
+        json_ints_v["metadata"]={{"metadata",{{"type","metadata"},{"vodka_version",vodka::LibraryVersion},{"json_version","4"},{"source_file",file},{"timestamp",ss.str()},{"json_type","vodka"}}}};
         log("Converting symbols : ",verbose,x,last,1,{1},{2});
         json_ints_v["symbols"]={};
         bool cellstart=false;
@@ -1028,7 +1040,7 @@ int main (int argc,char* argv[]) {
             json_ints_v["symbols"][to_string(i+1)+":"+to_string(genuid())]=symb.syntax();
         }
         log("Converting cells : ",verbose,x,last,1,{2},{2});
-        vector<string> vodkaints=vodka::vodka_instruction;
+        vector<string> vodkaints=vodka::VodkaInstrutions;
         for (int i=0;i<idencell.size();++i) {
             log("Converting cell "+cells[i].name+".",verbose,x,last,2,{2,i+1},{2,cells.size()});
             auto cellcontent=cells[i].content;

@@ -1,12 +1,642 @@
-  -h, --help : show this help
-  -f, --find object_to_find : (not working for the moment)
-  -s, --source-file source_file : source file 
-  -o, --output-file output_file : output file
-  -v, --verbose-reduced : set verbose mode to reduced
-  -V, --verbose-full : set verbose mode to full
-  -d, --debug-lines : enable debug mode
-  -j, --json-kernel : export output to a json file specified with -o
-  -J, --json-vodka : export .vod structure to a json file specified with -o
-  -r, --disable-replacements : disable define replacement
-  -w, --disable-all-warnings : disable warnings
-  --disable-variables-warning : disable variables warnings
+Automated Linker and Compilation Of Highly Object Oriented Language
+Using g++ (15)
+Building vodka transcoder
+Building Library
+Compiled vodka-utilities
+Compiled vodka-type
+Compiled vodka-syscalls
+Compiled vodka-json
+Compiled vodka-analyser
+In file included from /usr/include/c++/15/bits/stl_algobase.h:71,
+                 from /usr/include/c++/15/string:53,
+                 from vodka-lib/vodka-lib.h:3,
+                 from vodka-lib/vodka-instructions.cpp:1:
+/usr/include/c++/15/bits/predefined_ops.h: In instantiation of ‘bool __gnu_cxx::__ops::_Iter_equals_val<_Value>::operator()(_Iterator) [with _Iterator = __gnu_cxx::__normal_it
+erator<const std::__cxx11::basic_string<char>*, std::vector<std::__cxx11::basic_string<char> > >; _Value = const vodka::variables::DatatypesNames]’:                           /usr/include/c++/15/bits/stl_algobase.h:2095:42:   required from ‘_Iterator std::__find_if(_Iterator, _Iterator, _Predicate) [with _Iterator = __gnu_cxx::__normal_iterator<con
+st __cxx11::basic_string<char>*, vector<__cxx11::basic_string<char> > >; _Predicate = __gnu_cxx::__ops::_Iter_equals_val<const vodka::variables::DatatypesNames>]’              2095 |       while (__first != __last && !__pred(__first))
+      |                                    ~~~~~~^~~~~~~~~
+/usr/include/c++/15/bits/stl_algo.h:3895:28:   required from ‘_IIter std::find(_IIter, _IIter, const _Tp&) [with _IIter = __gnu_cxx::__normal_iterator<const __cxx11::basic_str
+ing<char>*, vector<__cxx11::basic_string<char> > >; _Tp = vodka::variables::DatatypesNames]’                                                                                    3895 |       return std::__find_if(__first, __last,
+      |              ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+ 3896 |                             __gnu_cxx::__ops::__iter_equals_val(__val));
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vodka-lib/vodka-instructions.cpp:65:21:   required from here
+   65 |             if (find(supported_type.at("multiply").begin(),supported_type.at("multiply").end(),call.variablesdict_context[a].thing)==supported_type.at("multiply").end(
+)) {                                                                                                                                                                                 |                 ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/15/bits/predefined_ops.h:270:24: error: no match for ‘operator==’ (operand types are ‘const std::__cxx11::basic_string<char>’ and ‘const vodka::variables::lis
+t_datatypes’)                                                                                                                                                                    270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note: there are 37 candidates
+In file included from /usr/include/c++/15/string:50:
+/usr/include/c++/15/bits/stl_iterator.h:1220:5: note: candidate 1: ‘template<class _IteratorL, class _IteratorR, class _Container> constexpr bool __gnu_cxx::operator==(const _
+_normal_iterator<_IteratorL, _Container>&, const __normal_iterator<_IteratorR, _Container>&)’                                                                                   1220 |     operator==(const __normal_iterator<_IteratorL, _Container>& __lhs,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:1220:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const __gnu_cxx::__normal_iterator<_IteratorL, _Contain
+er>’                                                                                                                                                                             270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:1228:5: note: candidate 2: ‘template<class _Iterator, class _Container> constexpr bool __gnu_cxx::operator==(const __normal_iterator<_I
+terator, _Container>&, const __normal_iterator<_Iterator, _Container>&)’                                                                                                        1228 |     operator==(const __normal_iterator<_Iterator, _Container>& __lhs,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:1228:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const __gnu_cxx::__normal_iterator<_Iterator, _Containe
+r>’                                                                                                                                                                              270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/x86_64-redhat-linux/bits/c++allocator.h:33,
+                 from /usr/include/c++/15/bits/allocator.h:46,
+                 from /usr/include/c++/15/string:45:
+/usr/include/c++/15/bits/new_allocator.h:215:9: note: candidate 3: ‘template<class _Up> bool std::operator==(const __new_allocator<char>&, const __new_allocator<_Tp>&)’
+  215 |         operator==(const __new_allocator&, const __new_allocator<_Up>&)
+      |         ^~~~~~~~
+/usr/include/c++/15/bits/new_allocator.h:215:9: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   mismatched types ‘const std::__new_allocator<_Tp>’ and ‘const vodka::variables::DatatypesNames’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/bits/char_traits.h:44,
+                 from /usr/include/c++/15/string:44:
+/usr/include/c++/15/bits/postypes.h:197:5: note: candidate 4: ‘template<class _StateT> bool std::operator==(const fpos<_StateT>&, const fpos<_StateT>&)’
+  197 |     operator==(const fpos<_StateT>& __lhs, const fpos<_StateT>& __rhs)
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/postypes.h:197:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::fpos<_StateT>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/allocator.h:242:5: note: candidate 5: ‘template<class _T1, class _T2> bool std::operator==(const allocator<_CharT>&, const allocator<_T2>&)’
+  242 |     operator==(const allocator<_T1>&, const allocator<_T2>&)
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/allocator.h:242:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::allocator<_CharT>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:443:5: note: candidate 6: ‘template<class _Iterator> constexpr bool std::operator==(const reverse_iterator<_Iterator>&, const reverse_i
+terator<_Iterator>&)’                                                                                                                                                            443 |     operator==(const reverse_iterator<_Iterator>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:443:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::reverse_iterator<_Iterator>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:488:5: note: candidate 7: ‘template<class _IteratorL, class _IteratorR> constexpr bool std::operator==(const reverse_iterator<_Iterator
+>&, const reverse_iterator<_IteratorR>&)’                                                                                                                                        488 |     operator==(const reverse_iterator<_IteratorL>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:488:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::reverse_iterator<_Iterator>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:1662:5: note: candidate 8: ‘template<class _IteratorL, class _IteratorR> constexpr bool std::operator==(const move_iterator<_IteratorL>
+&, const move_iterator<_IteratorR>&)’                                                                                                                                           1662 |     operator==(const move_iterator<_IteratorL>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:1662:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::move_iterator<_IteratorL>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:1732:5: note: candidate 9: ‘template<class _Iterator> constexpr bool std::operator==(const move_iterator<_IteratorL>&, const move_itera
+tor<_IteratorL>&)’                                                                                                                                                              1732 |     operator==(const move_iterator<_Iterator>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:1732:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::move_iterator<_IteratorL>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/bits/stl_algobase.h:64:
+/usr/include/c++/15/bits/stl_pair.h:1060:5: note: candidate 10: ‘template<class _T1, class _T2> constexpr bool std::operator==(const pair<_T1, _T2>&, const pair<_T1, _T2>&)’
+ 1060 |     operator==(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_pair.h:1060:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::pair<_T1, _T2>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/bits/basic_string.h:49,
+                 from /usr/include/c++/15/string:56:
+/usr/include/c++/15/string_view:633:5: note: candidate 11: ‘template<class _CharT, class _Traits> constexpr bool std::operator==(basic_string_view<_CharT, _Traits>, __type_ide
+ntity_t<basic_string_view<_CharT, _Traits> >)’                                                                                                                                   633 |     operator==(basic_string_view<_CharT, _Traits> __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/string_view:633:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘std::__cxx11::basic_string<char>’ is not derived from ‘std::basic_string_view<_CharT, _Traits>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/string_view:641:5: note: candidate 12: ‘template<class _CharT, class _Traits> constexpr bool std::operator==(basic_string_view<_CharT, _Traits>, basic_stri
+ng_view<_CharT, _Traits>)’                                                                                                                                                       641 |     operator==(basic_string_view<_CharT, _Traits> __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/string_view:641:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘std::__cxx11::basic_string<char>’ is not derived from ‘std::basic_string_view<_CharT, _Traits>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/string_view:648:5: note: candidate 13: ‘template<class _CharT, class _Traits> constexpr bool std::operator==(__type_identity_t<basic_string_view<_CharT, _T
+raits> >, basic_string_view<_CharT, _Traits>)’                                                                                                                                   648 |     operator==(__type_identity_t<basic_string_view<_CharT, _Traits>> __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/string_view:648:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   mismatched types ‘std::basic_string_view<_CharT, _Traits>’ and ‘vodka::variables::DatatypesNames’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/basic_string.h:3831:5: note: candidate 14: ‘template<class _CharT, class _Traits, class _Alloc> bool std::operator==(const __cxx11::basic_string<_Char
+T, _Traits, _Alloc>&, const __cxx11::basic_string<_CharT, _Traits, _Alloc>&)’                                                                                                   3831 |     operator==(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/basic_string.h:3831:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   mismatched types ‘const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>’ and ‘const vodka::variables::list_dataty
+pes’                                                                                                                                                                             270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/basic_string.h:3848:5: note: candidate 15: ‘template<class _CharT, class _Traits, class _Alloc> bool std::operator==(const __cxx11::basic_string<_Char
+T, _Traits, _Alloc>&, const _CharT*)’                                                                                                                                           3848 |     operator==(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/basic_string.h:3848:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   mismatched types ‘const _CharT*’ and ‘vodka::variables::DatatypesNames’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/basic_string.h:3895:5: note: candidate 16: ‘template<class _CharT, class _Traits, class _Alloc> bool std::operator==(const _CharT*, const __cxx11::bas
+ic_string<_CharT, _Traits, _Alloc>&)’                                                                                                                                           3895 |     operator==(const _CharT* __lhs,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/basic_string.h:3895:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   mismatched types ‘const _CharT*’ and ‘std::__cxx11::basic_string<char>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/bits/memory_resource.h:49,
+                 from /usr/include/c++/15/string:71:
+/usr/include/c++/15/tuple:2610:5: note: candidate 17: ‘template<class ... _TElements, class ... _UElements> constexpr bool std::operator==(const tuple<_Elements ...>&, const t
+uple<_Elements ...>&)’                                                                                                                                                          2610 |     operator==(const tuple<_TElements...>& __t,
+      |     ^~~~~~~~
+/usr/include/c++/15/tuple:2610:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::tuple<_Elements ...>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/vector:68,
+                 from vodka-lib/vodka-lib.h:4:
+/usr/include/c++/15/bits/stl_vector.h:2337:5: note: candidate 18: ‘template<class _Tp, class _Alloc> bool std::operator==(const vector<_Tp, _Alloc>&, const vector<_Tp, _Alloc>
+&)’                                                                                                                                                                             2337 |     operator==(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_vector.h:2337:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::vector<_Tp, _Alloc>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/map:65,
+                 from vodka-lib/vodka-lib.h:5:
+/usr/include/c++/15/bits/stl_map.h:1571:5: note: candidate 19: ‘template<class _Key, class _Tp, class _Compare, class _Alloc> bool std::operator==(const map<_Key, _Tp, _Compar
+e, _Allocator>&, const map<_Key, _Tp, _Compare, _Allocator>&)’                                                                                                                  1571 |     operator==(const map<_Key, _Tp, _Compare, _Alloc>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_map.h:1571:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::map<_Key, _Tp, _Compare, _Allocator>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/map:66:
+/usr/include/c++/15/bits/stl_multimap.h:1194:5: note: candidate 20: ‘template<class _Key, class _Tp, class _Compare, class _Alloc> bool std::operator==(const multimap<_Key, _T
+p, _Compare, _Allocator>&, const multimap<_Key, _Tp, _Compare, _Allocator>&)’                                                                                                   1194 |     operator==(const multimap<_Key, _Tp, _Compare, _Alloc>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_multimap.h:1194:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::multimap<_Key, _Tp, _Compare, _Allocator>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/boost/uuid/uuid.hpp:16,
+                 from vodka-lib/vodka-lib.h:7:
+/usr/include/c++/15/array:305:5: note: candidate 21: ‘template<class _Tp, long unsigned int _Nm> bool std::operator==(const array<_Tp, _Nm>&, const array<_Tp, _Nm>&)’
+  305 |     operator==(const array<_Tp, _Nm>& __one, const array<_Tp, _Nm>& __two)
+      |     ^~~~~~~~
+/usr/include/c++/15/array:305:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::array<_Tp, _Nm>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/iterator:68,
+                 from /usr/include/boost/uuid/string_generator.hpp:13,
+                 from /usr/include/boost/uuid/uuid_generators.hpp:12,
+                 from vodka-lib/vodka-lib.h:8:
+/usr/include/c++/15/bits/streambuf_iterator.h:236:5: note: candidate 22: ‘template<class _CharT, class _Traits> bool std::operator==(const istreambuf_iterator<_CharT, _Traits>
+&, const istreambuf_iterator<_CharT, _Traits>&)’                                                                                                                                 236 |     operator==(const istreambuf_iterator<_CharT, _Traits>& __a,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/streambuf_iterator.h:236:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::istreambuf_iterator<_CharT, _Traits>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/random:52,
+                 from /usr/include/boost/uuid/detail/random_device.hpp:65,
+                 from /usr/include/boost/uuid/detail/random_provider.hpp:9,
+                 from /usr/include/boost/uuid/basic_random_generator.hpp:11,
+                 from /usr/include/boost/uuid/random_generator.hpp:10,
+                 from /usr/include/boost/uuid/uuid_generators.hpp:14:
+/usr/include/c++/15/bits/random.tcc:1908:5: note: candidate 23: ‘template<class _RealType1> bool std::operator==(const normal_distribution<_RealType>&, const normal_distributi
+on<_RealType>&)’                                                                                                                                                                1908 |     operator==(const std::normal_distribution<_RealType>& __d1,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/random.tcc:1908:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::normal_distribution<_RealType>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/bits/shared_ptr_base.h:59,
+                 from /usr/include/c++/15/bits/shared_ptr.h:53,
+                 from /usr/include/c++/15/bits/fs_path.h:46,
+                 from /usr/include/c++/15/filesystem:54,
+                 from vodka-lib/vodka-lib.h:10:
+/usr/include/c++/15/bits/unique_ptr.h:846:5: note: candidate 24: ‘template<class _Tp, class _Dp, class _Up, class _Ep> bool std::operator==(const unique_ptr<_Tp, _Dp>&, const 
+unique_ptr<_Up, _Ep>&)’                                                                                                                                                          846 |     operator==(const unique_ptr<_Tp, _Dp>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/unique_ptr.h:846:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::unique_ptr<_Tp, _Dp>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/unique_ptr.h:854:5: note: candidate 25: ‘template<class _Tp, class _Dp> bool std::operator==(const unique_ptr<_Tp, _Dp>&, nullptr_t)’
+  854 |     operator==(const unique_ptr<_Tp, _Dp>& __x, nullptr_t) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/unique_ptr.h:854:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::unique_ptr<_Tp, _Dp>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/unique_ptr.h:862:5: note: candidate 26: ‘template<class _Tp, class _Dp> bool std::operator==(nullptr_t, const unique_ptr<_Tp, _Dp>&)’
+  862 |     operator==(nullptr_t, const unique_ptr<_Tp, _Dp>& __x) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/unique_ptr.h:862:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   mismatched types ‘const std::unique_ptr<_Tp, _Dp>’ and ‘const vodka::variables::DatatypesNames’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/shared_ptr_base.h:1803:5: note: candidate 27: ‘template<class _Tp1, class _Tp2, __gnu_cxx::_Lock_policy _Lp> bool std::operator==(const __shared_ptr<_
+Tp1, _Lp>&, const __shared_ptr<_Tp2, _Lp>&)’                                                                                                                                    1803 |     operator==(const __shared_ptr<_Tp1, _Lp>& __a,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/shared_ptr_base.h:1803:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::__shared_ptr<_Tp1, _Lp>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/shared_ptr_base.h:1809:5: note: candidate 28: ‘template<class _Tp, __gnu_cxx::_Lock_policy _Lp> bool std::operator==(const __shared_ptr<_Tp, _Lp>&, nu
+llptr_t)’                                                                                                                                                                       1809 |     operator==(const __shared_ptr<_Tp, _Lp>& __a, nullptr_t) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/shared_ptr_base.h:1809:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::__shared_ptr<_Tp, _Lp>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/shared_ptr_base.h:1829:5: note: candidate 29: ‘template<class _Tp, __gnu_cxx::_Lock_policy _Lp> bool std::operator==(nullptr_t, const __shared_ptr<_Tp
+, _Lp>&)’                                                                                                                                                                       1829 |     operator==(nullptr_t, const __shared_ptr<_Tp, _Lp>& __a) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/shared_ptr_base.h:1829:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   mismatched types ‘const std::__shared_ptr<_Tp, _Lp>’ and ‘const vodka::variables::DatatypesNames’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/shared_ptr.h:554:5: note: candidate 30: ‘template<class _Tp, class _Up> bool std::operator==(const shared_ptr<_Tp>&, const shared_ptr<_Tp>&)’
+  554 |     operator==(const shared_ptr<_Tp>& __a, const shared_ptr<_Up>& __b) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/shared_ptr.h:554:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::shared_ptr<_Tp>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/shared_ptr.h:560:5: note: candidate 31: ‘template<class _Tp> bool std::operator==(const shared_ptr<_Tp>&, nullptr_t)’
+  560 |     operator==(const shared_ptr<_Tp>& __a, nullptr_t) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/shared_ptr.h:560:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::shared_ptr<_Tp>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/shared_ptr.h:581:5: note: candidate 32: ‘template<class _Tp> bool std::operator==(nullptr_t, const shared_ptr<_Tp>&)’
+  581 |     operator==(nullptr_t, const shared_ptr<_Tp>& __a) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/shared_ptr.h:581:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   mismatched types ‘const std::shared_ptr<_Tp>’ and ‘const vodka::variables::DatatypesNames’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/allocator.h:221:7: note: candidate 33: ‘bool std::operator==(const allocator<char>&, const allocator<char>&)’
+  221 |       operator==(const allocator&, const allocator&) _GLIBCXX_NOTHROW
+      |       ^~~~~~~~
+/usr/include/c++/15/bits/allocator.h:221:18: note: no known conversion for argument 1 from ‘const std::__cxx11::basic_string<char>’ to ‘const std::allocator<char>&’
+  221 |       operator==(const allocator&, const allocator&) _GLIBCXX_NOTHROW
+      |                  ^~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/15/bits/ios_base.h:48,
+                 from /usr/include/c++/15/streambuf:45,
+                 from /usr/include/c++/15/bits/streambuf_iterator.h:37:
+/usr/include/c++/15/system_error:451:3: note: candidate 34: ‘bool std::operator==(const error_code&, const error_code&)’
+  451 |   operator==(const error_code& __lhs, const error_code& __rhs) noexcept
+      |   ^~~~~~~~
+/usr/include/c++/15/system_error:451:32: note: no known conversion for argument 1 from ‘const std::__cxx11::basic_string<char>’ to ‘const std::error_code&’
+  451 |   operator==(const error_code& __lhs, const error_code& __rhs) noexcept
+      |              ~~~~~~~~~~~~~~~~~~^~~~~
+/usr/include/c++/15/system_error:467:3: note: candidate 35: ‘bool std::operator==(const error_code&, const error_condition&)’
+  467 |   operator==(const error_code& __lhs, const error_condition& __rhs) noexcept
+      |   ^~~~~~~~
+/usr/include/c++/15/system_error:467:32: note: no known conversion for argument 1 from ‘const std::__cxx11::basic_string<char>’ to ‘const std::error_code&’
+  467 |   operator==(const error_code& __lhs, const error_condition& __rhs) noexcept
+      |              ~~~~~~~~~~~~~~~~~~^~~~~
+/usr/include/c++/15/system_error:482:3: note: candidate 36: ‘bool std::operator==(const error_condition&, const error_condition&)’
+  482 |   operator==(const error_condition& __lhs,
+      |   ^~~~~~~~
+/usr/include/c++/15/system_error:482:37: note: no known conversion for argument 1 from ‘const std::__cxx11::basic_string<char>’ to ‘const std::error_condition&’
+  482 |   operator==(const error_condition& __lhs,
+      |              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+/usr/include/c++/15/system_error:519:3: note: candidate 37: ‘bool std::operator==(const error_condition&, const error_code&)’
+  519 |   operator==(const error_condition& __lhs, const error_code& __rhs) noexcept
+      |   ^~~~~~~~
+/usr/include/c++/15/system_error:519:37: note: no known conversion for argument 1 from ‘const std::__cxx11::basic_string<char>’ to ‘const std::error_condition&’
+  519 |   operator==(const error_condition& __lhs, const error_code& __rhs) noexcept
+      |              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+Compiled vodka-instructions
+Compiled vodka-errors
+Compiled vodka-variables
+In file included from /usr/include/c++/15/bits/stl_algobase.h:71,
+                 from /usr/include/c++/15/string:53,
+                 from vodka-lib/vodka-internal-library/../vodka-lib.h:3,
+                 from vodka-lib/vodka-internal-library/vil-kernel.cpp:1:
+/usr/include/c++/15/bits/predefined_ops.h: In instantiation of ‘bool __gnu_cxx::__ops::_Iter_equals_val<_Value>::operator()(_Iterator) [with _Iterator = __gnu_cxx::__normal_it
+erator<const std::__cxx11::basic_string<char>*, std::vector<std::__cxx11::basic_string<char> > >; _Value = const vodka::variables::DatatypesNames]’:                           /usr/include/c++/15/bits/stl_algobase.h:2095:42:   required from ‘_Iterator std::__find_if(_Iterator, _Iterator, _Predicate) [with _Iterator = __gnu_cxx::__normal_iterator<con
+st __cxx11::basic_string<char>*, vector<__cxx11::basic_string<char> > >; _Predicate = __gnu_cxx::__ops::_Iter_equals_val<const vodka::variables::DatatypesNames>]’              2095 |       while (__first != __last && !__pred(__first))
+      |                                    ~~~~~~^~~~~~~~~
+/usr/include/c++/15/bits/stl_algo.h:3895:28:   required from ‘_IIter std::find(_IIter, _IIter, const _Tp&) [with _IIter = __gnu_cxx::__normal_iterator<const __cxx11::basic_str
+ing<char>*, vector<__cxx11::basic_string<char> > >; _Tp = vodka::variables::DatatypesNames]’                                                                                    3895 |       return std::__find_if(__first, __last,
+      |              ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+ 3896 |                             __gnu_cxx::__ops::__iter_equals_val(__val));
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vodka-lib/vodka-internal-library/vil-kernel.cpp:101:21:   required from here
+  101 |             if (find(supported_type.at("add").begin(),supported_type.at("add").end(),call.variablesdict_context[a].thing)==supported_type.at("add").end()) {
+      |                 ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/15/bits/predefined_ops.h:270:24: error: no match for ‘operator==’ (operand types are ‘const std::__cxx11::basic_string<char>’ and ‘const vodka::variables::lis
+t_datatypes’)                                                                                                                                                                    270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note: there are 37 candidates
+In file included from /usr/include/c++/15/string:50:
+/usr/include/c++/15/bits/stl_iterator.h:1220:5: note: candidate 1: ‘template<class _IteratorL, class _IteratorR, class _Container> constexpr bool __gnu_cxx::operator==(const _
+_normal_iterator<_IteratorL, _Container>&, const __normal_iterator<_IteratorR, _Container>&)’                                                                                   1220 |     operator==(const __normal_iterator<_IteratorL, _Container>& __lhs,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:1220:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const __gnu_cxx::__normal_iterator<_IteratorL, _Contain
+er>’                                                                                                                                                                             270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:1228:5: note: candidate 2: ‘template<class _Iterator, class _Container> constexpr bool __gnu_cxx::operator==(const __normal_iterator<_I
+terator, _Container>&, const __normal_iterator<_Iterator, _Container>&)’                                                                                                        1228 |     operator==(const __normal_iterator<_Iterator, _Container>& __lhs,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:1228:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const __gnu_cxx::__normal_iterator<_Iterator, _Containe
+r>’                                                                                                                                                                              270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/x86_64-redhat-linux/bits/c++allocator.h:33,
+                 from /usr/include/c++/15/bits/allocator.h:46,
+                 from /usr/include/c++/15/string:45:
+/usr/include/c++/15/bits/new_allocator.h:215:9: note: candidate 3: ‘template<class _Up> bool std::operator==(const __new_allocator<char>&, const __new_allocator<_Tp>&)’
+  215 |         operator==(const __new_allocator&, const __new_allocator<_Up>&)
+      |         ^~~~~~~~
+/usr/include/c++/15/bits/new_allocator.h:215:9: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   mismatched types ‘const std::__new_allocator<_Tp>’ and ‘const vodka::variables::DatatypesNames’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/bits/char_traits.h:44,
+                 from /usr/include/c++/15/string:44:
+/usr/include/c++/15/bits/postypes.h:197:5: note: candidate 4: ‘template<class _StateT> bool std::operator==(const fpos<_StateT>&, const fpos<_StateT>&)’
+  197 |     operator==(const fpos<_StateT>& __lhs, const fpos<_StateT>& __rhs)
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/postypes.h:197:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::fpos<_StateT>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/allocator.h:242:5: note: candidate 5: ‘template<class _T1, class _T2> bool std::operator==(const allocator<_CharT>&, const allocator<_T2>&)’
+  242 |     operator==(const allocator<_T1>&, const allocator<_T2>&)
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/allocator.h:242:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::allocator<_CharT>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:443:5: note: candidate 6: ‘template<class _Iterator> constexpr bool std::operator==(const reverse_iterator<_Iterator>&, const reverse_i
+terator<_Iterator>&)’                                                                                                                                                            443 |     operator==(const reverse_iterator<_Iterator>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:443:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::reverse_iterator<_Iterator>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:488:5: note: candidate 7: ‘template<class _IteratorL, class _IteratorR> constexpr bool std::operator==(const reverse_iterator<_Iterator
+>&, const reverse_iterator<_IteratorR>&)’                                                                                                                                        488 |     operator==(const reverse_iterator<_IteratorL>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:488:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::reverse_iterator<_Iterator>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:1662:5: note: candidate 8: ‘template<class _IteratorL, class _IteratorR> constexpr bool std::operator==(const move_iterator<_IteratorL>
+&, const move_iterator<_IteratorR>&)’                                                                                                                                           1662 |     operator==(const move_iterator<_IteratorL>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:1662:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::move_iterator<_IteratorL>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:1732:5: note: candidate 9: ‘template<class _Iterator> constexpr bool std::operator==(const move_iterator<_IteratorL>&, const move_itera
+tor<_IteratorL>&)’                                                                                                                                                              1732 |     operator==(const move_iterator<_Iterator>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_iterator.h:1732:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::move_iterator<_IteratorL>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/bits/stl_algobase.h:64:
+/usr/include/c++/15/bits/stl_pair.h:1060:5: note: candidate 10: ‘template<class _T1, class _T2> constexpr bool std::operator==(const pair<_T1, _T2>&, const pair<_T1, _T2>&)’
+ 1060 |     operator==(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_pair.h:1060:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::pair<_T1, _T2>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/bits/basic_string.h:49,
+                 from /usr/include/c++/15/string:56:
+/usr/include/c++/15/string_view:633:5: note: candidate 11: ‘template<class _CharT, class _Traits> constexpr bool std::operator==(basic_string_view<_CharT, _Traits>, __type_ide
+ntity_t<basic_string_view<_CharT, _Traits> >)’                                                                                                                                   633 |     operator==(basic_string_view<_CharT, _Traits> __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/string_view:633:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘std::__cxx11::basic_string<char>’ is not derived from ‘std::basic_string_view<_CharT, _Traits>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/string_view:641:5: note: candidate 12: ‘template<class _CharT, class _Traits> constexpr bool std::operator==(basic_string_view<_CharT, _Traits>, basic_stri
+ng_view<_CharT, _Traits>)’                                                                                                                                                       641 |     operator==(basic_string_view<_CharT, _Traits> __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/string_view:641:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘std::__cxx11::basic_string<char>’ is not derived from ‘std::basic_string_view<_CharT, _Traits>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/string_view:648:5: note: candidate 13: ‘template<class _CharT, class _Traits> constexpr bool std::operator==(__type_identity_t<basic_string_view<_CharT, _T
+raits> >, basic_string_view<_CharT, _Traits>)’                                                                                                                                   648 |     operator==(__type_identity_t<basic_string_view<_CharT, _Traits>> __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/string_view:648:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   mismatched types ‘std::basic_string_view<_CharT, _Traits>’ and ‘vodka::variables::DatatypesNames’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/basic_string.h:3831:5: note: candidate 14: ‘template<class _CharT, class _Traits, class _Alloc> bool std::operator==(const __cxx11::basic_string<_Char
+T, _Traits, _Alloc>&, const __cxx11::basic_string<_CharT, _Traits, _Alloc>&)’                                                                                                   3831 |     operator==(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/basic_string.h:3831:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   mismatched types ‘const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>’ and ‘const vodka::variables::list_dataty
+pes’                                                                                                                                                                             270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/basic_string.h:3848:5: note: candidate 15: ‘template<class _CharT, class _Traits, class _Alloc> bool std::operator==(const __cxx11::basic_string<_Char
+T, _Traits, _Alloc>&, const _CharT*)’                                                                                                                                           3848 |     operator==(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/basic_string.h:3848:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   mismatched types ‘const _CharT*’ and ‘vodka::variables::DatatypesNames’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/basic_string.h:3895:5: note: candidate 16: ‘template<class _CharT, class _Traits, class _Alloc> bool std::operator==(const _CharT*, const __cxx11::bas
+ic_string<_CharT, _Traits, _Alloc>&)’                                                                                                                                           3895 |     operator==(const _CharT* __lhs,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/basic_string.h:3895:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   mismatched types ‘const _CharT*’ and ‘std::__cxx11::basic_string<char>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/bits/memory_resource.h:49,
+                 from /usr/include/c++/15/string:71:
+/usr/include/c++/15/tuple:2610:5: note: candidate 17: ‘template<class ... _TElements, class ... _UElements> constexpr bool std::operator==(const tuple<_Elements ...>&, const t
+uple<_Elements ...>&)’                                                                                                                                                          2610 |     operator==(const tuple<_TElements...>& __t,
+      |     ^~~~~~~~
+/usr/include/c++/15/tuple:2610:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::tuple<_Elements ...>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/vector:68,
+                 from vodka-lib/vodka-internal-library/../vodka-lib.h:4:
+/usr/include/c++/15/bits/stl_vector.h:2337:5: note: candidate 18: ‘template<class _Tp, class _Alloc> bool std::operator==(const vector<_Tp, _Alloc>&, const vector<_Tp, _Alloc>
+&)’                                                                                                                                                                             2337 |     operator==(const vector<_Tp, _Alloc>& __x, const vector<_Tp, _Alloc>& __y)
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_vector.h:2337:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::vector<_Tp, _Alloc>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/map:65,
+                 from vodka-lib/vodka-internal-library/../vodka-lib.h:5:
+/usr/include/c++/15/bits/stl_map.h:1571:5: note: candidate 19: ‘template<class _Key, class _Tp, class _Compare, class _Alloc> bool std::operator==(const map<_Key, _Tp, _Compar
+e, _Allocator>&, const map<_Key, _Tp, _Compare, _Allocator>&)’                                                                                                                  1571 |     operator==(const map<_Key, _Tp, _Compare, _Alloc>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_map.h:1571:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::map<_Key, _Tp, _Compare, _Allocator>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/map:66:
+/usr/include/c++/15/bits/stl_multimap.h:1194:5: note: candidate 20: ‘template<class _Key, class _Tp, class _Compare, class _Alloc> bool std::operator==(const multimap<_Key, _T
+p, _Compare, _Allocator>&, const multimap<_Key, _Tp, _Compare, _Allocator>&)’                                                                                                   1194 |     operator==(const multimap<_Key, _Tp, _Compare, _Alloc>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/stl_multimap.h:1194:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::multimap<_Key, _Tp, _Compare, _Allocator>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/boost/uuid/uuid.hpp:16,
+                 from vodka-lib/vodka-internal-library/../vodka-lib.h:7:
+/usr/include/c++/15/array:305:5: note: candidate 21: ‘template<class _Tp, long unsigned int _Nm> bool std::operator==(const array<_Tp, _Nm>&, const array<_Tp, _Nm>&)’
+  305 |     operator==(const array<_Tp, _Nm>& __one, const array<_Tp, _Nm>& __two)
+      |     ^~~~~~~~
+/usr/include/c++/15/array:305:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::array<_Tp, _Nm>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/iterator:68,
+                 from /usr/include/boost/uuid/string_generator.hpp:13,
+                 from /usr/include/boost/uuid/uuid_generators.hpp:12,
+                 from vodka-lib/vodka-internal-library/../vodka-lib.h:8:
+/usr/include/c++/15/bits/streambuf_iterator.h:236:5: note: candidate 22: ‘template<class _CharT, class _Traits> bool std::operator==(const istreambuf_iterator<_CharT, _Traits>
+&, const istreambuf_iterator<_CharT, _Traits>&)’                                                                                                                                 236 |     operator==(const istreambuf_iterator<_CharT, _Traits>& __a,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/streambuf_iterator.h:236:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::istreambuf_iterator<_CharT, _Traits>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/random:52,
+                 from /usr/include/boost/uuid/detail/random_device.hpp:65,
+                 from /usr/include/boost/uuid/detail/random_provider.hpp:9,
+                 from /usr/include/boost/uuid/basic_random_generator.hpp:11,
+                 from /usr/include/boost/uuid/random_generator.hpp:10,
+                 from /usr/include/boost/uuid/uuid_generators.hpp:14:
+/usr/include/c++/15/bits/random.tcc:1908:5: note: candidate 23: ‘template<class _RealType1> bool std::operator==(const normal_distribution<_RealType>&, const normal_distributi
+on<_RealType>&)’                                                                                                                                                                1908 |     operator==(const std::normal_distribution<_RealType>& __d1,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/random.tcc:1908:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::normal_distribution<_RealType>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+In file included from /usr/include/c++/15/bits/shared_ptr_base.h:59,
+                 from /usr/include/c++/15/bits/shared_ptr.h:53,
+                 from /usr/include/c++/15/bits/fs_path.h:46,
+                 from /usr/include/c++/15/filesystem:54,
+                 from vodka-lib/vodka-internal-library/../vodka-lib.h:10:
+/usr/include/c++/15/bits/unique_ptr.h:846:5: note: candidate 24: ‘template<class _Tp, class _Dp, class _Up, class _Ep> bool std::operator==(const unique_ptr<_Tp, _Dp>&, const 
+unique_ptr<_Up, _Ep>&)’                                                                                                                                                          846 |     operator==(const unique_ptr<_Tp, _Dp>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/unique_ptr.h:846:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::unique_ptr<_Tp, _Dp>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/unique_ptr.h:854:5: note: candidate 25: ‘template<class _Tp, class _Dp> bool std::operator==(const unique_ptr<_Tp, _Dp>&, nullptr_t)’
+  854 |     operator==(const unique_ptr<_Tp, _Dp>& __x, nullptr_t) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/unique_ptr.h:854:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::unique_ptr<_Tp, _Dp>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/unique_ptr.h:862:5: note: candidate 26: ‘template<class _Tp, class _Dp> bool std::operator==(nullptr_t, const unique_ptr<_Tp, _Dp>&)’
+  862 |     operator==(nullptr_t, const unique_ptr<_Tp, _Dp>& __x) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/unique_ptr.h:862:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   mismatched types ‘const std::unique_ptr<_Tp, _Dp>’ and ‘const vodka::variables::DatatypesNames’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/shared_ptr_base.h:1803:5: note: candidate 27: ‘template<class _Tp1, class _Tp2, __gnu_cxx::_Lock_policy _Lp> bool std::operator==(const __shared_ptr<_
+Tp1, _Lp>&, const __shared_ptr<_Tp2, _Lp>&)’                                                                                                                                    1803 |     operator==(const __shared_ptr<_Tp1, _Lp>& __a,
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/shared_ptr_base.h:1803:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::__shared_ptr<_Tp1, _Lp>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/shared_ptr_base.h:1809:5: note: candidate 28: ‘template<class _Tp, __gnu_cxx::_Lock_policy _Lp> bool std::operator==(const __shared_ptr<_Tp, _Lp>&, nu
+llptr_t)’                                                                                                                                                                       1809 |     operator==(const __shared_ptr<_Tp, _Lp>& __a, nullptr_t) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/shared_ptr_base.h:1809:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::__shared_ptr<_Tp, _Lp>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/shared_ptr_base.h:1829:5: note: candidate 29: ‘template<class _Tp, __gnu_cxx::_Lock_policy _Lp> bool std::operator==(nullptr_t, const __shared_ptr<_Tp
+, _Lp>&)’                                                                                                                                                                       1829 |     operator==(nullptr_t, const __shared_ptr<_Tp, _Lp>& __a) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/shared_ptr_base.h:1829:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   mismatched types ‘const std::__shared_ptr<_Tp, _Lp>’ and ‘const vodka::variables::DatatypesNames’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/shared_ptr.h:554:5: note: candidate 30: ‘template<class _Tp, class _Up> bool std::operator==(const shared_ptr<_Tp>&, const shared_ptr<_Tp>&)’
+  554 |     operator==(const shared_ptr<_Tp>& __a, const shared_ptr<_Up>& __b) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/shared_ptr.h:554:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::shared_ptr<_Tp>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/shared_ptr.h:560:5: note: candidate 31: ‘template<class _Tp> bool std::operator==(const shared_ptr<_Tp>&, nullptr_t)’
+  560 |     operator==(const shared_ptr<_Tp>& __a, nullptr_t) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/shared_ptr.h:560:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   ‘const std::__cxx11::basic_string<char>’ is not derived from ‘const std::shared_ptr<_Tp>’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/shared_ptr.h:581:5: note: candidate 32: ‘template<class _Tp> bool std::operator==(nullptr_t, const shared_ptr<_Tp>&)’
+  581 |     operator==(nullptr_t, const shared_ptr<_Tp>& __a) noexcept
+      |     ^~~~~~~~
+/usr/include/c++/15/bits/shared_ptr.h:581:5: note: template argument deduction/substitution failed:
+/usr/include/c++/15/bits/predefined_ops.h:270:24: note:   mismatched types ‘const std::shared_ptr<_Tp>’ and ‘const vodka::variables::DatatypesNames’
+  270 |         { return *__it == _M_value; }
+      |                  ~~~~~~^~~~~~~~~~~
+/usr/include/c++/15/bits/allocator.h:221:7: note: candidate 33: ‘bool std::operator==(const allocator<char>&, const allocator<char>&)’
+  221 |       operator==(const allocator&, const allocator&) _GLIBCXX_NOTHROW
+      |       ^~~~~~~~
+/usr/include/c++/15/bits/allocator.h:221:18: note: no known conversion for argument 1 from ‘const std::__cxx11::basic_string<char>’ to ‘const std::allocator<char>&’
+  221 |       operator==(const allocator&, const allocator&) _GLIBCXX_NOTHROW
+      |                  ^~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/15/bits/ios_base.h:48,
+                 from /usr/include/c++/15/streambuf:45,
+                 from /usr/include/c++/15/bits/streambuf_iterator.h:37:
+/usr/include/c++/15/system_error:451:3: note: candidate 34: ‘bool std::operator==(const error_code&, const error_code&)’
+  451 |   operator==(const error_code& __lhs, const error_code& __rhs) noexcept
+      |   ^~~~~~~~
+/usr/include/c++/15/system_error:451:32: note: no known conversion for argument 1 from ‘const std::__cxx11::basic_string<char>’ to ‘const std::error_code&’
+  451 |   operator==(const error_code& __lhs, const error_code& __rhs) noexcept
+      |              ~~~~~~~~~~~~~~~~~~^~~~~
+/usr/include/c++/15/system_error:467:3: note: candidate 35: ‘bool std::operator==(const error_code&, const error_condition&)’
+  467 |   operator==(const error_code& __lhs, const error_condition& __rhs) noexcept
+      |   ^~~~~~~~
+/usr/include/c++/15/system_error:467:32: note: no known conversion for argument 1 from ‘const std::__cxx11::basic_string<char>’ to ‘const std::error_code&’
+  467 |   operator==(const error_code& __lhs, const error_condition& __rhs) noexcept
+      |              ~~~~~~~~~~~~~~~~~~^~~~~
+/usr/include/c++/15/system_error:482:3: note: candidate 36: ‘bool std::operator==(const error_condition&, const error_condition&)’
+  482 |   operator==(const error_condition& __lhs,
+      |   ^~~~~~~~
+/usr/include/c++/15/system_error:482:37: note: no known conversion for argument 1 from ‘const std::__cxx11::basic_string<char>’ to ‘const std::error_condition&’
+  482 |   operator==(const error_condition& __lhs,
+      |              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+/usr/include/c++/15/system_error:519:3: note: candidate 37: ‘bool std::operator==(const error_condition&, const error_code&)’
+  519 |   operator==(const error_condition& __lhs, const error_code& __rhs) noexcept
+      |   ^~~~~~~~
+/usr/include/c++/15/system_error:519:37: note: no known conversion for argument 1 from ‘const std::__cxx11::basic_string<char>’ to ‘const std::error_condition&’
+  519 |   operator==(const error_condition& __lhs, const error_code& __rhs) noexcept
+      |              ~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+Compiled vil-kernel
+ar: vodka-instructions.o: No such file or directory
+Library built under libvodka.a
+Building Vodka
+/usr/sbin/ld: cannot find -lvodka: No such file or directory
+collect2: error: ld returned 1 exit status
+Vodka built under vodka
+rm: cannot remove 'vil-kernel.o': No such file or directory
+rm: cannot remove 'vodka-instructions.o': No such file or directory
+rm: cannot remove 'libvodka.a': No such file or directory
