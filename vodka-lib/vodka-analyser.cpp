@@ -65,7 +65,7 @@ bool vodka::analyser::LineSyntaxChecker::check(SourcesStack lclstack) {
             }
         }
     }
-    for (auto a:vodka::VodkaInstrutions) {
+    for (auto a:vodka::VodkaInstructions) {
         if (content.substr(0,a.size())==a) {
             return true;
         }
@@ -98,7 +98,7 @@ bool vodka::analyser::LineTypeChecker::line_type_analyse(SourcesStack lclstack) 
                 return true;
             }
         }
-        for (auto a:vodka::VodkaInstrutions) {
+        for (auto a:vodka::VodkaInstructions) {
             if (line_checked.content.substr(0,a.size())==a) {
                 type="vodka_instruction";
                 instruction_name=a;
@@ -288,7 +288,7 @@ bool vodka::analyser::VariableDeclarationAnalyser::make_output(SourcesStack lcls
             variable_container.variable_metadata=variable_metadata;
             varr.value=value;
             variable_container.vodint_element=varr;
-            variable_container.thing=vodka::variables::DatatypesNames::vodint;
+            variable_container.thing=vodka::variables::VariableDatatype::vodint;
             vodka::syscalls::ASSIGN asscall;
             asscall.output_uid=variable_metadata.uuid;
             asscall.value=value;
@@ -302,7 +302,7 @@ bool vodka::analyser::VariableDeclarationAnalyser::make_output(SourcesStack lcls
             variable_container.variable_metadata=variable_metadata;
             varr.value=value;
             variable_container.vodec_element=varr;
-            variable_container.thing=vodka::variables::DatatypesNames::vodec;
+            variable_container.thing=vodka::variables::VariableDatatype::vodec;
             vodka::syscalls::ASSIGN asscall;
             asscall.output_uid=variable_metadata.uuid;
             asscall.value=value;
@@ -318,7 +318,7 @@ bool vodka::analyser::VariableDeclarationAnalyser::make_output(SourcesStack lcls
                     variable_container.variable_metadata=variable_metadata;
                     varr.value=duplication_source_variable.vodint_element.value;
                     variable_container.vodint_element=varr;
-                    variable_container.thing=vodka::variables::DatatypesNames::vodint;
+                    variable_container.thing=vodka::variables::VariableDatatype::vodint;
                     vodka::syscalls::DUPLICATE dupcall;
                     dupcall.output_uid=variable_metadata.uuid;
                     dupcall.source_uid=duplication_source_variable.variable_metadata.uuid;
@@ -332,7 +332,7 @@ bool vodka::analyser::VariableDeclarationAnalyser::make_output(SourcesStack lcls
                     variable_container.variable_metadata=variable_metadata;
                     varr.value=duplication_source_variable.vodec_element.value;
                     variable_container.vodec_element=varr;
-                    variable_container.thing=vodka::variables::DatatypesNames::vodec;
+                    variable_container.thing=vodka::variables::VariableDatatype::vodec;
                     vodka::syscalls::DUPLICATE dupcall;
                     dupcall.output_uid=variable_metadata.uuid;
                     dupcall.source_uid=duplication_source_variable.variable_metadata.uuid;
@@ -357,4 +357,40 @@ bool vodka::analyser::VariableDeclarationAnalyser::make_output(SourcesStack lcls
         raise(ErrorContainer("vodka.error.analyser.chain_error : Previous treatement hasn't been well executed.",line_checked.line_checked.file,{line_checked.line_checked.content},{line_checked.line_checked.line_number},srclclstack));
         return false;
     }
+}
+//* Check the existence and datatype of each argument
+bool vodka::analyser::ArgumentChecker::check(SourcesStack lclstack) {
+    auto srclclstack=lclstack;
+    srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
+    if (line_content.checked) {
+        if (line_content.type=="internal_library" || line_content.type=="vodka_instruction") {
+            auto argsname=get_arguments(line_content.line_checked.content);
+            for (auto arg:argsname) {
+                if (find(variableslist_context.begin(),variableslist_context.end(),arg)==variableslist_context.end()) {
+                    raise(ErrorContainer("vodka.error.variables.not_declared : "+arg+" isn't declared before instruction.",line_content.line_checked.file,{line_content.line_checked.content},{line_content.line_checked.line_number},srclclstack));
+                    return false;
+                }
+            }
+            for (int i=0;i<argsname.size();++i) {
+                if (i+1<=(patern.size())) {
+                    if (find(patern[i].begin(),patern[i].end(),variablesdict_context.at(argsname[i]).thing)==patern[i].end()) {
+                        raise(ErrorContainer("vodka.error."+split(line_content.line_checked.content," ")[0]+".wrong_type : "+argsname[i]+" (argument number "+to_string(i+1)+") isn't of the expected datatype.",line_content.line_checked.file,{line_content.line_checked.content},{line_content.line_checked.line_number},srclclstack));
+                        return false;
+                    }
+                } else {
+                    if (find(lastest_allowed_type.begin(),lastest_allowed_type.end(),variablesdict_context.at(argsname[i]).thing)==lastest_allowed_type.end()) {
+                        raise(ErrorContainer("vodka.error."+split(line_content.line_checked.content," ")[0]+".wrong_type : "+argsname[i]+" (argument number "+to_string(i+1)+") isn't of the expected datatype.",line_content.line_checked.file,{line_content.line_checked.content},{line_content.line_checked.line_number},srclclstack));
+                        return false;
+                    }
+                }
+            }
+        } else {
+            raise(ErrorContainer("vodka.error.analyser.chain_error : Line should be a function or instruction call.",line_content.line_checked.file,{line_content.line_checked.content},{line_content.line_checked.line_number},srclclstack));
+            return false;
+        }
+    } else {
+        raise(ErrorContainer("vodka.error.analyser.chain_error : Previous treatement hasn't been well executed.",line_content.line_checked.file,{line_content.line_checked.content},{line_content.line_checked.line_number},srclclstack));
+        return false;
+    }
+    return true;
 }

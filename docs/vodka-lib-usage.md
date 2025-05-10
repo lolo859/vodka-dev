@@ -38,8 +38,8 @@ vodka-lib is the static internal C++ library that powers the Vodka transcoder an
   - [class vodka::syscalls::DIVIDE](#class-vodkasyscallsdivide)
   - [class vodka::syscalls::SyscallContainer](#class-vodkasyscallssyscallcontainer)
 - [vodka::variables](#vodkavariables)
-  - [enum class vodka::variables::DatatypesNames](#enum-class-vodkavariablesdatatypesnames)
-  - [std::string vodka::variables::datatype_to_string()](#stdstring-vodkavariablesdatatype_to_stringvodkavariablesDatatypesNames-datatype)
+  - [enum class vodka::variables::VariableDatatype](#enum-class-vodkavariablesvariabledatatype)
+  - [std::string vodka::variables::datatype_to_string()](#stdstring-vodkavariablesdatatype_to_stringvodkavariablesvariabledatatype-datatype)
   - [class vodka::variables::VariableMetadata](#class-vodkavariablesvariablemetadata)
   - [class vodka::variables::VodintVariable](#class-vodkavariablesvodintvariable)
   - [class vodka::variables::VodecVariable](#class-vodkavariablesvodecvariable)
@@ -49,7 +49,7 @@ vodka-lib is the static internal C++ library that powers the Vodka transcoder an
   - [std::vector\<std::string> get_arguments()](#stdvectorstdstring-get_argumentsstdstring-line)
   - [class vodka::analyser::LineSyntaxChecker](#class-vodkaanalyserlinesyntaxchecker)
   - [class vodka::analyser::LineTypeChecker](#class-vodkaanalyserlinetypechecker)
-  - [class vodka::analyser::var_dec_analyser](#class-vodkaanalyservar_dec_analyser)
+  - [class vodka::analyser::VariableDeclarationAnalyser](#class-vodkaanalyservariabledeclarationanalyser)
 - [vodka::type](#vodkatype)
   - [vodka::type::vodint](#vodkatypevodint)
     - [bool vodka::type::vodint::check_value()](#bool-vodkatypevodintcheck_valuestdstring-value-vodkaanalyserline-context-vodkaerrorssourcesstack-lclstack)
@@ -59,13 +59,13 @@ vodka-lib is the static internal C++ library that powers the Vodka transcoder an
     - [std::string vodka::type::vodec::remove_zero()](#stdstring-vodkatypevodecremove_zerostdstring-value-vodkaerrorssourcesstack-lclstack)
 - [vodka::json](#vodkajson)
   - [vodka::json::kernel](#vodkajsonkernel)
-    - [class vodka::json::kernel::json_container](#class-vodkajsonkerneljson_container)
+    - [class vodka::json::kernel::JsonContainer](#class-vodkajsonkerneljsoncontainer)
   - [vodka::json::vodka](#vodkajsonvodka)
-    - [class vodka::json::vodka::instruction](#class-vodkajsonvodkainstruction)
-    - [class vodka::json::vodka::symbol](#class-vodkajsonvodkasymbol)
-    - [class vodka::json::vodka::var_declaration](#class-vodkajsonvodkavar_declaration)
-    - [class vodka::json::vodka::line_container](#class-vodkajsonvodkaline_container)
-    - [class vodka::json::vodka::cell](#class-vodkajsonvodkacell)
+    - [class vodka::json::vodka::VodkaInstruction](#class-vodkajsonvodkavodkainstruction)
+    - [class vodka::json::vodka::VodkaSymbol](#class-vodkajsonvodkavodkasymbol)
+    - [class vodka::json::vodka::VodkaVariableDeclaration](#class-vodkajsonvodkavariabledeclaration)
+    - [class vodka::json::vodka::VodkaLine](#class-vodkajsonvodkavodkaline)
+    - [class vodka::json::vodka::VodkaCell](#class-vodkajsonvodkavodkacell)
 - [vodka::utilities](#vodkautilities)
   - [struct vodka::utilities::symbol](#struct-vodkautilitiessymbol)
   - [struct vodka::utilities::cellule](#struct-vodkautilitiescellule)
@@ -75,12 +75,12 @@ vodka-lib is the static internal C++ library that powers the Vodka transcoder an
   - [void vodka::utilities::debuglog()](#void-vodkautilitiesdebuglogstdstring-text-int-line-stdstring-cell-bool-debugmode-stdstring-verbose-stdstring-file-bool-debug_info)
   - [void vodka::utilities::var_warning()](#void-vodkautilitiesvar_warningstdstring-namevar-stdstring-typevar-stdstring-namecell-stdstring-line-bool-var_warning_enabled-stdstring-verbose)
 - [vodka::library](#vodkalibrary)
-  - [class vodka::library::function_call](#class-vodkalibraryfunction_call)
+  - [class vodka::library::FunctionCall](#class-vodkalibraryfunctioncall)
   - [vodka::library::kernel](#vodkalibrarykernel)
-    - [class vodka::library::kernel::treatement](#class-vodkalibrarykerneltreatement)
+    - [class vodka::library::kernel::CallTreatement](#class-vodkalibrarykernelcalltreatement)
 - [vodka::instruction](#vodkainstruction)
-  - [class vodka::instruction::instruction_call](#class-vodkainstructioninstruction_call)
-  - [class vodka::instruction::treatement](#class-vodkainstructiontreatement)
+  - [class vodka::instruction::InstructionCall](#class-vodkainstructioninstructioncall)
+  - [class vodka::instruction::CallTreatement](#class-vodkainstructioncalltreatement)
 
 ## Main structure
 
@@ -365,7 +365,7 @@ That namespace is for internal management of vodka variables. This is not the na
 
 ---
 
-### `enum class vodka::variables::DatatypesNames`
+### `enum class vodka::variables::VariableDatatype`
 
 This is the class responsible for indicating which datatype is the variable.
 
@@ -373,9 +373,9 @@ This is the class responsible for indicating which datatype is the variable.
 
 ---
 
-### `std::string vodka::variables::datatype_to_string(vodka::variables::DatatypesNames datatype)`
+### `std::string vodka::variables::datatype_to_string(vodka::variables::VariableDatatype datatype)`
 
-Convert `vodka::variables::DatatypesNames` object to string.
+Convert `vodka::variables::VariableDatatype` object to string.
 
 ---
 
@@ -434,13 +434,13 @@ This is the class responsible for storing `vodarg` variable.
 This is the class for storing a variable.
 
 **Attributes that must be set after declaration:**
-- `vodka::variables::DatatypesNames thing` : indicate which datatype is stored inside the object
+- `vodka::variables::VariableDatatype thing` : indicate which datatype is stored inside the object
 - `vodka::variables::VariableMetadata variable_metadata` : the main metadata of the variable
 
 **According to the value in `thing`, one this attribute must be set:**
-- `vodka::variables::VodintVariable vodint_element` : if `thing` is  `vodka::variables::DatatypesNames::vodint`
-- `vodka::variables::VodecVariable vodec_element` : if `thing` is  `vodka::variables::DatatypesNames::vodec`
-- `vodka::variables::VodargVariable vodarg_variable` : if `thing` is  `vodka::variables::DatatypesNames::vodarg`
+- `vodka::variables::VodintVariable vodint_element` : if `thing` is  `vodka::variables::VariableDatatype::vodint`
+- `vodka::variables::VodecVariable vodec_element` : if `thing` is  `vodka::variables::VariableDatatype::vodec`
+- `vodka::variables::VodargVariable vodarg_variable` : if `thing` is  `vodka::variables::VariableDatatype::vodarg`
 
 **This class has no methods.**
 
@@ -496,13 +496,13 @@ This is the class responsible for deciding of which type the line is (debug line
 
 ---
 
-### `class vodka::analyser::var_dec_analyser`
+### `class vodka::analyser::VariableDeclarationAnalyser`
 
 This is the class that will parse and convert a variable declaration into a usable `vodka::variables::VariableContainer` object and a syscall for declaring the variable into kernel code, under the form of `vodka::syscalls::SyscallContainer`.
 
 **Attributes that must be set after declaration:**
-- `vodka::variables::LineTypeChecker line_analyse` : the line to be analysed
-- `vodka::variables::VariableContainer source_duplication` : the source of the duplication. **Should only be specified if `datatype` is `vodka`, after the call of `var_dec_analyse` and `check_type_value`**
+- `vodka::variables::LineTypeChecker line_checked` : the line to be analysed
+- `vodka::variables::VariableContainer duplication_source_variable` : the source of the duplication. **Should only be specified if `datatype` is `vodka`, after the call of `parser` and `check_type_value`**
 
 **Attributes that shouldn't be modified by user:**
 - `std::string name` : the name of the variable
@@ -510,23 +510,23 @@ This is the class that will parse and convert a variable declaration into a usab
 - `std::string value` : the value of the variable
 - `bool is_kernel_constant` : if the variable is a kernel constant
 - `bool is_vodka_const` : if the variable is a vodka constant
-- `vodka::variables::VariableMetadata var` : the metadata of the variable
+- `vodka::variables::VariableMetadata variable_metadata` : the metadata of the variable
 
 **Attributes that give the output:**
-- `vodka::variables::VariableContainer var_object` : the variable in his internal form, ready to be stored and used by other compoments of the library
-- `vodka::syscalls::SyscallContainer vodka_object` : the syscall to put into the kernel code in order to declare the variable
+- `vodka::variables::VariableContainer variable_container` : the variable in his internal form, ready to be stored and used by other compoments of the library
+- `vodka::syscalls::SyscallContainer syscall_container` : the syscall to put into the kernel code in order to declare the variable
 
 **Attributes that should be set by methods:**
-- `bool checked` : should be set with the value returned by the `var_dec_analyse` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `check`, the line doesn't pass the test and can't be transmitted to the next step.
+- `bool checked` : should be set with the value returned by the `parser` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `check`, the line doesn't pass the test and can't be transmitted to the next step.
 - `bool checked_type_value` : should be set with the value returned by the `check_type_value` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `check`, the line doesn't pass the test and can't be transmitted to the next step.
-- `bool pre_treated` : should be set with the value returned by the `pre_treatement` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `check`, the line doesn't pass the test and can't be transmitted to the next step.
+- `bool pre_treated` : should be set with the value returned by the `value_pre_treatement` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `check`, the line doesn't pass the test and can't be transmitted to the next step.
 
 **Methods (should be used in order):**
-- `bool var_dec_analyse(vodka::errors::SourcesStack lclstack)` : parse the variable declaration and extract the five first attributes listed in the one that shouldn't be modified by the user. **This method raise his own error so you don't need to. It will raise an error if `line_analyse.checked` isn't `true`.**
+- `bool parser(vodka::errors::SourcesStack lclstack)` : parse the variable declaration and extract the five first attributes listed in the one that shouldn't be modified by the user. **This method raise his own error so you don't need to. It will raise an error if `line_checked.checked` isn't `true`.**
 - `bool check_type_info(vodka::errors::SourcesStack lclstack, vector<std::string> context)` : check the type and value of the variable, provide a list of already existing variable in `context`. **This method raise his own error so you don't need to. It will raise an error if `checked` isn't `true`.**
 - `bool make_info(vodka::errors::SourcesStack lclstack)` : set up the `var` attribute. **This method raise his own error so you don't need to. It will raise an error if `checked_type_value` isn't `true`.**
-- `bool pre_treatement(vodka::errors::SourcesStack lclstack)` : pre-treat the value to store. **This method raise his own error so you don't need to. It will raise an error if `checked_type_value` isn't `true`.**
-- `bool output(vodka::errors::SourcesStack lclstack)` : generate the `vodka::variables::VariableContainer` container in order to store the variable and the `vodka::syscalls::SyscallContainer` in order to declare/duplicate the variable in the kernel code. **This method raise his own error so you don't need to. It will raise an error if `pre_treated` isn't `true`.**
+- `bool value_pre_treatement(vodka::errors::SourcesStack lclstack)` : pre-treat the value to store. **This method raise his own error so you don't need to. It will raise an error if `checked_type_value` isn't `true`.**
+- `bool make_output(vodka::errors::SourcesStack lclstack)` : generate the `vodka::variables::VariableContainer` container in order to store the variable and the `vodka::syscalls::SyscallContainer` in order to declare/duplicate the variable in the kernel code. **This method raise his own error so you don't need to. It will raise an error if `pre_treated` isn't `true`.**
 
 ## `vodka::type`
 
@@ -580,13 +580,13 @@ That namespace is responsible for translating the kernel code output into a expl
 
 ---
 
-#### `class vodka::json::kernel::json_container`
+#### `class vodka::json::kernel::JsonContainer`
 
 This is the class for translating a line of kernel code into a JSON structure.
 
 **Arguments that should be set just after declaration:**
 - `std::string type` : specify the type of line. Could be `system_call`, `constant` or `argument`
-- `std::string intname` : the name of the instruction if `type` is `system_call` or the name of the variable if `type` is `constant` or `argument`
+- `std::string instruction_name` : the name of the instruction if `type` is `system_call` or the name of the variable if `type` is `constant` or `argument`
 - `std::vector<std::string> args` : the list of argument(s) of the line. Leave empty if `type` is `argument` or put one element with all the data behind the `=` if `type` is `constant`
 
 **Method:**
@@ -600,7 +600,7 @@ That namespace is responsible for translating the vodka code input into a JSON s
 
 ---
 
-#### `class vodka::json::vodka::instruction`
+#### `class vodka::json::vodka::VodkaInstruction`
 
 This class make the output for a vodka instruction (with or without library).
 
@@ -616,7 +616,7 @@ This class make the output for a vodka instruction (with or without library).
 
 ---
 
-#### `class vodka::json::vodka::symbol`
+#### `class vodka::json::vodka::VodkaSymbol`
 
 This class make the output for a vodka symbol.
 
@@ -630,14 +630,14 @@ This class make the output for a vodka symbol.
 
 ---
 
-#### `class vodka::json::vodka::var_declaration`
+#### `class vodka::json::vodka::VariableDeclaration`
 
 This class make the output for a vodka variable declaration.
 
 **Arguments that should be set just after declaration:**
-- `std::string name` : the name of the variable
-- `std::string type` : the datatype of the variable
-- `std::string decvalue` : the value of the variable into the declaration
+- `std::string variable_name` : the name of the variable
+- `std::string variable_datatype` : the datatype of the variable
+- `std::string variable_value` : the value of the variable into the declaration
 - `std::string uid` : the UID of the line
 
 **Method:**
@@ -645,30 +645,30 @@ This class make the output for a vodka variable declaration.
 
 ---
 
-#### `class vodka::json::vodka::line_container`
+#### `class vodka::json::vodka::VodkaLine`
 
 This class make the output for a line.
 
 **Arguments that should be set just after declaration:**
-- `std::string thing` : the type of the line. Can be set to `int` for a vodka instruction (in a library or without a library) or `var` for a variable declaration
-- `vodka::json::vodka::var_declaration varele` : contain the variable declaration to be outputed. Should only be set if `thing` is `var`.
-- `vodka::json::vodka::instruction intele` : contain the vodka instruction to be outputed. Should only be set if `thing` is `int`.
+- `std::string thing` : the type of the line. Can be set to `instruction` for a vodka instruction (in a library or without a library) or `variable_declaration` for a variable declaration
+- `vodka::json::vodka::VodkaVariableDeclaration variable_declaration_element` : contain the variable declaration to be outputed. Should only be set if `thing` is `variable_declaration`.
+- `vodka::json::vodka::VodkaInstruction instruction_element` : contain the vodka instruction to be outputed. Should only be set if `thing` is `instruction`.
 
 **Method:**
 - `std::map<std::string, std::string> syntax()` : generate the map to put inside the JSON file
 
 ---
 
-#### `class vodka::json::vodka::cell`
+#### `class vodka::json::vodka::VodkaCell`
 
 This class make the output for an entire cell.
 
 **Arguments that should be set just after declaration:**
 - `std::string name` : the name of the cell
 - `std::string uid` : the UID of the cell
-- `vodka::json::vodka::symbol start` : the symbol that start the cell (also contain the argument of the cell)
-- `vodka::json::vodka::symbol end` : the symbol that end the cell
-- `std::vector<vodka::json::vodka::line_container> lines` : the lines of the cell, ready to be converted into a JSON structure
+- `vodka::json::vodka::VodkaSymbol start` : the symbol that start the cell (also contain the argument of the cell)
+- `vodka::json::vodka::VodkaSymbol end` : the symbol that end the cell
+- `std::vector<vodka::json::vodka::VodkaLine> lines` : the lines of the cell, ready to be converted into a JSON structure
 
 **Method:**
 - `std::map<std::string,std::map<std::string, std::string>> syntax()` : generate the map to put inside the JSON file
@@ -798,12 +798,12 @@ That namespace is responsible for the transcoding of internal libraries function
 
 ---
 
-### `class vodka::library::function_call`
+### `class vodka::library::FunctionCall`
 
 This class store all the context needed to transcode an internal library function call.
 
 **Arguments that should be set just after declaration:**
-- `vodka::analyser::LineTypeChecker type_analyser` : the line to analyse
+- `vodka::analyser::LineTypeChecker line_checked` : the line to analyse
 - `std::vector<std::string> variableslist_context` : the list of variables already existing before this instruction
 - `vodka::utilities::cellule cell_context` : the cell structure from which the function call came from
 - `int iteration_number_context` : since the analyse of all the lines in the cell should be done in a `for` loop, we need the iterator of this loop to determine the line number.
@@ -811,7 +811,7 @@ This class store all the context needed to transcode an internal library functio
 - `std::string verbose_context` : the verbose mode selected by the user, `a`, `r` or `e`. Choose `e` for normal output mode.
 - `int main_logstep_context` : the step of the main process of transcoding. Put any number if `verbose_context` is `e`.
 - `std::string last_logstep_context` : the number of step in the main process. Put any string if `verbose_context` is `e`.
-- `std::map<std::string,vodka::variables::VariableContainer>` : the map of all the variables already existing before this instruction
+- `std::map<std::string,vodka::variables::VariableContainer> variablesdict_context` : the map of all the variables already existing before this instruction
 
 ---
 
@@ -821,22 +821,22 @@ This namespace is responsible for the transcoding of internal libraries function
 
 ---
 
-#### `class vodka::library::kernel::treatement`
+#### `class vodka::library::kernel::CallTreatement`
 
 This is the class that transcode kernel internal library function call into a list of usable `vodka::syscalls::SyscallContainer`.
 
 **Arguments that should be set just after declaration:**
-- `vodka::library::function_call call` : the function call with all his context
+- `vodka::library::FunctionCall function_call` : the function call with all his context
 
-**Arguments that indicate the output (only set after treatement):**
+**Arguments that indicate the output (only set after call_treatement):**
 - `std::vector<vodka::syscalls::SyscallContainer> syscall_output` : the list of syscall object that should be added in the kernel code output
 - `bool var_flag` : indicate if the main program should replace his list and map of existing variables with the one into the function call object that was modified
 
 **Arguments that should be set by method:**
-- `bool checked` : should be set with the value returned by the `kernel_treatement` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `treatement`, the line doesn't pass the test and can't be consideer valid.
+- `bool checked` : should be set with the value returned by the `call_treatement` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `call_treatement`, the line doesn't pass the test and can't be consideer valid.
 
 **Method:**
-- `bool kernel_treatement(SourcesStack lclstack)` : automatically choose the expected treatement for the function call and transcode it into syscall. The output should be put inside the `checked` attribute. **This method raise his own error so you don't need to. It will return `false` if `call.type_analyser.checked` isn't `true` or `call.type_analyser.type` isn't `internal_library`.**
+- `bool call_treatement(SourcesStack lclstack)` : automatically choose the expected call_treatement for the function call and transcode it into syscall. The output should be put inside the `checked` attribute. **This method raise his own error so you don't need to. It will return `false` if `call.type_analyser.checked` isn't `true` or `call.type_analyser.type` isn't `internal_library`.**
 
 ## `vodka::instruction`
 
@@ -844,12 +844,12 @@ That namespace is responsible for the transcoding of vodka instructions call.
 
 ---
 
-### `class vodka::instruction::instruction_call`
+### `class vodka::instruction::InstructionCall`
 
 This class store all the context needed to transcode a vodka instructions call.
 
 **Arguments that should be set just after declaration:**
-- `vodka::analyser::LineTypeChecker type_analyser` : the line to analyse
+- `vodka::analyser::LineTypeChecker line_checked` : the line to analyse
 - `std::vector<std::string> variableslist_context` : the list of variables already existing before this instruction
 - `vodka::utilities::cellule cell_context` : the cell structure from which the instruction call came from
 - `int iteration_number_context` : since the analyse of all the lines in the cell should be done in a `for` loop, we need the iterator of this loop to determine the line number.
@@ -857,23 +857,23 @@ This class store all the context needed to transcode a vodka instructions call.
 - `std::string verbose_context` : the verbose mode selected by the user, `a`, `r` or `e`. Choose `e` for normal output mode.
 - `int main_logstep_context` : the step of the main process of transcoding. Put any number if `verbose_context` is `e`.
 - `std::string last_logstep_context` : the number of step in the main process. Put any string if `verbose_context` is `e`.
-- `std::map<std::string,vodka::variables::VariableContainer>` : the map of all the variables already existing before this instruction
+- `std::map<std::string,vodka::variables::VariableContainer> variablesdict_context` : the map of all the variables already existing before this instruction
 
 ---
 
-### `class vodka::instruction::treatement`
+### `class vodka::instruction::CallTreatement`
 
 This is the class that transcode vodka instruction call into a list of usable `vodka::syscalls::SyscallContainer`.
 
 **Arguments that should be set just after declaration:**
-- `vodka::library::instruction_call call` : the instruction call with all his context
+- `vodka::library::instruction_call instruction_call` : the instruction call with all his context
 
-**Arguments that indicate the output (only set after treatement):**
+**Arguments that indicate the output (only set after call_treatement):**
 - `std::vector<vodka::syscalls::SyscallContainer> syscall_output` : the list of syscall object that should be added in the kernel code output
 - `bool var_flag` : indicate if the main program should replace his list and map of existing variables with the one into the instruction call object that was modified
 
 **Arguments that should be set by method:**
-- `bool checked` : should be set with the value returned by the `treatement` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `treatement`, the line doesn't pass the test and can't be consideer valid.
+- `bool checked` : should be set with the value returned by the `call_treatement` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `call_treatement`, the line doesn't pass the test and can't be consideer valid.
 
 **Method:**
-- `bool treatement(SourcesStack lclstack)` : automatically choose the expected treatement for the instruction call and transcode it into syscall. The output should be put inside the `checked` attribute. **This method raise his own error so you don't need to. It will return `false` if `call.type_analyser.checked` isn't `true` or `call.type_analyser.type` isn't `vodka_instruction`.**
+- `bool call_treatement(SourcesStack lclstack)` : automatically choose the expected call_treatement for the instruction call and transcode it into syscall. The output should be put inside the `checked` attribute. **This method raise his own error so you don't need to. It will return `false` if `call.type_analyser.checked` isn't `true` or `call.type_analyser.type` isn't `call_treatement`.**

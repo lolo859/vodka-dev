@@ -24,7 +24,7 @@ namespace vodka {
     //* Every syscall
     const vector<string> InternalSyscalls={"PRINT","ADD","ASSIGN","FREE","INVERT","DUPLICATE","ABS","DIVMOD","TOINT","TODEC","MULINT","MULDEC","DIVIDE"};
     //* Every vodka codebase instructions
-    const vector<string> VodkaInstrutions={"multiply"};
+    const vector<string> VodkaInstructions={"multiply"};
     //* Every conversions possible using syscalls
     const map<string,vector<string>> ConversionsSyscalls={{"TOINT",{"vodec","vodarg"}},{"TODEC",{"vodint","vodarg"}}};
     //* Errors handling
@@ -185,13 +185,13 @@ namespace vodka {
     //* Variables utilities
     namespace variables {
         //* Enum class for representating a datatype
-        enum class DatatypesNames {
+        enum class VariableDatatype {
             vodint,
             vodec,
             vodarg
         };
-        //* Convert DatatypesNames object to string
-        string datatype_to_string(DatatypesNames datatype);
+        //* Convert VariableDatatype object to string
+        string datatype_to_string(VariableDatatype datatype);
         //* Base class for variables metadatas (excluding value)
         class VariableMetadata {
             public:
@@ -220,7 +220,7 @@ namespace vodka {
         class VariableContainer {
             public:
                 //* Type of variable must be put into thing variable
-                DatatypesNames thing;
+                VariableDatatype thing;
                 VariableMetadata variable_metadata;
                 VodintVariable vodint_element;
                 VodecVariable vodec_element;
@@ -229,7 +229,6 @@ namespace vodka {
     }
     //* Vodka analyser
     namespace analyser {
-        using namespace vodka::errors;
         //* Return the list of variables passed in argument
         vector<string> get_arguments(string line);
         //* Base class to check if a line is conform to vodka syntax
@@ -241,7 +240,7 @@ namespace vodka {
                 bool checked=false;
                 bool shoulb_be_skip=false;
             //* Check if the line is conform to vodka syntax (doesn't check the line argument)
-            bool check(SourcesStack lclstack={});
+            bool check(vodka::errors::SourcesStack lclstack={});
         };
         //* Class to direct the analyse to a specialised analyser
         class LineTypeChecker {
@@ -252,7 +251,7 @@ namespace vodka {
                 string library_name;
                 string instruction_name;
             //* Analyse the type of line (variable declaration, vodka instruction, library instruction, debug line)
-            bool line_type_analyse(SourcesStack lclstack={});
+            bool line_type_analyse(vodka::errors::SourcesStack lclstack={});
         };
         //* Class to parse a variable declaration
         class VariableDeclarationAnalyser {
@@ -272,29 +271,39 @@ namespace vodka {
                 vodka::syscalls::SyscallContainer syscall_container;
             //* These functions should be used in this order
             //* Parse the variable declaration (name, datatype, value, constant)
-            bool parser(SourcesStack lclstack={});
+            bool parser(vodka::errors::SourcesStack lclstack={});
             //* Check the type and value of the variable (use vodka::type::<concerned type>::check_value(), if datatype is vodka, please include a list of already declared variables inside the context argument) 
-            bool check_type_value(vector<string> context={},SourcesStack lclstack={});
+            bool check_type_value(vector<string> context={},vodka::errors::SourcesStack lclstack={});
             //* Make the corresponding vodka::variables::variable (please specifiy the original variable if datatype is vodka)
-            bool make_info(SourcesStack lclstack={});
+            bool make_info(vodka::errors::SourcesStack lclstack={});
             //* Make a pre-treatement of the value to store
-            bool value_pre_treatement(SourcesStack lclstack={});
+            bool value_pre_treatement(vodka::errors::SourcesStack lclstack={});
             //* Output the variable under a vodka::variable::variable_container object (please specifiy the original variable if datatype is vodka)
-            bool make_output(SourcesStack lclstack={});
+            bool make_output(vodka::errors::SourcesStack lclstack={});
+        };
+        //* Class to check the existence and datatype of each argument
+        class ArgumentChecker {
+            public:
+                vector<string> variableslist_context;
+                map<string,vodka::variables::VariableContainer> variablesdict_context;
+                vector<vector<vodka::variables::VariableDatatype>> patern;
+                vector<vodka::variables::VariableDatatype> lastest_allowed_type;
+                vodka::analyser::LineTypeChecker line_content;
+            //* Check the existence and datatype of each argument
+            bool check(vodka::errors::SourcesStack lclstack={});
         };
     }
     //* Type utilities
     namespace type {
-        using namespace vodka::errors;
         //* Vodint utilities (see vodka-lib.cpp for more informations)
         namespace vodint {
-            bool check_value(string value,vodka::analyser::LineSyntaxChecker context,SourcesStack lclstack={});
-            string remove_zero(string value,SourcesStack lclstack={});
+            bool check_value(string value,vodka::analyser::LineSyntaxChecker context,vodka::errors::SourcesStack lclstack={});
+            string remove_zero(string value,vodka::errors::SourcesStack lclstack={});
         }
         //* Vodec utilities (see vodka-lib.cpp for more informations)
         namespace vodec {
-            bool check_value(string value,vodka::analyser::LineSyntaxChecker context,SourcesStack lclstack={});
-            string remove_zero(string value,SourcesStack lclstack={});
+            bool check_value(string value,vodka::analyser::LineSyntaxChecker context,vodka::errors::SourcesStack lclstack={});
+            string remove_zero(string value,vodka::errors::SourcesStack lclstack={});
         }
     }
     //* Json utilities
@@ -302,10 +311,10 @@ namespace vodka {
         //* Kernel instructions json functions
         namespace kernel {
             //* Json container for kernel instructions
-            class json_container {
+            class JsonContainer {
                 public:
                     string type;
-                    string intname;
+                    string instruction_name;
                     vector<string> args;
                 map<string,string> syntax();
             };
@@ -313,7 +322,7 @@ namespace vodka {
         //* Vodka instructions json functions
         namespace vodka {
             //* Json class for vodka instructions
-            class instruction {
+            class VodkaInstruction {
                 public:
                     string name;
                     string source="<builtin>";
@@ -323,7 +332,7 @@ namespace vodka {
                 map<string,string> syntax();
             };
             //* Json class for vodka symbols
-            class symbol {
+            class VodkaSymbol {
                 public:
                     string type;
                     string uid;
@@ -331,30 +340,30 @@ namespace vodka {
                 map<string,string> syntax();
             };
             //* Json class for vodka variables declaration
-            class var_declaration {
+            class VodkaVariableDeclaration {
                 public:
-                    string name;
-                    string type;
-                    string decvalue;
+                    string variable_name;
+                    string variable_datatype;
+                    string variable_value;
                     string uid;
                 map<string,string> syntax();
             };
             //* Json class for vodka lines which contain variables declaration or instructions
-            class line_container {
+            class VodkaLine {
                 public:
                     string thing;
-                    var_declaration varele;
-                    instruction intele;
+                    VodkaVariableDeclaration variable_declaration_element;
+                    VodkaInstruction instruction_element;
                 map<string,string> syntax();
             };
             //* Json class for vodka cells
-            class cell {
+            class VodkaCell {
                 public:
                     string name;
                     string uid;
-                    symbol start;
-                    symbol end;
-                    vector<line_container> lines;
+                    VodkaSymbol start;
+                    VodkaSymbol end;
+                    vector<VodkaLine> lines_content;
                 map<string,map<string,string>> syntax();
             };
         };
@@ -386,14 +395,14 @@ namespace vodka {
         //* Logs functions
         void log(string text,string verbose,int x,string last,int sublevel=0,vector<int> substep={},vector<unsigned long> subtotal={});
         void debuglog(string text,int line,string cell,bool debugmode,string verbose,string file,bool debug_info=true);
-        void var_warning(string namevar,vodka::variables::DatatypesNames typevar,string namecell,string line,bool var_warning_enabled,string verbose);
+        void var_warning(string namevar,vodka::variables::VariableDatatype typevar,string namecell,string line,bool var_warning_enabled,string verbose);
     }
     //* Internal library
     namespace library {
         //* Class for a line that call a function from an internal library
-        class function_call {
+        class FunctionCall {
             public:
-                vodka::analyser::LineTypeChecker type_analyser;
+                vodka::analyser::LineTypeChecker line_checked;
                 vector<string> variableslist_context;
                 vodka::utilities::cellule cell_context;
                 int iteration_number_context;
@@ -405,42 +414,40 @@ namespace vodka {
         };
         //* Kernel internal library
         namespace kernel {
-            using namespace vodka::errors;
             //* Main class for parsing line that call kernel internal library
-            class treatement {
+            class CallTreatement {
                 public:
-                    vodka::library::function_call call;
+                    vodka::library::FunctionCall function_call;
                     vector<vodka::syscalls::SyscallContainer> syscall_output;
                     bool checked=false;
                     bool var_flag=false;
                     //* Main function for parsing kernel internal library
-                    bool kernel_treatement(SourcesStack lclstack={});
+                    bool call_treatement(vodka::errors::SourcesStack lclstack={});
                 private:
                     //* Every datatypes supported by each function of kernel internal library
                     const map<string,vector<string>> supported_type={{"add",{"vodint","vodec"}},{"abs",{"vodint","vodec"}}};
                     string line;
                     //* Private functions for analysing each instructions
-                    bool print_int(SourcesStack lclstack={});
-                    bool add_int(SourcesStack lclstack={});
-                    bool invert_int(SourcesStack lclstack={});
-                    bool free_int(SourcesStack lclstack={});
-                    bool abs_int(SourcesStack lclstack={});
-                    bool divmod_int(SourcesStack lclstack={});
-                    bool toint_int(SourcesStack lclstack={});
-                    bool todec_int(SourcesStack lclstack={});
-                    bool divide_int(SourcesStack lclstack={});
-                    bool mulint_int(SourcesStack lclstack={});
-                    bool muldec_int(SourcesStack lclstack={});
+                    bool print_int(vodka::errors::SourcesStack lclstack={});
+                    bool add_int(vodka::errors::SourcesStack lclstack={});
+                    bool invert_int(vodka::errors::SourcesStack lclstack={});
+                    bool free_int(vodka::errors::SourcesStack lclstack={});
+                    bool abs_int(vodka::errors::SourcesStack lclstack={});
+                    bool divmod_int(vodka::errors::SourcesStack lclstack={});
+                    bool toint_int(vodka::errors::SourcesStack lclstack={});
+                    bool todec_int(vodka::errors::SourcesStack lclstack={});
+                    bool divide_int(vodka::errors::SourcesStack lclstack={});
+                    bool mulint_int(vodka::errors::SourcesStack lclstack={});
+                    bool muldec_int(vodka::errors::SourcesStack lclstack={});
             };
         }
     }
     //* Internal instructions
     namespace instructions {
-        using namespace vodka::errors;
         //* Class for a line that call a vodka instruction
-        class instruction_call {
+        class InstructionCall {
             public:
-                vodka::analyser::LineTypeChecker type_analyser;
+                vodka::analyser::LineTypeChecker line_checked;
                 vector<string> variableslist_context;
                 vodka::utilities::cellule cell_context;
                 int iteration_number_context;
@@ -450,19 +457,19 @@ namespace vodka {
                 string last_logstep_context;
                 map<string,vodka::variables::VariableContainer> variablesdict_context;
         };
-        class instruction_treatement {
+        class CallTreatement {
             public:
-                vodka::instructions::instruction_call call;
+                vodka::instructions::InstructionCall instruction_call;
                 vector<vodka::syscalls::SyscallContainer> syscalls_output;
                 bool checked=false;
                 bool var_flag=false;
                 //* Main function for parsing vodka instruction
-                bool treatement(SourcesStack lclstack={});
+                bool call_treatement(vodka::errors::SourcesStack lclstack={});
             private:
                 string line;
                 const map<string,vector<string>> supported_type={{"multiply",{"vodint","vodec"}}};
                 //* Private functions for analysing each instructions
-                bool multiply(SourcesStack lclstack={});
+                bool multiply(vodka::errors::SourcesStack lclstack={});
         };
     }
 }

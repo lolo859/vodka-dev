@@ -36,12 +36,12 @@ namespace inside_variables {
     }
 }
 using namespace inside_variables;
-//* Convert DatatypesNames object to string
-string vodka::variables::datatype_to_string(DatatypesNames datatype) {
+//* Convert VariableDatatype object to string
+string vodka::variables::datatype_to_string(VariableDatatype datatype) {
     switch (datatype) {
-        case DatatypesNames::vodint:return "vodint";
-        case DatatypesNames::vodec:return "vodec";
-        case DatatypesNames::vodarg:return "vodarg";
+        case VariableDatatype::vodint:return "vodint";
+        case VariableDatatype::vodec:return "vodec";
+        case VariableDatatype::vodarg:return "vodarg";
         default:return "Unknown";
     }
 }

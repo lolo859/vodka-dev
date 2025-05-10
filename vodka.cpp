@@ -372,7 +372,7 @@ int detect_cells(SourcesStack srclclstack) {
                         argsinfo.name=a;
                         vodka::variables::VodargVariable argscont;
                         vodka::variables::VariableContainer varcont;
-                        varcont.thing=vodka::variables::DatatypesNames::vodarg;
+                        varcont.thing=vodka::variables::VariableDatatype::vodarg;
                         varcont.variable_metadata=argsinfo;
                         varcont.vodarg_element=argscont;
                         mainargsdict[a]=varcont;
@@ -399,7 +399,7 @@ int verify_main_cell(SourcesStack srclclstack) {
     }
     return 0;
 }
-int code_pre_treatement(bool replace,SourcesStack srclclstack) {
+int code_pre_CallTreatement(bool replace,SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
     log("Writing args section.",verbose,x,last);
@@ -452,7 +452,7 @@ int code_pre_treatement(bool replace,SourcesStack srclclstack) {
                             varinfo.uuid=to_string(vodka::utilities::genuid());
                             contele.variable_metadata=varinfo;
                             contele.vodint_element=intele;
-                            contele.thing=vodka::variables::DatatypesNames::vodint;
+                            contele.thing=vodka::variables::VariableDatatype::vodint;
                             variablesdict[arg]=contele;
                             variableslist.push_back(arg);
                             directs_data.push_back(arg);
@@ -473,7 +473,7 @@ int code_pre_treatement(bool replace,SourcesStack srclclstack) {
                             varinfo.name=arg;
                             contele.variable_metadata=varinfo;
                             contele.vodec_element=decele;
-                            contele.thing=vodka::variables::DatatypesNames::vodec;
+                            contele.thing=vodka::variables::VariableDatatype::vodec;
                             variablesdict[arg]=contele;
                             variableslist.push_back(arg);
                             directs_data.push_back(arg);
@@ -510,7 +510,7 @@ int code_pre_treatement(bool replace,SourcesStack srclclstack) {
                                 varinfo.name=arg;
                                 contele.variable_metadata=varinfo;
                                 contele.vodint_element=intele;
-                                contele.thing=vodka::variables::DatatypesNames::vodint;
+                                contele.thing=vodka::variables::VariableDatatype::vodint;
                                 variablesdict[arg]=contele;
                                 variableslist.push_back(arg);
                                 directs_data.push_back(arg);
@@ -531,7 +531,7 @@ int code_pre_treatement(bool replace,SourcesStack srclclstack) {
                                 varinfo.name=arg;
                                 contele.variable_metadata=varinfo;
                                 contele.vodec_element=decele;
-                                contele.thing=vodka::variables::DatatypesNames::vodec;
+                                contele.thing=vodka::variables::VariableDatatype::vodec;
                                 variablesdict[arg]=contele;
                                 variableslist.push_back(arg);
                                 directs_data.push_back(arg);
@@ -654,8 +654,8 @@ int main (int argc,char* argv[]) {
     }
     final.push_back("args:");
     x=x+1;
-    int codePreTreatement=code_pre_treatement(replace,lclstack);
-    if (codePreTreatement==-1) {
+    int codePreCallTreatement=code_pre_CallTreatement(replace,lclstack);
+    if (codePreCallTreatement==-1) {
         return -1;
     }
     x=x+1;
@@ -754,7 +754,7 @@ int main (int argc,char* argv[]) {
                 }
             }
             if (type_analyser.library_name=="kernel") {
-                vodka::library::function_call fcall;
+                vodka::library::FunctionCall fcall;
                 fcall.verbose_context=verbose;
                 fcall.main_logstep_context=x;
                 fcall.last_logstep_context=last;
@@ -763,18 +763,18 @@ int main (int argc,char* argv[]) {
                 fcall.iteration_number_context=i;
                 fcall.file_name_context=file;
                 fcall.variablesdict_context=main_variablesdict;
-                fcall.type_analyser=type_analyser;
-                vodka::library::kernel::treatement engine;
-                engine.call=fcall;
-                engine.checked=engine.kernel_treatement(lclstack);
+                fcall.line_checked=type_analyser;
+                vodka::library::kernel::CallTreatement engine;
+                engine.function_call=fcall;
+                engine.checked=engine.call_treatement(lclstack);
                 if (engine.checked==false) {
                     return -1;
                 } else {
                     instructions_main.insert(instructions_main.end(),engine.syscall_output.begin(),engine.syscall_output.end());
                 }
                 if (engine.var_flag==true) {
-                    main_variableslist=engine.call.variableslist_context;
-                    main_variablesdict=engine.call.variablesdict_context;
+                    main_variableslist=engine.function_call.variableslist_context;
+                    main_variablesdict=engine.function_call.variablesdict_context;
                 }
             }
         } else if (type_analyser.type=="vodka_instruction") {
@@ -786,7 +786,7 @@ int main (int argc,char* argv[]) {
                     //* Error is raised later
                 }
             }
-            vodka::instructions::instruction_call icall;
+            vodka::instructions::InstructionCall icall;
             icall.verbose_context=verbose;
             icall.main_logstep_context=x;
             icall.last_logstep_context=last;
@@ -795,10 +795,10 @@ int main (int argc,char* argv[]) {
             icall.iteration_number_context=i;
             icall.file_name_context=file;
             icall.variablesdict_context=main_variablesdict;
-            icall.type_analyser=type_analyser;
-            vodka::instructions::instruction_treatement engine;
-            engine.call=icall;
-            engine.checked=engine.treatement(lclstack);
+            icall.line_checked=type_analyser;
+            vodka::instructions::CallTreatement engine;
+            engine.instruction_call=icall;
+            engine.checked=engine.call_treatement(lclstack);
             if (engine.checked==false) {
                 return -1;
             } else {
@@ -807,8 +807,8 @@ int main (int argc,char* argv[]) {
                 }
             }
             if (engine.var_flag==true) {
-                main_variablesdict=engine.call.variablesdict_context;
-                main_variableslist=engine.call.variableslist_context;
+                main_variablesdict=engine.instruction_call.variablesdict_context;
+                main_variableslist=engine.instruction_call.variableslist_context;
             }
         } else {
             raise(ErrorContainer("vodka.error.function.unknow : Unknow function.",file,{line},{maincell.start.line+(int)i+1},lclstack));
@@ -827,7 +827,7 @@ int main (int argc,char* argv[]) {
     final.push_back("data:");
     int a=1;
     for (auto i:variablesdict) {
-        if (vodka::variables::datatype_to_string(i.second.thing)=="vodint") {
+        if (i.second.thing==vodka::variables::VariableDatatype::vodint) {
             if (i.second.variable_metadata.in_data_section==true) {
                 log("Writing "+i.second.variable_metadata.uuid+".",verbose,x,last,1,{a},{variablesdict.size()});
                 if (i.second.variable_metadata.is_kernel_constant==true) {
@@ -835,7 +835,7 @@ int main (int argc,char* argv[]) {
                 }
                 a=a+1;
             }
-        } else if (vodka::variables::datatype_to_string(i.second.thing)=="vodec") {
+        } else if (i.second.thing==vodka::variables::VariableDatatype::vodec) {
             if (i.second.variable_metadata.in_data_section==true) {
                 log("Writing "+i.second.variable_metadata.uuid+".",verbose,x,last,1,{a},{variablesdict.size()});
                 if (i.second.variable_metadata.is_kernel_constant==true) {
@@ -963,17 +963,17 @@ int main (int argc,char* argv[]) {
             log("Converting line "+to_string(a)+".",verbose,x,last,1,{a},{final.size()});
             if (find(kernel_symbol.begin(),kernel_symbol.end(),line)==kernel_symbol.end() && line.substr(0,4)!="type") {
                 if (std::isalpha(line[0]) && std::isupper(line[0])) {
-                    vodka::json::kernel::json_container jsonth;
+                    vodka::json::kernel::JsonContainer jsonth;
                     jsonth.type="system_call";
-                    jsonth.intname=split(line," ")[0];
+                    jsonth.instruction_name=split(line," ")[0];
                     auto eles=split(line," ");
                     jsonth.args=vector<string>(eles.begin()+1,eles.end());
                     json_ints[to_string(a)+"@"+actualcell+":"+to_string(genuid())]=jsonth.syntax();
                     a=a+1;
                 } else {
-                    vodka::json::kernel::json_container jsonth;
+                    vodka::json::kernel::JsonContainer jsonth;
                     if (endargs) {jsonth.type="constant";} else {jsonth.type="argument";};
-                    jsonth.intname=split(line,"=")[0];
+                    jsonth.instruction_name=split(line,"=")[0];
                     auto eles=split(line,"=");
                     string otherside;
                     for (int i=1;i<eles.size();++i) {
@@ -1012,19 +1012,19 @@ int main (int argc,char* argv[]) {
         log("Converting symbols : ",verbose,x,last,1,{1},{2});
         json_ints_v["symbols"]={};
         bool cellstart=false;
-        vodka::json::vodka::cell actualcell;
-        vector<vodka::json::vodka::cell> idencell;
+        vodka::json::vodka::VodkaCell actualcell;
+        vector<vodka::json::vodka::VodkaCell> idencell;
         int cellcount=0;
         for (int i=0;i<symbols.size();++i) {
             log("Converting \""+symbols[i].content+"\".",verbose,x,last,2,{1,i+1},{2,symbols.size()});
-            vodka::json::vodka::symbol symb;
+            vodka::json::vodka::VodkaSymbol symb;
             symb.type=symbols[i].type;
             auto args=split(symbols[i].content," ");
             symb.args=vector<string>(args.begin()+1,args.end());
             symb.uid=to_string(genuid());
             if (symb.type=="VODSTART" && cellstart==false) {
                 cellcount=cellcount+1;
-                vodka::json::vodka::cell cell;
+                vodka::json::vodka::VodkaCell cell;
                 cell.name=symb.args[0];
                 cell.uid=to_string(cellcount)+":"+to_string(genuid());
                 cell.start=symb;
@@ -1040,19 +1040,19 @@ int main (int argc,char* argv[]) {
             json_ints_v["symbols"][to_string(i+1)+":"+to_string(genuid())]=symb.syntax();
         }
         log("Converting cells : ",verbose,x,last,1,{2},{2});
-        vector<string> vodkaints=vodka::VodkaInstrutions;
+        vector<string> vodkaints=vodka::VodkaInstructions;
         for (int i=0;i<idencell.size();++i) {
             log("Converting cell "+cells[i].name+".",verbose,x,last,2,{2,i+1},{2,cells.size()});
             auto cellcontent=cells[i].content;
             for (auto a:cellcontent) {
                 if (a.substr(0,5)=="vodka") {
-                    vodka::json::vodka::var_declaration vardec;
+                    vodka::json::vodka::VodkaVariableDeclaration vardec;
                     vardec.uid=to_string(genuid());
                     auto eles=split(a,"=");
                     auto namepart=eles[0];
                     auto valuepart=eles[1];
-                    vardec.name=split(namepart," ")[1];
-                    vardec.type=split(valuepart," ")[0];
+                    vardec.variable_name=split(namepart," ")[1];
+                    vardec.variable_datatype=split(valuepart," ")[0];
                     auto vvaluepart=split(valuepart," ");
                     vector<string> valuev=vector<string>(vvaluepart.begin()+1,vvaluepart.end());
                     string value="";
@@ -1063,35 +1063,35 @@ int main (int argc,char* argv[]) {
                             value=value+valuev[b];
                         }
                     }
-                    vardec.decvalue=value;
-                    vodka::json::vodka::line_container linecont;
-                    linecont.thing="var";
-                    linecont.varele=vardec;
-                    idencell[i].lines.push_back(linecont);
+                    vardec.variable_value=value;
+                    vodka::json::vodka::VodkaLine linecont;
+                    linecont.thing="variable_declaration";
+                    linecont.variable_declaration_element=vardec;
+                    idencell[i].lines_content.push_back(linecont);
                 } else if (a.substr(0,6)=="kernel") {
-                    vodka::json::vodka::instruction instr;
+                    vodka::json::vodka::VodkaInstruction instr;
                     instr.library="kernel";
                     instr.uid=to_string(genuid());
                     instr.name=split(a," ")[0];
                     instr.source="<builtin>";
                     auto eles=split(a," ");
                     instr.args=vector<string>(eles.begin()+1,eles.end());
-                    vodka::json::vodka::line_container linecont;
-                    linecont.thing="int";
-                    linecont.intele=instr;
-                    idencell[i].lines.push_back(linecont);
+                    vodka::json::vodka::VodkaLine linecont;
+                    linecont.thing="instruction";
+                    linecont.instruction_element=instr;
+                    idencell[i].lines_content.push_back(linecont);
                 } else if (find(vodkaints.begin(),vodkaints.end(),split(a," ")[0])!=vodkaints.end()) {
-                    vodka::json::vodka::instruction instr;
+                    vodka::json::vodka::VodkaInstruction instr;
                     instr.library="<no_library>";
                     instr.uid=to_string(genuid());
                     instr.name=split(a," ")[0];
                     instr.source="<builtin>";
                     auto eles=split(a," ");
                     instr.args=vector<string>(eles.begin()+1,eles.end());
-                    vodka::json::vodka::line_container linecont;
-                    linecont.thing="int";
-                    linecont.intele=instr;
-                    idencell[i].lines.push_back(linecont);
+                    vodka::json::vodka::VodkaLine linecont;
+                    linecont.thing="instruction";
+                    linecont.instruction_element=instr;
+                    idencell[i].lines_content.push_back(linecont);
                 }
             }
             json_ints_v[idencell[i].uid]=idencell[i].syntax();

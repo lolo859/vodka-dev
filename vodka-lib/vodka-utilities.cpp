@@ -100,7 +100,7 @@ void vodka::utilities::debuglog(string text,int line,string cell,bool debugmode,
         }
     }
 }
-void vodka::utilities::var_warning(string namevar,vodka::variables::DatatypesNames typevar,string namecell,string line,bool var_warning_enabled,string verbose) {
+void vodka::utilities::var_warning(string namevar,vodka::variables::VariableDatatype typevar,string namecell,string line,bool var_warning_enabled,string verbose) {
     if (var_warning_enabled==true) {
         if (verbose=="e") {
             cout<<"[WARNING] vodka.warnings.unused_variable : Variable "<<termcolor::bold<<namevar+" ("+vodka::variables::datatype_to_string(typevar)+")"<<termcolor::reset<<", declared line "<<termcolor::bold<<line<<termcolor::reset<<" in cell "<<termcolor::magenta<<termcolor::bold<<namecell<<termcolor::reset<<", isn't used anywhere and may take useless memory."<<endl;

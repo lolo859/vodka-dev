@@ -37,17 +37,17 @@ namespace inside_json {
 }
 using namespace inside_json;
 //* Syntax function for json kernel container
-map<string,string> vodka::json::kernel::json_container::syntax() {
+map<string,string> vodka::json::kernel::JsonContainer::syntax() {
     map<string,string> out;
     out.insert(pair<string,string>("type",type));
-    out.insert(pair<string,string>("intname",intname));
+    out.insert(pair<string,string>("instruction_name",instruction_name));
     for (int i=0;i<args.size();++i) {
         out.insert(pair<string,string>("arg"+to_string(i+1),args[i]));
     }
     return out;
 };
 //* Syntax function for json vodka instruction
-map<string,string> vodka::json::vodka::instruction::syntax() {
+map<string,string> vodka::json::vodka::VodkaInstruction::syntax() {
     map<string,string> out;
     out.insert(pair<string,string>("name",name));
     out.insert(pair<string,string>("source",source));
@@ -59,7 +59,7 @@ map<string,string> vodka::json::vodka::instruction::syntax() {
     return out;
 };
 //* Syntax function for json vodka symbol
-map<string,string> vodka::json::vodka::symbol::syntax() {
+map<string,string> vodka::json::vodka::VodkaSymbol::syntax() {
     map<string,string> out;
     out.insert(pair<string,string>("name",type));
     for (int i=0;i<args.size();++i) {
@@ -69,22 +69,22 @@ map<string,string> vodka::json::vodka::symbol::syntax() {
     return out;
 };
 //* Syntax function for json vodka variables declaration
-map<string,string> vodka::json::vodka::var_declaration::syntax() {
+map<string,string> vodka::json::vodka::VodkaVariableDeclaration::syntax() {
     map<string,string> out;
-    out.insert(pair<string,string>("name",name));
-    out.insert(pair<string,string>("vartype",type));
-    out.insert(pair<string,string>("decvalue",decvalue));
+    out.insert(pair<string,string>("name",variable_name));
+    out.insert(pair<string,string>("vartype",variable_datatype));
+    out.insert(pair<string,string>("decvalue",variable_value));
     out.insert(pair<string,string>("uid",uid));
     return out;
 };
 //* Syntax function for json vodka lines
-map<string,string> vodka::json::vodka::line_container::syntax() {
-    if (thing=="var") {
-        auto out=varele.syntax();
+map<string,string> vodka::json::vodka::VodkaLine::syntax() {
+    if (thing=="variable_declaration") {
+        auto out=variable_declaration_element.syntax();
         out.insert(pair<string,string>("type","var"));
         return out;
-    } else if (thing=="int") {
-        auto out=intele.syntax();
+    } else if (thing=="instruction") {
+        auto out=instruction_element.syntax();
         out.insert(pair<string,string>("type","int"));
         return out;
     } else {
@@ -92,14 +92,14 @@ map<string,string> vodka::json::vodka::line_container::syntax() {
     }
 };
 //* Syntax function for json vodka cells
-map<string,map<string,string>> vodka::json::vodka::cell::syntax() {
+map<string,map<string,string>> vodka::json::vodka::VodkaCell::syntax() {
     map<string,map<string,string>> out;
     out.insert(pair<string,map<string,string>>("name",{{"name",name}}));
     out.insert(pair<string,map<string,string>>("uid",{{"uid",uid}}));
     out.insert(pair<string,map<string,string>>("start",start.syntax()));
     out.insert(pair<string,map<string,string>>("end",end.syntax()));
-    for (int i=0;i<lines.size();++i) {
-        out.insert(pair<string,map<string,string>>("line"+to_string(i+1),lines[i].syntax()));
+    for (int i=0;i<lines_content.size();++i) {
+        out.insert(pair<string,map<string,string>>("line"+to_string(i+1),lines_content[i].syntax()));
     }
     return out;
 };
