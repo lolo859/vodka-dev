@@ -13,32 +13,10 @@
 #include <cstring>
 #include <chrono>
 #include <boost/hash2/sha3.hpp>
+#include <cstdlib>
 #include "vodka-lib/vodka-lib.h"
 #include "dependencies/json.hpp"
 //* Some necessary functions
-std::vector<std::string> split(const std::string& str,const std::string& delimiter) {
-    std::vector<std::string> tokens;
-    size_t start=0;
-    size_t end=str.find(delimiter);
-    while (end!=std::string::npos) {
-        if (end>start) {
-            tokens.push_back(str.substr(start,end-start));
-        }
-        start=end+delimiter.length();
-        end=str.find(delimiter,start);
-    }
-    if (start<str.length()) {
-        tokens.push_back(str.substr(start));
-    }
-    return tokens;
-}
-void replaceall(std::string &str,const std::string &from,const std::string &to) {
-    size_t start_pos=0;
-    while ((start_pos=str.find(from, start_pos))!=std::string::npos) {
-        str.replace(start_pos,from.length(),to);
-        start_pos+=to.length();
-    }
-}
 string hash_then_encode(string origin) {
     boost::hash2::sha3_512 hasher;
     hasher.update(origin.data(),origin.size());
@@ -82,6 +60,7 @@ string verbose="e";
 bool debugmode=false;
 bool var_warning_enabled=true;
 bool disable_integrity_hash=false;
+bool show_log_time=false;
 int x=1;
 string last;
 string file;
@@ -399,7 +378,7 @@ int verify_main_cell(SourcesStack srclclstack) {
     }
     return 0;
 }
-int code_pre_CallTreatement(bool replace,SourcesStack srclclstack) {
+int code_pre_treatement(bool replace,SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
     log("Writing args section.",verbose,x,last);
@@ -571,10 +550,11 @@ int main (int argc,char* argv[]) {
         {"disable-variables-warnings",no_argument,nullptr,0},
         {"disable-integrity-hash",no_argument,nullptr,'H'},
         {"check-mode",no_argument,nullptr,'c'},
-        {nullptr, 0, nullptr, 0}
+        {"show-log-time",no_argument,nullptr,'t'},
+        {nullptr,0,nullptr,0}
     };
     //* Args management
-    while ((option=getopt_long(argc,argv,"hHjJrdvVcwf:s:o:",options,nullptr))!=-1) {
+    while ((option=getopt_long(argc,argv,"hHjJtrdvVcwf:s:o:",options,nullptr))!=-1) {
         switch (option) {
         case 0:
             if (string(argv[optind-1])=="disable-variables-warnings") {
@@ -582,7 +562,7 @@ int main (int argc,char* argv[]) {
             }
             break;
         case 'h':
-            cout<<"Vodka v0.4 beta 1 - Vodka Objective Dictionary for Kernel Analyser\nOptions :\n  -h, --help :\n    show this help\n  -f, --find object_to_find :\n    (not working for the moment)\n  -s, --source-file source_file :\n    source file \n  -o, --output-file output_file :\n    output file\n  -v, --verbose-reduced :\n    set verbose mode to reduced\n  -V, --verbose-full :\n    set verbose mode to full\n  -d, --debug-lines :\n    enable debug mode\n  -j, --json-kernel :\n    export output to a json file specified with -o\n  -J, --json-vodka :\n    export .vod structure to a json file specified with -o\n  -r, --disable-replacements :\n    disable define replacement\n  -w, --disable-all-warnings :\n    disable warnings\n  --disable-variables-warnings :\n    disable variables warnings\n  -H, --disable-integrity-hash :\n    disable the integrity hash integration into the output\n  -c, --check-mode :\n    verify the integrity between the inputed file witn -s and the output file specified with -o"<<endl;
+            cout<<"Vodka v0.4 beta 1 - Vodka Objective Dictionary for Kernel Analyser\nOptions :\n  -h, --help :\n    show this help\n  -f, --find object_to_find :\n    (not working for the moment)\n  -s, --source-file source_file :\n    source file \n  -o, --output-file output_file :\n    output file\n  -v, --verbose-reduced :\n    set verbose mode to reduced\n  -V, --verbose-full :\n    set verbose mode to full\n  -d, --debug-lines :\n    enable debug mode\n  -j, --json-kernel :\n    export output to a json file specified with -o\n  -J, --json-vodka :\n    export .vod structure to a json file specified with -o\n  -r, --disable-replacements :\n    disable define replacement\n  -w, --disable-all-warnings :\n    disable warnings\n  --disable-variables-warnings :\n    disable variables warnings\n  -H, --disable-integrity-hash :\n    disable the integrity hash integration into the output\n  -c, --check-mode :\n    verify the integrity between the inputed file witn -s and the output file specified with -o\n  -t, --show-log-time :\n    show time in every log output, should be used alongside -v or -V"<<endl;
             return 0;
         case 'f':
             mode="find";
@@ -621,12 +601,20 @@ int main (int argc,char* argv[]) {
         case 'c':
             mode="check";
             break;
+        case 't':
+            show_log_time=true;
+            break;
         case '?':
             cout<<"Invalid argument."<<endl;
             return -1;
         default:
             return -1;;
         }
+    }
+    if (show_log_time) {
+        setenv("VODKA_SHOW_LOG_TIME","TRUE",1);
+    } else {
+        setenv("VODKA_SHOW_LOG_TIME","FALSE",1);
     }
     int readedFile=read_file(output,mode,lclstack);
     if (readedFile==-1) {
@@ -654,7 +642,7 @@ int main (int argc,char* argv[]) {
     }
     final.push_back("args:");
     x=x+1;
-    int codePreCallTreatement=code_pre_CallTreatement(replace,lclstack);
+    int codePreCallTreatement=code_pre_treatement(replace,lclstack);
     if (codePreCallTreatement==-1) {
         return -1;
     }
@@ -1103,5 +1091,6 @@ int main (int argc,char* argv[]) {
         outputfile.close();
         if (verbose=="r" || verbose=="a") {cout<<"\nSucessfully compile "+file+" to "+output<<endl;}
     }
+    unsetenv("VODKA_SHOW_LOG_TIME");
     return 0;
 }

@@ -99,8 +99,10 @@ variables metadata are now accessible without checking the datatype
 add support for vodec datatype to kernel.invert, kernel.free
 introduce a datatype checking technic common to all libraries and instructions thats also allow users to use it
 use the datatype and syscall type everywhere pertinent
-planned : clean transcoder code mainly by reorganizing and renamming
-planned : add a timer system for log substep
-planned : put split and the other functions inside vodka-lib
-planned : modified json output to match attributes names inside vodka-lib
+put split and the other functions inside vodka-lib
+add a timer system for log output
 the metadata of a variable is now stored in the general container and not into the datatype-specific container
+planned : use env variables to transmit informations
+planned : clean transcoder code mainly by reorganizing and renamming
+planned : modified json output to match attributes names inside vodka-lib
+WARNING : METTRE À JOUR LA DOC POUR VODKA::UTILITIES

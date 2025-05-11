@@ -10,33 +10,7 @@
 #include <filesystem>
 using namespace std;
 using namespace vodka::errors;
-//* Some necessary functions
-namespace inside_type {
-    std::vector<std::string> split(const std::string& str,const std::string& delimiter) {
-        std::vector<std::string> tokens;
-        size_t start=0;
-        size_t end=str.find(delimiter);
-        while (end!=std::string::npos) {
-            if (end>start) {
-                tokens.push_back(str.substr(start,end-start));
-            }
-            start=end+delimiter.length();
-            end=str.find(delimiter,start);
-        }
-        if (start<str.length()) {
-            tokens.push_back(str.substr(start));
-        }
-        return tokens;
-    }
-    void replaceall(std::string &str,const std::string &from,const std::string &to) {
-        size_t start_pos=0;
-        while ((start_pos=str.find(from, start_pos))!=std::string::npos) {
-            str.replace(start_pos,from.length(),to);
-            start_pos+=to.length();
-        }
-    }
-}
-using namespace inside_type;
+using namespace vodka::utilities;
 //* Checking if the inputed value for vodint is correct
 bool vodka::type::vodint::check_value(string value,vodka::analyser::LineSyntaxChecker context,SourcesStack lclstack) {
     auto srclclstack=lclstack;
