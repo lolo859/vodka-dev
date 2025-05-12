@@ -10,7 +10,6 @@
 #include <unistd.h>
 #include <cctype>
 #include <getopt.h>
-#include <cstring>
 #include <chrono>
 #include <boost/hash2/sha3.hpp>
 #include <cstdlib>
