@@ -74,6 +74,9 @@ vodka-lib is the static internal C++ library that powers the Vodka transcoder an
   - [void vodka::utilities::log()](#void-vodkautilitieslogstdstring-text-stdstring-verbose-int-x-stdstring-last-int-sublevel-stdvectorint-substep---stdvectorunsigned-long-subtotal)
   - [void vodka::utilities::debuglog()](#void-vodkautilitiesdebuglogstdstring-text-int-line-stdstring-cell-bool-debugmode-stdstring-verbose-stdstring-file-bool-debug_info)
   - [void vodka::utilities::var_warning()](#void-vodkautilitiesvar_warningstdstring-namevar-stdstring-typevar-stdstring-namecell-stdstring-line-bool-var_warning_enabled-stdstring-verbose)
+  - [std::vector\<std::string> vodka::utilities::split()](#stdvectorstdstring-vodkautilitiessplitstdstring-str-stdstring-delimiter)
+  - [void vodka::utilities::replaceall()](#void-vodkautilitiesreplaceallstdstring-str-stdstring-from-stdstring-to)
+  - [double vodka::utilities::get_process_time()](#double-vodkautilitiesget_process_time)
 - [vodka::library](#vodkalibrary)
   - [class vodka::library::FunctionCall](#class-vodkalibraryfunctioncall)
   - [vodka::library::kernel](#vodkalibrarykernel)
@@ -791,6 +794,27 @@ var_warning("var","vodint","main","6",true,"e");
 ```
 
 **Warning:** this log function has been conceived for the Vodka transcoder which combine a specific schema for lines break that will probably result in a mess in your terminal. Use `e` for normal printing mode.
+
+### `std::vector<std::string> vodka::utilities::split(std::string str, std::string delimiter)`
+
+This is the function to split a string with a delimiter.
+
+**Arguments:**
+- `std::string str` : the string to split
+- `std::string delimiter` : the delimiter
+
+### `void vodka::utilities::replaceall(std::string str, std::string from, std::string to)`
+
+This is the function to replace all occurences of a string by another string inside the main string.
+
+**Arguments:**
+- `std::string str` : the main string
+- `std::string from` : the string to replace
+- `std::string to` : the string that should be added everywhere
+
+### `double vodka::utilities::get_process_time()`
+
+This function return the time from the beginning of the process.
 
 ## `vodka::library`
 

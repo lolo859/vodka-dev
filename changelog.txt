@@ -104,5 +104,4 @@ add a timer system for log output
 the metadata of a variable is now stored in the general container and not into the datatype-specific container
 planned : use env variables to transmit informations
 planned : clean transcoder code mainly by reorganizing and renamming
-planned : modified json output to match attributes names inside vodka-lib
-WARNING : METTRE À JOUR LA DOC POUR VODKA::UTILITIES
+planned : modified json output to match attributes names inside vodka-libc

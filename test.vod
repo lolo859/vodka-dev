@@ -1,6 +1,14 @@
 £VODTYPE command
-£VODSTART main
-vodka a=vodint 5
-vodka b=vodec 5.0
-multiply b b b a
+£VODSTART main a b x
+vodka av=vodec 0.0
+vodka bv=vodec 0.0
+vodka xv=vodec 0.0
+kernel.todec av a
+kernel.todec bv b
+kernel.todec xv x
+vodka p=vodint 7
+vodka t=vodec 0.0
+multiply t av bv p
+kernel.add t t xv
+kernel.print t
 £VODEND
