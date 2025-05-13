@@ -102,6 +102,6 @@ use the datatype and syscall type everywhere pertinent
 put split and the other functions inside vodka-lib
 add a timer system for log output
 the metadata of a variable is now stored in the general container and not into the datatype-specific container
+clean transcoder code mainly by reorganizing and renamming
 planned : use env variables to transmit informations
-planned : clean transcoder code mainly by reorganizing and renamming
 planned : modified json output to match attributes names inside vodka-libc

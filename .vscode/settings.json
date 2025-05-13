@@ -68,5 +68,5 @@
         "bitset": "cpp",
         "typeindex": "cpp"
     },
-    "C_Cpp.default.compilerPath": "/usr/bin/g++"
+    "C_Cpp.default.compilerPath": "/home/lolo859/.local/bin/g++"
 }

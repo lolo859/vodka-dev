@@ -50,7 +50,7 @@ boost::uuids::uuid vodka::utilities::genuid() {
     return uuid;
 }
 //* Logs functions
-void vodka::utilities::log(string text,string verbose,int x,string last,int sublevel,vector<int> substep,vector<unsigned long> subtotal) {
+void vodka::utilities::log(string text,string verbose,int log_main_step,string last,int sublevel,vector<int> substep,vector<unsigned long> subtotal) {
     const char* format=getenv("VODKA_SHOW_LOG_TIME");
     string time;
     if (format!=nullptr && string(format)=="TRUE") {
@@ -68,13 +68,13 @@ void vodka::utilities::log(string text,string verbose,int x,string last,int subl
                 } else {
                     texti=text;
                 }
-                last="("+to_string(x)+"/19) "+texti;
+                last="("+to_string(log_main_step)+"/19) "+texti;
                 cout<<last;
             }
         } else {
             if (verbose=="a") {
                 cout<<endl<<time+"[LOG]     ";
-                last="("+to_string(x)+"/19) ";
+                last="("+to_string(log_main_step)+"/19) ";
                 for (int i=0;i<sublevel;++i) {
                     last=last+"("+to_string(substep[i])+"/"+to_string(subtotal[i])+") ";
                 }
@@ -84,7 +84,7 @@ void vodka::utilities::log(string text,string verbose,int x,string last,int subl
         }
     }
 }
-void vodka::utilities::debuglog(string text,int line,string cell,bool debugmode,string verbose,string file,bool debug_info) {
+void vodka::utilities::debuglog(string text,int line,string cell,bool debug_mode,string verbose,string file,bool debug_info) {
     const char* format=getenv("VODKA_SHOW_LOG_TIME");
     string time;
     if (format!=nullptr && string(format)=="TRUE") {
@@ -92,7 +92,7 @@ void vodka::utilities::debuglog(string text,int line,string cell,bool debugmode,
     } else {
         time="";
     }
-    if (debugmode==true) {
+    if (debug_mode==true) {
         if (debug_info==true) {
             if (verbose=="e") {
                 string texti=text.substr(1,text.length()-1);

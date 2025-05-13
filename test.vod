@@ -1,5 +1,6 @@
 £VODTYPE command
-£VODSTART main a b x
+£VODEFINE x hello
+£VODSTART main a b hello
 vodka av=vodec 0.0
 vodka bv=vodec 0.0
 vodka xv=vodec 0.0

@@ -376,7 +376,7 @@ namespace vodka {
             string content;
             string type;
         };
-        struct cellule {
+        struct cell {
             vector<string> content;
             string name;
             vector<string> args;
@@ -393,8 +393,8 @@ namespace vodka {
         //* UUID generator
         boost::uuids::uuid genuid();
         //* Logs functions
-        void log(string text,string verbose,int x,string last,int sublevel=0,vector<int> substep={},vector<unsigned long> subtotal={});
-        void debuglog(string text,int line,string cell,bool debugmode,string verbose,string file,bool debug_info=true);
+        void log(string text,string verbose,int log_main_step,string last,int sublevel=0,vector<int> substep={},vector<unsigned long> subtotal={});
+        void debuglog(string text,int line,string cell,bool debug_mode,string verbose,string file,bool debug_info=true);
         void var_warning(string namevar,vodka::variables::VariableDatatype typevar,string namecell,string line,bool var_warning_enabled,string verbose);
         //* String utilities
         vector<string> split(string str,string delimiter);
@@ -408,7 +408,7 @@ namespace vodka {
             public:
                 vodka::analyser::LineTypeChecker line_checked;
                 vector<string> variableslist_context;
-                vodka::utilities::cellule cell_context;
+                vodka::utilities::cell cell_context;
                 int iteration_number_context;
                 string file_name_context;
                 string verbose_context;
@@ -453,7 +453,7 @@ namespace vodka {
             public:
                 vodka::analyser::LineTypeChecker line_checked;
                 vector<string> variableslist_context;
-                vodka::utilities::cellule cell_context;
+                vodka::utilities::cell cell_context;
                 int iteration_number_context;
                 string file_name_context;
                 string verbose_context;

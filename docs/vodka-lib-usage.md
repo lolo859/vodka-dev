@@ -71,8 +71,8 @@ vodka-lib is the static internal C++ library that powers the Vodka transcoder an
   - [struct vodka::utilities::cellule](#struct-vodkautilitiescellule)
   - [struct vodka::utilities::import](#struct-vodkautilitiesimport)
   - [boost::uuids::uuid vodka::utilities::genuid()](#boostuuidsuuid-vodkautilitiesgenuid)
-  - [void vodka::utilities::log()](#void-vodkautilitieslogstdstring-text-stdstring-verbose-int-x-stdstring-last-int-sublevel-stdvectorint-substep---stdvectorunsigned-long-subtotal)
-  - [void vodka::utilities::debuglog()](#void-vodkautilitiesdebuglogstdstring-text-int-line-stdstring-cell-bool-debugmode-stdstring-verbose-stdstring-file-bool-debug_info)
+  - [void vodka::utilities::log()](#void-vodkautilitieslogstdstring-text-stdstring-verbose-int-log_main_step-stdstring-last-int-sublevel-stdvectorint-substep---stdvectorunsigned-long-subtotal--)
+  - [void vodka::utilities::debuglog()](#void-vodkautilitiesdebuglogstdstring-text-int-line-stdstring-cell-bool-debug_mode-stdstring-verbose-stdstring-file-bool-debug_info)
   - [void vodka::utilities::var_warning()](#void-vodkautilitiesvar_warningstdstring-namevar-stdstring-typevar-stdstring-namecell-stdstring-line-bool-var_warning_enabled-stdstring-verbose)
   - [std::vector\<std::string> vodka::utilities::split()](#stdvectorstdstring-vodkautilitiessplitstdstring-str-stdstring-delimiter)
   - [void vodka::utilities::replaceall()](#void-vodkautilitiesreplaceallstdstring-str-stdstring-from-stdstring-to)
@@ -725,14 +725,14 @@ This function is used to generate UID for all the elements inside the Vodka tran
 
 ---
 
-### `void vodka::utilities::log(std::string text, std::string verbose, int x, std::string last, int sublevel, std::vector<int> substep = {}, std::vector<unsigned long> subtotal = {})`
+### `void vodka::utilities::log(std::string text, std::string verbose, int log_main_step, std::string last, int sublevel, std::vector<int> substep = {}, std::vector<unsigned long> subtotal = {})`
 
 This fonction is used to output logs in a stepped format.
 
 **Arguments:**
 - `std::string text` : the text to log
 - `std::string verbose` : the verbose mode, used to determine the amount of line break that need to be printed in order to output a readable result. Could be `a` for all or `r` for reduced.
-- `int x` : the actual step for the first level of process
+- `int log_main_step` : the actual step for the first level of process
 - `std::string sublevel` : the number of sub-process inside the actual process (0 if no sub-process)
 - `std::string last` : the number of step inside the first level process
 - `std::vector<int> substep` : the actual step for each level of process except the first one
@@ -750,7 +750,7 @@ log("this is a log","a",6,"12",2,{5,5},{10,10});
 
 ---
 
-### `void vodka::utilities::debuglog(std::string text, int line, std::string cell, bool debugmode, std::string verbose, std::string file, bool debug_info)`
+### `void vodka::utilities::debuglog(std::string text, int line, std::string cell, bool debug_mode, std::string verbose, std::string file, bool debug_info)`
 
 This is the function used to print debug lines in the vodka code.
 
@@ -758,7 +758,7 @@ This is the function used to print debug lines in the vodka code.
 - `std::string text` : the text to print, should include `>` or `>>`
 - `int line` : the line number of the debug line
 - `std::string cell` : the name of the original cell
-- `bool debugmode` : if the debug mode has been actived by the user
+- `bool debug_mode` : if the debug mode has been actived by the user
 - `std::string verbose` : could be `a` for all, `r` for reduced or `e` for error only. This is mainly for deciding how line break should be inserted in the terminal.
 - `std::string file` : the source file in which the debug line was detected
 - `bool debug_info` : if debug infos such as `file`, `line` or `cell` should be printed as well
