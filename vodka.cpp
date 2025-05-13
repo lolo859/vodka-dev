@@ -703,9 +703,9 @@ int main (int argc,char* argv[]) {
         }
         //* Debug line processing
         if (type_analyser.type=="debug_one") {
-            debuglog(line,maincell.start.line+(int)i+1,"main",debug_mode,verbose,file_source);
+            debuglog(line,maincell.start.line+(int)i+1,"main",verbose,file_source);
         } else if (type_analyser.type=="debug_two") {
-            debuglog(line,maincell.start.line+(int)i+1,"main",debug_mode,verbose,file_source,false);
+            debuglog(line,maincell.start.line+(int)i+1,"main",verbose,file_source,false);
         } 
         //* Vodka instruction processing
         else if (type_analyser.type=="var") {
@@ -1119,5 +1119,6 @@ int main (int argc,char* argv[]) {
         if (verbose=="r" || verbose=="a") {cout<<"\nSucessfully compile "+file_source+" to "+output<<endl;}
     }
     unsetenv("VODKA_SHOW_LOG_TIME");
+    unsetenv("VODKA_DEBUG_MODE");
     return 0;
 }

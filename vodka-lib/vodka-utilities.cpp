@@ -84,13 +84,20 @@ void vodka::utilities::log(string text,string verbose,int log_main_step,string l
         }
     }
 }
-void vodka::utilities::debuglog(string text,int line,string cell,bool debug_mode,string verbose,string file,bool debug_info) {
+void vodka::utilities::debuglog(string text,int line,string cell,string verbose,string file,bool debug_info) {
     const char* format=getenv("VODKA_SHOW_LOG_TIME");
     string time;
     if (format!=nullptr && string(format)=="TRUE") {
         time="["+to_string(get_process_time())+"]";
     } else {
         time="";
+    }
+    format=getenv("VODKA_DEBUG_MODE");
+    bool debug_mode;
+    if (format!=nullptr && string(format)=="TRUE") {
+        debug_mode=true;
+    } else {
+        debug_mode=false;
     }
     if (debug_mode==true) {
         if (debug_info==true) {
