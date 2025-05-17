@@ -1,7 +1,0 @@
-[
-    {
-        "command": "c++ -c -o vodka -I/vystem/vodka/vodka-lib vodka.cpp",
-        "directory": "/vystem/vodka",
-        "file": "/vystem/vodka/vodka.cpp"
-    }
-]
