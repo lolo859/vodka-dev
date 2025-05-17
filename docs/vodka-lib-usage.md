@@ -16,6 +16,11 @@ vodka-lib is the static internal C++ library that powers the Vodka transcoder an
   - [vodka::InternalSyscalls](#stdvectorstdstring-vodkainternalsyscalls)
   - [vodka::VodkaInstructions](#stdvectorstdstring-vodkavodkainstructions)
   - [vodka::ConversionsSyscalls](#stdmapstdstring-stdvectorstdstring-vodkaconversionssyscalls)
+- [Environnements variables](#environnements-variables)
+  - [VODKA_SHOW_LOG_TIME](#vodka_show_log_time)
+  - [VODKA_DEBUG_MODE](#vodka_debug_mode)
+  - [VODKA_SHOW_VAR_WARNING](#vodka_show_var_warning)
+  - [VODKA_VERBOSE_MODE](#vodka_verbose_mode)
 - [vodka::errors](#vodkaerrors)
   - [class vodka::errors::SourcesStack](#class-vodkaerrorssourcesstack)
   - [class vodka::errors::ErrorContainer](#class-vodkaerrorserrorcontainer)
@@ -133,6 +138,47 @@ The list of all the vodka instructions for this version of vodka-lib.
 ### `std::map<std::string, std::vector<std::string>> vodka::ConversionsSyscalls`
 
 The map that indicate which vodka datatype can accept each conversion syscall
+
+## Environnements variables
+
+vodka-lib useq environnements variables to transmit information on how to format the output of the `log`, `debuglog` and `var_warning` functions inside `vodka::utilities`. Each variable is optionnal but if it's not declared before the function call or with a invalid value, the function will choose a default value.
+
+These variables can't be set before the use of the vodka transcoder because their values will be overwritten by the transcoder with his own setting.
+
+### `VODKA_SHOW_LOG_TIME`
+
+That variable indicate whether or not it should show the process time when printing content. It apply to logs, errors, dubug lines and warnings.
+
+**Default value:** `FALSE`
+
+**Possibles values**: `FALSE`, `TRUE`
+
+### `VODKA_DEBUG_MODE`
+
+That variable indicate whether or not debug lines should be printed.
+
+**Default value:** `FALSE`
+
+**Possibles values:** `FALSE`, `TRUE`
+
+### `VODKA_SHOW_VAR_WARNING`
+
+That variable indicate whether or not warnings for unused variables should be printed.
+
+**Default value:** `TRUE`
+
+**Possibles values:** `FALSE`, `TRUE`
+
+### `VODKA_VERBOSE_MODE`
+
+That variable indicate which verbose modde should be applied. It doesn't affect how debugs lines and warnings are showed.
+
+**Default value:** `e`
+
+**Possibles values:**
+- `e` : error only
+- `r` : reduced verbosity, only print mains logs steps
+- `a` : full verbosity, print all logs and error
 
 ## `vodka::errors`
 

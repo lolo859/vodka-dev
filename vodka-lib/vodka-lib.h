@@ -393,9 +393,9 @@ namespace vodka {
         //* UUID generator
         boost::uuids::uuid genuid();
         //* Logs functions
-        void log(string text,string verbose,int log_main_step,string last,int sublevel=0,vector<int> substep={},vector<unsigned long> subtotal={});
-        void debuglog(string text,int line,string cell,string verbose,string file,bool debug_info=true);
-        void var_warning(string namevar,vodka::variables::VariableDatatype typevar,string namecell,string line,bool var_warning_enabled,string verbose);
+        void log(string text,int log_main_step,string last,int sublevel=0,vector<int> substep={},vector<unsigned long> subtotal={});
+        void debuglog(string text,int line,string cell,string file,bool debug_info=true);
+        void var_warning(string namevar,vodka::variables::VariableDatatype typevar,string namecell,string line);
         //* String utilities
         vector<string> split(string str,string delimiter);
         void replaceall(string str,string from,string to);

@@ -103,5 +103,6 @@ put split and the other functions inside vodka-lib
 add a timer system for log output
 the metadata of a variable is now stored in the general container and not into the datatype-specific container
 clean transcoder code mainly by reorganizing and renamming
-planned : use env variables to transmit informations
-planned : modified json output to match attributes names inside vodka-libc
+use env variables to transmit informations
+modified json output to match attributes names inside vodka-lib
+add --version

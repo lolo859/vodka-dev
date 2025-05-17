@@ -38,9 +38,9 @@ map<string,string> vodka::json::vodka::VodkaSymbol::syntax() {
 //* Syntax function for json vodka variables declaration
 map<string,string> vodka::json::vodka::VodkaVariableDeclaration::syntax() {
     map<string,string> out;
-    out.insert(pair<string,string>("name",variable_name));
-    out.insert(pair<string,string>("vartype",variable_datatype));
-    out.insert(pair<string,string>("decvalue",variable_value));
+    out.insert(pair<string,string>("variable_name",variable_name));
+    out.insert(pair<string,string>("variable_type",variable_datatype));
+    out.insert(pair<string,string>("variable_value",variable_value));
     out.insert(pair<string,string>("uid",uid));
     return out;
 };
@@ -48,11 +48,11 @@ map<string,string> vodka::json::vodka::VodkaVariableDeclaration::syntax() {
 map<string,string> vodka::json::vodka::VodkaLine::syntax() {
     if (thing=="variable_declaration") {
         auto out=variable_declaration_element.syntax();
-        out.insert(pair<string,string>("type","var"));
+        out.insert(pair<string,string>("type","variable_declaration"));
         return out;
     } else if (thing=="instruction") {
         auto out=instruction_element.syntax();
-        out.insert(pair<string,string>("type","int"));
+        out.insert(pair<string,string>("type","instruction"));
         return out;
     } else {
         return {};

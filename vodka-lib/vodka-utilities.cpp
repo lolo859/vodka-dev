@@ -50,13 +50,24 @@ boost::uuids::uuid vodka::utilities::genuid() {
     return uuid;
 }
 //* Logs functions
-void vodka::utilities::log(string text,string verbose,int log_main_step,string last,int sublevel,vector<int> substep,vector<unsigned long> subtotal) {
+void vodka::utilities::log(string text,int log_main_step,string last,int sublevel,vector<int> substep,vector<unsigned long> subtotal) {
     const char* format=getenv("VODKA_SHOW_LOG_TIME");
     string time;
     if (format!=nullptr && string(format)=="TRUE") {
         time="["+to_string(get_process_time())+"]";
     } else {
         time="";
+    }
+    format=getenv("VODKA_VERBOSE_MODE");
+    string verbose;
+    if (format!=nullptr) {
+        if (string(format)=="e" || string(format)=="a" || string(format)=="r") {
+            verbose=string(format);
+        } else {
+            verbose="e";
+        }
+    } else {
+        verbose="e";
     }
     if (verbose=="a" || verbose=="r") {
         if (sublevel==0) {
@@ -84,7 +95,7 @@ void vodka::utilities::log(string text,string verbose,int log_main_step,string l
         }
     }
 }
-void vodka::utilities::debuglog(string text,int line,string cell,string verbose,string file,bool debug_info) {
+void vodka::utilities::debuglog(string text,int line,string cell,string file,bool debug_info) {
     const char* format=getenv("VODKA_SHOW_LOG_TIME");
     string time;
     if (format!=nullptr && string(format)=="TRUE") {
@@ -99,6 +110,17 @@ void vodka::utilities::debuglog(string text,int line,string cell,string verbose,
     } else {
         debug_mode=false;
     }
+    format=getenv("VODKA_VERBOSE_MODE");
+    string verbose;
+    if (format!=nullptr) {
+        if (string(format)=="e" || string(format)=="a" || string(format)=="r") {
+            verbose=string(format);
+        } else {
+            verbose="e";
+        }
+    } else {
+        verbose="e";
+    }
     if (debug_mode==true) {
         if (debug_info==true) {
             if (verbose=="e") {
@@ -109,7 +131,7 @@ void vodka::utilities::debuglog(string text,int line,string cell,string verbose,
                 cout<<endl<<time+"[DEBUG]   Debug line "+to_string(line)+" in cell "<<termcolor::magenta<<termcolor::bold<<cell<<termcolor::reset<<" from file "<<termcolor::blue<<termcolor::bold<<filesystem::absolute(file).string()<<termcolor::reset<<" : "+texti<<endl;
             } else if (verbose=="a") {
                 string texti=text.substr(1,text.length()-1);
-                cout<<endl<<"time+[DEBUG]   Debug line "+to_string(line)+" in cell "<<termcolor::magenta<<termcolor::bold<<cell<<termcolor::reset<<" from file "<<termcolor::blue<<termcolor::bold<<filesystem::absolute(file).string()<<termcolor::reset<<" : "+texti;
+                cout<<endl<<time+"[DEBUG]   Debug line "+to_string(line)+" in cell "<<termcolor::magenta<<termcolor::bold<<cell<<termcolor::reset<<" from file "<<termcolor::blue<<termcolor::bold<<filesystem::absolute(file).string()<<termcolor::reset<<" : "+texti;
             }
         } else {
             if (verbose=="e") {
@@ -125,14 +147,39 @@ void vodka::utilities::debuglog(string text,int line,string cell,string verbose,
         }
     }
 }
-void vodka::utilities::var_warning(string namevar,vodka::variables::VariableDatatype typevar,string namecell,string line,bool var_warning_enabled,string verbose) {
+void vodka::utilities::var_warning(string namevar,vodka::variables::VariableDatatype typevar,string namecell,string line) {
+    const char* format=getenv("VODKA_SHOW_LOG_TIME");
+    string time;
+    if (format!=nullptr && string(format)=="TRUE") {
+        time="["+to_string(get_process_time())+"]";
+    } else {
+        time="";
+    }
+    format=getenv("VODKA_SHOW_VAR_WARNING");
+    bool var_warning_enabled;
+    if (format!=nullptr && string(format)=="TRUE") {
+        var_warning_enabled=true;
+    } else {
+        var_warning_enabled=false;
+    }
+    format=getenv("VODKA_VERBOSE_MODE");
+    string verbose;
+    if (format!=nullptr) {
+        if (string(format)=="e" || string(format)=="a" || string(format)=="r") {
+            verbose=string(format);
+        } else {
+            verbose="e";
+        }
+    } else {
+        verbose="e";
+    }
     if (var_warning_enabled==true) {
         if (verbose=="e") {
-            cout<<"[WARNING] vodka.warnings.unused_variable : Variable "<<termcolor::bold<<namevar+" ("+vodka::variables::datatype_to_string(typevar)+")"<<termcolor::reset<<", declared line "<<termcolor::bold<<line<<termcolor::reset<<" in cell "<<termcolor::magenta<<termcolor::bold<<namecell<<termcolor::reset<<", isn't used anywhere and may take useless memory."<<endl;
+            cout<<time+"[WARNING] vodka.warnings.unused_variable : Variable "<<termcolor::bold<<namevar+" ("+vodka::variables::datatype_to_string(typevar)+")"<<termcolor::reset<<", declared line "<<termcolor::bold<<line<<termcolor::reset<<" in cell "<<termcolor::magenta<<termcolor::bold<<namecell<<termcolor::reset<<", isn't used anywhere and may take useless memory."<<endl;
         } else if (verbose=="r") {
-            cout<<endl<<"[WARNING] vodka.warnings.unused_variable : Variable "<<termcolor::bold<<namevar+" ("+vodka::variables::datatype_to_string(typevar)+")"<<termcolor::reset<<", declared line "<<termcolor::bold<<line<<termcolor::reset<<" in cell "<<termcolor::magenta<<termcolor::bold<<namecell<<termcolor::reset<<", isn't used anywhere and may take useless memory."<<endl;
+            cout<<endl<<time+"[WARNING] vodka.warnings.unused_variable : Variable "<<termcolor::bold<<namevar+" ("+vodka::variables::datatype_to_string(typevar)+")"<<termcolor::reset<<", declared line "<<termcolor::bold<<line<<termcolor::reset<<" in cell "<<termcolor::magenta<<termcolor::bold<<namecell<<termcolor::reset<<", isn't used anywhere and may take useless memory."<<endl;
         } else if (verbose=="a") {
-            cout<<endl<<"[WARNING] vodka.warnings.unused_variable : Variable "<<termcolor::bold<<namevar+" ("+vodka::variables::datatype_to_string(typevar)+")"<<termcolor::reset<<", declared line "<<termcolor::bold<<line<<termcolor::reset<<" in cell "<<termcolor::magenta<<termcolor::bold<<namecell<<termcolor::reset<<", isn't used anywhere and may take useless memory."<<endl;
+            cout<<endl<<time+"[WARNING] vodka.warnings.unused_variable : Variable "<<termcolor::bold<<namevar+" ("+vodka::variables::datatype_to_string(typevar)+")"<<termcolor::reset<<", declared line "<<termcolor::bold<<line<<termcolor::reset<<" in cell "<<termcolor::magenta<<termcolor::bold<<namecell<<termcolor::reset<<", isn't used anywhere and may take useless memory."<<endl;
         }
     }
 }

@@ -11,10 +11,10 @@ using namespace vodka::errors;
 bool vodka::instructions::CallTreatement::multiply(SourcesStack lclstack) {
     auto srclclstack=lclstack;
     srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
-    log("Checking instruction syntax.",instruction_call.verbose_context,instruction_call.main_logstep_context,instruction_call.last_logstep_context,2,{(int)instruction_call.iteration_number_context+1,1},{instruction_call.cell_context.content.size(),3});
+    log("Checking instruction syntax.",instruction_call.main_logstep_context,instruction_call.last_logstep_context,2,{(int)instruction_call.iteration_number_context+1,1},{instruction_call.cell_context.content.size(),3});
     auto eles=split(line," ");
     if (eles.size()==4) {
-        log("Checking content existence and datatype.",instruction_call.verbose_context,instruction_call.main_logstep_context,instruction_call.last_logstep_context,2,{(int)instruction_call.iteration_number_context+1,2},{instruction_call.cell_context.content.size(),3});
+        log("Checking content existence and datatype.",instruction_call.main_logstep_context,instruction_call.last_logstep_context,2,{(int)instruction_call.iteration_number_context+1,2},{instruction_call.cell_context.content.size(),3});
         vodka::analyser::ArgumentChecker argcheck;
         argcheck.lastest_allowed_type={};
         argcheck.patern={{vodka::variables::VariableDatatype::vodint,vodka::variables::VariableDatatype::vodec},{vodka::variables::VariableDatatype::vodint,vodka::variables::VariableDatatype::vodec},{vodka::variables::VariableDatatype::vodint,vodka::variables::VariableDatatype::vodec}};
@@ -36,7 +36,7 @@ bool vodka::instructions::CallTreatement::multiply(SourcesStack lclstack) {
             }
         }
         if (instruction_call.variablesdict_context[argsname[0]].thing==vodka::variables::VariableDatatype::vodint) {
-            log("Registering systems call for this instructions.",instruction_call.verbose_context,instruction_call.main_logstep_context,instruction_call.last_logstep_context,2,{(int)instruction_call.iteration_number_context+1,3},{instruction_call.cell_context.content.size(),3});
+            log("Registering systems call for this instructions.",instruction_call.main_logstep_context,instruction_call.last_logstep_context,2,{(int)instruction_call.iteration_number_context+1,3},{instruction_call.cell_context.content.size(),3});
             vector<string> uidargs;
             for (auto a:argsname) {
                 uidargs.push_back(instruction_call.variablesdict_context[a].variable_metadata.uuid);
@@ -51,7 +51,7 @@ bool vodka::instructions::CallTreatement::multiply(SourcesStack lclstack) {
             syscalls_output.push_back(mulintcont);
             return true;
         } else if (instruction_call.variablesdict_context[argsname[0]].thing==vodka::variables::VariableDatatype::vodec) {
-            log("Registering systems call for this instructions.",instruction_call.verbose_context,instruction_call.main_logstep_context,instruction_call.last_logstep_context,2,{(int)instruction_call.iteration_number_context+1,3},{instruction_call.cell_context.content.size(),3});
+            log("Registering systems call for this instructions.",instruction_call.main_logstep_context,instruction_call.last_logstep_context,2,{(int)instruction_call.iteration_number_context+1,3},{instruction_call.cell_context.content.size(),3});
             vector<string> uidargs;
             for (auto a:argsname) {
                 uidargs.push_back(instruction_call.variablesdict_context[a].variable_metadata.uuid);
@@ -82,7 +82,7 @@ bool vodka::instructions::CallTreatement::multiply(SourcesStack lclstack) {
             return true;
         }
     } else if (eles.size()==5) {
-        log("Checking content existence.",instruction_call.verbose_context,instruction_call.main_logstep_context,instruction_call.last_logstep_context,2,{(int)instruction_call.iteration_number_context+1,2},{instruction_call.cell_context.content.size(),3});
+        log("Checking content existence.",instruction_call.main_logstep_context,instruction_call.last_logstep_context,2,{(int)instruction_call.iteration_number_context+1,2},{instruction_call.cell_context.content.size(),3});
         vodka::analyser::ArgumentChecker argcheck;
         argcheck.lastest_allowed_type={};
         argcheck.patern={{vodka::variables::VariableDatatype::vodec},{vodka::variables::VariableDatatype::vodec},{vodka::variables::VariableDatatype::vodec},{vodka::variables::VariableDatatype::vodint}};
@@ -97,7 +97,7 @@ bool vodka::instructions::CallTreatement::multiply(SourcesStack lclstack) {
             return false;
         }
         vector<string> inoutargs(eles.begin()+1,eles.end()-1);
-        log("Registering systems call for this instructions.",instruction_call.verbose_context,instruction_call.main_logstep_context,instruction_call.last_logstep_context,2,{(int)instruction_call.iteration_number_context+1,3},{instruction_call.cell_context.content.size(),3});
+        log("Registering systems call for this instructions.",instruction_call.main_logstep_context,instruction_call.last_logstep_context,2,{(int)instruction_call.iteration_number_context+1,3},{instruction_call.cell_context.content.size(),3});
         vector<string> uidargs;
         for (auto a:inoutargs) {
             uidargs.push_back(instruction_call.variablesdict_context[a].variable_metadata.uuid);

@@ -1,3 +1,11 @@
+#if defined(__GNUC__)
+constexpr int gpp_major=__GNUC__;
+constexpr int gpp_minor=__GNUC_MINOR__;
+constexpr int gpp_patch=__GNUC_PATCHLEVEL__;
+bool compiled_with_gpp=true;
+#else
+bool compiled_with_gpp=false;
+#endif
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -12,6 +20,7 @@
 #include <getopt.h>
 #include <chrono>
 #include <boost/hash2/sha3.hpp>
+#include <boost/version.hpp>
 #include <cstdlib>
 #include "vodka-lib/vodka-lib.h"
 #include "dependencies/json.hpp"
@@ -92,7 +101,7 @@ bool read_file(string output,string mode,SourcesStack srclclstack) {
         return false;
     }
     if (mode=="check") {
-        log("Checking if source and output file exist.",verbose,log_main_step,last);
+        log("Checking if source and output file exist.",log_main_step,last);
         if (filesystem::exists(file_source)==false) {
             raise(ErrorContainer("Source file doesn't exist.",file_source,{"<no line affected>"},{0},lclstack));
             return false;
@@ -102,7 +111,7 @@ bool read_file(string output,string mode,SourcesStack srclclstack) {
             return false;
         }
         log_main_step=log_main_step+1;
-        log("Checking files readability.",verbose,log_main_step,last);
+        log("Checking files readability.",log_main_step,last);
         ifstream file_source_stream(file_source.c_str());
         if (file_source_stream.is_open()==false) {
             raise(ErrorContainer("Source file can't be open.",file_source,{"<no line affected>"},{0},lclstack));
@@ -114,7 +123,7 @@ bool read_file(string output,string mode,SourcesStack srclclstack) {
             return false;
         }
         log_main_step=log_main_step+1;
-        log("Reading files.",verbose,log_main_step,last);
+        log("Reading files.",log_main_step,last);
         string line_readed_source;
         while (getline(file_source_stream,line_readed_source)) {
             content.push_back(line_readed_source);
@@ -124,7 +133,7 @@ bool read_file(string output,string mode,SourcesStack srclclstack) {
             output_file_to_check.push_back(line_readed_output);
         }
         log_main_step=log_main_step+1;
-        log("Removing comments.",verbose,log_main_step,last);
+        log("Removing comments.",log_main_step,last);
         for (int i=0;i<content.size();++i) {
             if (content[i]!="") {
                 if (content[i].find("§",0)==0) {
@@ -146,26 +155,26 @@ bool read_file(string output,string mode,SourcesStack srclclstack) {
         file_source_stream.close();
         return true;
     } else {
-        log("Checking if source file exist.",verbose,log_main_step,last);
+        log("Checking if source file exist.",log_main_step,last);
         if (filesystem::exists(file_source)==false) {
             raise(ErrorContainer("Source file doesn't exist.",file_source,{"<no line affected>"},{0},lclstack));
             return false;
         }
         log_main_step=log_main_step+1;
-        log("Checking file readability.",verbose,log_main_step,last);
+        log("Checking file readability.",log_main_step,last);
         ifstream file_source_stream(file_source.c_str());
         if (file_source_stream.is_open()==false) {
             raise(ErrorContainer("File can't be open.",file_source,{"<no line affected>"},{0},lclstack));
             return false;
         }
         log_main_step=log_main_step+1;
-        log("Reading file.",verbose,log_main_step,last);
+        log("Reading file.",log_main_step,last);
         string line_readed_source;
         while (getline(file_source_stream,line_readed_source)) {
             content.push_back(line_readed_source);
         }
         log_main_step=log_main_step+1;
-        log("Removing comments.",verbose,log_main_step,last);
+        log("Removing comments.",log_main_step,last);
         for (int i=0;i<content.size();++i) {
             if (content[i]!="") {
                 if (content[i].find("§",0)==0) {
@@ -184,50 +193,50 @@ bool detect_process_symbol(SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
     symbol temp;
-    log("Detecting symbols.",verbose,log_main_step,last);
+    log("Detecting symbols.",log_main_step,last);
     for (size_t i=0;i<content.size();++i) {
         string line=content[i];
-        log("Detecting if line "+to_string(i+1)+" contain symbol :",verbose,log_main_step,last,1,{(int)i+1},{content.size()});
+        log("Detecting if line "+to_string(i+1)+" contain symbol :",log_main_step,last,1,{(int)i+1},{content.size()});
         if (line.rfind("£",0)==0) {
-            log("Allocating memory.",verbose,log_main_step,last,2,{(int)i+1,1},{content.size(),3});
+            log("Allocating memory.",log_main_step,last,2,{(int)i+1,1},{content.size(),3});
             temp.line=i+1;
             temp.content=line;
             auto ele=split(line," ");
             temp.type=ele[0].substr(2,ele[0].size());
-            log("Checking symbol.",verbose,log_main_step,last,2,{(int)i+1,2},{content.size(),3});
+            log("Checking symbol.",log_main_step,last,2,{(int)i+1,2},{content.size(),3});
             if (find(symbollist.begin(),symbollist.end(),temp.type)==symbollist.end()) {
                 int linenum=i+1;
                 raise(ErrorContainer("vodka.error.symbol.unknow_symbol : Unknow symbol found : "+temp.type,file_source,{line},{linenum},lclstack));
                 return false;
             } else {
-                log("Saving symbol.",verbose,log_main_step,last,2,{(int)i+1,3},{content.size(),3});
+                log("Saving symbol.",log_main_step,last,2,{(int)i+1,3},{content.size(),3});
                 symbols.push_back(temp);
             }
         } else {
-            log("No symbol detected.",verbose,log_main_step,last,2,{(int)i+1,1},{content.size(),1});
+            log("No symbol detected.",log_main_step,last,2,{(int)i+1,1},{content.size(),1});
         }
     }
     log_main_step=log_main_step+1;
-    log("Searching define replacement instruction :",verbose,log_main_step,last);
+    log("Searching define replacement instruction :",log_main_step,last);
     for (size_t i=0;i<symbols.size();++i) {
-        log("Checking symbol type :",verbose,log_main_step,last,1,{(int)i+1},{symbols.size()});
+        log("Checking symbol type :",log_main_step,last,1,{(int)i+1},{symbols.size()});
         if (symbols[i].type=="VODEFINE") {
             auto eles=split(symbols[i].content," ");
             if (eles.size()==3) {
                 replacement[eles[1]]=eles[2];
-                log("Replacement found. "+eles[1]+" will be replaced with "+eles[2]+".",verbose,log_main_step,last,2,{(int)i+1,1},{symbols.size(),1});
+                log("Replacement found. "+eles[1]+" will be replaced with "+eles[2]+".",log_main_step,last,2,{(int)i+1,1},{symbols.size(),1});
             } else {
                 raise(ErrorContainer("vodka.error.vodefine.invalid_syntax : Invalid syntax for define replacement declaration.",file_source,{symbols[i].content},{symbols[i].line},lclstack));
                 return false;
             }
         } else {
-            log("No VODEFINE symbol detected.",verbose,log_main_step,last,2,{(int)i+1,1},{symbols.size(),1});
+            log("No VODEFINE symbol detected.",log_main_step,last,2,{(int)i+1,1},{symbols.size(),1});
         }
     }
     log_main_step=log_main_step+1;
-    log("Looking for type symbol :",verbose,log_main_step,last);
+    log("Looking for type symbol :",log_main_step,last);
     for (size_t i=0;i<symbols.size();++i) {
-        log("Checking symbol type.",verbose,log_main_step,last,1,{(int)i+1},{symbols.size()});
+        log("Checking symbol type.",log_main_step,last,1,{(int)i+1},{symbols.size()});
         if (symbols[i].type=="VODTYPE") {
             if (typefound==false) {
                 typefound=true;
@@ -247,25 +256,25 @@ bool detect_process_symbol(SourcesStack srclclstack) {
 bool detect_program_type(string output,SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
-    log("Detecting program type :",verbose,log_main_step,last);
+    log("Detecting program type :",log_main_step,last);
     for (size_t i=0;i<symbols.size();++i) {
-        log("Checking if line contain type symbol :",verbose,log_main_step,last,1,{(int)i+1},{symbols.size()});
+        log("Checking if line contain type symbol :",log_main_step,last,1,{(int)i+1},{symbols.size()});
         if (symbols[i].type=="VODTYPE") {
-            log("Checking syntax.",verbose,log_main_step,last,2,{(int)i+1,1},{symbols.size(),3});
+            log("Checking syntax.",log_main_step,last,2,{(int)i+1,1},{symbols.size(),3});
             auto ele=split(symbols[i].content," ");
             if (ele.size()!=2) {
                 raise(ErrorContainer("vodka.error.vodtype.invalid_syntax : Invalid syntax for program type declaration.",file_source,{symbols[i].content},{symbols[i].line},lclstack));
                 return false;
             }
-            log("Checking program type.",verbose,log_main_step,last,2,{(int)i+1,2},{symbols.size(),3});
+            log("Checking program type.",log_main_step,last,2,{(int)i+1,2},{symbols.size(),3});
             if (find(typelist.begin(),typelist.end(),ele[1])==typelist.end()) {
                 raise(ErrorContainer("vodka.error.vodtype.unknow_type : Unknow type : "+ele[1],file_source,{symbols[i].content},{symbols[i].line},lclstack));
                 return false;
             }
-            log("Saving program type.",verbose,log_main_step,last,2,{(int)i+1,3},{symbols.size(),3});
+            log("Saving program type.",log_main_step,last,2,{(int)i+1,3},{symbols.size(),3});
             program_type=ele[1];
         } else {
-            log("The symbol isn't the type symbol.",verbose,log_main_step,last,2,{(int)i+1,1},{symbols.size(),1});
+            log("The symbol isn't the type symbol.",log_main_step,last,2,{(int)i+1,1},{symbols.size(),1});
         }
     }
     if (disable_integrity_hash) {
@@ -279,17 +288,17 @@ bool detect_program_type(string output,SourcesStack srclclstack) {
 bool detect_cells(SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
-    log("Detecting cells :",verbose,log_main_step,last);
+    log("Detecting cells :",log_main_step,last);
     for (size_t i=0;i<symbols.size();++i) {
         if (symbols[i].type=="VODSTART") {
-            log("Checking start symbol syntax.",verbose,log_main_step,last,1,{1},{10});
+            log("Checking start symbol syntax.",log_main_step,last,1,{1},{10});
             if (symbols.size()>=i+2 && symbols[i+1].type=="VODEND") {
-                log("Allocating memory.",verbose,log_main_step,last,1,{2},{10});
+                log("Allocating memory.",log_main_step,last,1,{2},{10});
                 cell temp;
-                log("Detecting cell start and end symbol.",verbose,log_main_step,last,1,{3},{10});
+                log("Detecting cell start and end symbol.",log_main_step,last,1,{3},{10});
                 temp.start=symbols[i];
                 temp.end=symbols[i+1];
-                log("Detecting cell name.",verbose,log_main_step,last,1,{4},{10});
+                log("Detecting cell name.",log_main_step,last,1,{4},{10});
                 auto args=split(symbols[i].content," ");
                 if (args.size()>1) {
                     temp.name=args[1];
@@ -297,7 +306,7 @@ bool detect_cells(SourcesStack srclclstack) {
                     raise(ErrorContainer("vodka.error.vodstart.name_not_found : Can't find cell's name.",file_source,{symbols[i].content},{symbols[i].line},lclstack));
                     return false;
                 }
-                log("Checking if an cell with the same name already exist in the program.",verbose,log_main_step,last,1,{5},{10});
+                log("Checking if an cell with the same name already exist in the program.",log_main_step,last,1,{5},{10});
                 auto it=find(cellnames.begin(),cellnames.end(),temp.name);
                 vector<string> contenterror;
                 vector<int> lineerror;
@@ -313,25 +322,25 @@ bool detect_cells(SourcesStack srclclstack) {
                     raise(ErrorContainer("vodka.error.cell.confusion : An existing cell with the same name already exists.",file_source,contenterror,lineerror,lclstack));
                     return false;
                 }
-                log("Detecting cell argument.",verbose,log_main_step,last,1,{6},{10});
+                log("Detecting cell argument.",log_main_step,last,1,{6},{10});
                 if (args.size()>2) {
                     temp.args=vector<string>(args.begin()+2,args.end());
                 }
-                log("Detecting cell output.",verbose,log_main_step,last,1,{7},{10});
+                log("Detecting cell output.",log_main_step,last,1,{7},{10});
                 auto outs=split(temp.end.content," ");
                 if (outs.size()>1) {
                     temp.outs=vector<string>(outs.begin()+1,outs.end());
                 }
-                log("Saving cell content.",verbose,log_main_step,last,1,{8},{10});
+                log("Saving cell content.",log_main_step,last,1,{8},{10});
                 int startline=temp.start.line;
                 int endline=temp.end.line-2;
                 for (int i=startline;i<endline+1;++i) {
                     temp.content.push_back(content[i]);
                 }
-                log("Saving cell.",verbose,log_main_step,last,1,{9},{10});
+                log("Saving cell.",log_main_step,last,1,{9},{10});
                 cells.push_back(temp);
                 cellnames.push_back(temp.name);
-                log("Detecting if cell is the main cell.",verbose,log_main_step,last,1,{10},{10});
+                log("Detecting if cell is the main cell.",log_main_step,last,1,{10},{10});
                 if (temp.name=="main") {
                     maincell=temp;
                     for (auto a:maincell.args) {
@@ -366,7 +375,7 @@ bool detect_cells(SourcesStack srclclstack) {
 bool verify_main_cell(SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
-    log("Verifying if program contain a main cell.",verbose,log_main_step,last);
+    log("Verifying if program contain a main cell.",log_main_step,last);
     if (maincell.name!="main") {
         raise(ErrorContainer("vodka.error.cell.main_not_found : Can't find the main cell.",file_source,{"<no line affected>"},{0},lclstack));
         return false;
@@ -377,18 +386,17 @@ bool verify_main_cell(SourcesStack srclclstack) {
 bool code_pre_treatement(bool replace,SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
-    log("Writing args section.",verbose,log_main_step,last);
+    log("Writing args section.",log_main_step,last);
     for (auto argm:mainargsdict) {
         final.push_back(argm.second.variable_metadata.uuid);
     }
     if (replace==false) {
         log_main_step=log_main_step+1;
-        log("Skipping replacement step because of -r.",verbose,log_main_step,last);
+        log("Skipping replacement step because of -r.",log_main_step,last);
     } else {
         log_main_step=log_main_step+1;
-        log("Started define replacing process.",verbose,log_main_step,last);
+        log("Started define replacing process.",log_main_step,last);
         for (int i=0;i<maincell.content.size();++i) {
-            cout<<replacement.size()<<endl;
             auto temp=split(maincell.content[i]," ");
             for (int y=0;y<temp.size();++y) {
                 for (auto a:replacement) {
@@ -416,7 +424,7 @@ bool code_pre_treatement(bool replace,SourcesStack srclclstack) {
         }
     }
     log_main_step=log_main_step+1;
-    log("Started datatypes replacement process.",verbose,log_main_step,last);
+    log("Started datatypes replacement process.",log_main_step,last);
     vector<string> directs_data;
     for (int i=0;i<maincell.content.size();++i) {
         vodka::analyser::LineSyntaxChecker localline;
@@ -558,22 +566,35 @@ int main (int argc,char* argv[]) {
         {"json-vodka",no_argument,nullptr,'J'},
         {"disable-replacements",no_argument,nullptr,'r'},
         {"disable-all-warnings",no_argument,nullptr,'w'},
-        {"disable-variables-warnings",no_argument,nullptr,0},
+        {"disable-variables-warnings",no_argument,nullptr,'!'},
         {"disable-integrity-hash",no_argument,nullptr,'H'},
         {"check-mode",no_argument,nullptr,'c'},
         {"show-log-time",no_argument,nullptr,'t'},
+        {"version",no_argument,nullptr,'1'},
         {nullptr,0,nullptr,0}
     };
     //* Args management
     while ((option=getopt_long(argc,argv,"hHjJtrdvVcwf:s:o:",options,nullptr))!=-1) {
         switch (option) {
-        case 0:
-            if (string(argv[optind-1])=="disable-variables-warnings") {
-                var_warning_enabled=false;
+        case '!':
+            var_warning_enabled=false;
+        case '1':
+            cout<<"Vodka transcoder version 0.4 beta 1"<<endl;
+            cout<<"vodka-lib version "+vodka::LibraryVersion<<endl;
+            cout<<"Json export format version 4"<<endl;
+            cout<<"vodka-lib Json namespace version "+vodka::JsonVersion<<endl;
+            cout<<"Dependencies:"<<endl;
+            cout<<" - Boost version "<<BOOST_VERSION/100000<<"."<< BOOST_VERSION/100%1000<<"."<<BOOST_VERSION%100<<endl;
+            cout<<" - Json version "<<NLOHMANN_JSON_VERSION_MAJOR<<"."<<NLOHMANN_JSON_VERSION_MINOR<<"."<<NLOHMANN_JSON_VERSION_PATCH<<endl;
+            cout<<" - Termcolor version 2.1.0"<<endl;
+            if (compiled_with_gpp) {
+                cout<<"g++ version used for compilation : "<<to_string(gpp_major)<<"."<<to_string(gpp_minor)<<"."<<to_string(gpp_patch)<<endl;
+            } else {
+                cout<<"Compiled with unknow compiler."<<endl;
             }
-            break;
+            return 0;
         case 'h':
-            cout<<"Vodka v0.4 beta 1 - Vodka Objective Dictionary for Kernel Analyser\nOptions :\n  -h, --help :\n    show this help\n  -f, --find object_to_find :\n    (not working for the moment)\n  -s, --source-file source_file :\n    source file \n  -o, --output-file output_file :\n    output file\n  -v, --verbose-reduced :\n    set verbose mode to reduced\n  -V, --verbose-full :\n    set verbose mode to full\n  -d, --debug-lines :\n    enable debug mode\n  -j, --json-kernel :\n    export output to a json file specified with -o\n  -J, --json-vodka :\n    export .vod structure to a json file specified with -o\n  -r, --disable-replacements :\n    disable define replacement\n  -w, --disable-all-warnings :\n    disable warnings\n  --disable-variables-warnings :\n    disable variables warnings\n  -H, --disable-integrity-hash :\n    disable the integrity hash integration into the output\n  -c, --check-mode :\n    verify the integrity between the inputed file witn -s and the output file specified with -o\n  -t, --show-log-time :\n    show time in every log output, should be used alongside -v or -V"<<endl;
+            cout<<"Vodka Objective Dictionary for Kernel Analyser\nOptions :\n  -h, --help :\n    show this help\n  -f, --find object_to_find :\n    (not working for the moment)\n  -s, --source-file source_file :\n    source file \n  -o, --output-file output_file :\n    output file\n  -v, --verbose-reduced :\n    set verbose mode to reduced\n  -V, --verbose-full :\n    set verbose mode to full\n  -d, --debug-lines :\n    enable debug mode\n  -j, --json-kernel :\n    export output to a json file specified with -o\n  -J, --json-vodka :\n    export .vod structure to a json file specified with -o\n  -r, --disable-replacements :\n    disable define replacement\n  -w, --disable-all-warnings :\n    disable warnings\n  --disable-variables-warnings :\n    disable variables warnings\n  -H, --disable-integrity-hash :\n    disable the integrity hash integration into the output\n  -c, --check-mode :\n    verify the integrity between the inputed file witn -s and the output file specified with -o\n  -t, --show-log-time :\n    show time in every log output, should be used alongside -v or -V\n  --version :\n    show version of every sub-section of the code, transcoder, dependencies, JSON and compiler"<<endl;
             return 0;
         case 'f':
             mode="find";
@@ -637,11 +658,6 @@ int main (int argc,char* argv[]) {
     } else {
         setenv("VODKA_SHOW_VAR_WARNING","FALSE",1);
     }
-    if (disable_integrity_hash) {
-        setenv("VODKA_DISABLE_INTEGRITY_HASH","TRUE",1);
-    } else {
-        setenv("VODKA_DISABLE_INTEGRITY_HASH","FALSE",1);
-    }
     setenv("VODKA_VERBOSE_MODE",verbose.c_str(),1);
     bool readed_file=read_file(output,mode,lclstack);
     if (readed_file==false) {
@@ -674,7 +690,7 @@ int main (int argc,char* argv[]) {
         return -1;
     }
     log_main_step=log_main_step+1;
-    log("Started analysing main cell :",verbose,log_main_step,last);
+    log("Started analysing main cell :",log_main_step,last);
     //* Here happen all the magic
     final.push_back("endargs");
     vector<vodka::syscalls::SyscallContainer> instructions_main;
@@ -682,7 +698,7 @@ int main (int argc,char* argv[]) {
     vector<string> main_variableslist=variableslist;
     map<string,vector<string>> main_vars_used;
     for (size_t i=0;i<maincell.content.size();++i) {
-        log("Analysing line "+to_string(i+1)+" :",verbose,log_main_step,last,1,{(int)i+1},{maincell.content.size()});
+        log("Analysing line "+to_string(i+1)+" :",log_main_step,last,1,{(int)i+1},{maincell.content.size()});
         string line=maincell.content[i];
         vodka::analyser::LineSyntaxChecker actual_line;
         actual_line.content=line;
@@ -703,13 +719,13 @@ int main (int argc,char* argv[]) {
         }
         //* Debug line processing
         if (type_analyser.type=="debug_one") {
-            debuglog(line,maincell.start.line+(int)i+1,"main",verbose,file_source);
+            debuglog(line,maincell.start.line+(int)i+1,"main",file_source);
         } else if (type_analyser.type=="debug_two") {
-            debuglog(line,maincell.start.line+(int)i+1,"main",verbose,file_source,false);
+            debuglog(line,maincell.start.line+(int)i+1,"main",file_source,false);
         } 
         //* Vodka instruction processing
         else if (type_analyser.type=="var") {
-            log("Checking vodka declaration syntax.",verbose,log_main_step,last,2,{(int)i+1,1},{maincell.content.size(),6});
+            log("Checking vodka declaration syntax.",log_main_step,last,2,{(int)i+1,1},{maincell.content.size(),6});
             vodka::analyser::VariableDeclarationAnalyser VariableDeclarationAnalyser;
             VariableDeclarationAnalyser.line_checked=type_analyser;
             VariableDeclarationAnalyser.checked=VariableDeclarationAnalyser.parser(lclstack);
@@ -724,12 +740,12 @@ int main (int argc,char* argv[]) {
                     }
                 }
             }
-            log("Checking vodka declaration type and value.",verbose,log_main_step,last,2,{(int)i+1,2},{maincell.content.size(),6});
+            log("Checking vodka declaration type and value.",log_main_step,last,2,{(int)i+1,2},{maincell.content.size(),6});
             VariableDeclarationAnalyser.checked_type_value=VariableDeclarationAnalyser.check_type_value(main_variableslist,lclstack);
             if (VariableDeclarationAnalyser.checked_type_value==false) {
                 return -1;
             }
-            log("Making metadata about vodka declaration.",verbose,log_main_step,last,2,{(int)i+1,3},{maincell.content.size(),6});
+            log("Making metadata about vodka declaration.",log_main_step,last,2,{(int)i+1,3},{maincell.content.size(),6});
             if (VariableDeclarationAnalyser.datatype=="vodka") {
                 VariableDeclarationAnalyser.duplication_source_variable=main_variablesdict[VariableDeclarationAnalyser.value];
             }
@@ -737,17 +753,17 @@ int main (int argc,char* argv[]) {
             if (info==false) {
                 return -1;
             }
-            log("Pre-treating vodka declaration value.",verbose,log_main_step,last,2,{(int)i+1,4},{maincell.content.size(),6});
+            log("Pre-treating vodka declaration value.",log_main_step,last,2,{(int)i+1,4},{maincell.content.size(),6});
             VariableDeclarationAnalyser.pre_treated=VariableDeclarationAnalyser.value_pre_treatement(lclstack);
             if (VariableDeclarationAnalyser.pre_treated==false) {
                 return -1;
             }
-            log("Compiling vodka declaration into variable container.",verbose,log_main_step,last,2,{(int)i+1,5},{maincell.content.size(),6});
+            log("Compiling vodka declaration into variable container.",log_main_step,last,2,{(int)i+1,5},{maincell.content.size(),6});
             bool output=VariableDeclarationAnalyser.make_output(lclstack);
             if (output==false) {
                 return -1;
             }
-            log("Registering vodka declaration.",verbose,log_main_step,last,2,{(int)i+1,6},{maincell.content.size(),6});
+            log("Registering vodka declaration.",log_main_step,last,2,{(int)i+1,6},{maincell.content.size(),6});
             main_variablesdict[VariableDeclarationAnalyser.name]=VariableDeclarationAnalyser.variable_container;
             main_variableslist.push_back(VariableDeclarationAnalyser.name);
             if (!VariableDeclarationAnalyser.is_kernel_constant) {
@@ -833,18 +849,18 @@ int main (int argc,char* argv[]) {
     //* Indicating unused variables
     for (auto var:main_vars_used) {
         if (var.second[0]=="f") {
-            vodka::utilities::var_warning(var.first,main_variablesdict[var.first].thing,"main",var.second[1],var_warning_enabled,verbose);
+            vodka::utilities::var_warning(var.first,main_variablesdict[var.first].thing,"main",var.second[1]);
         }
     }
     //* Writing output file
     log_main_step=log_main_step+1;
-    log("Writing variables :",verbose,log_main_step,last);
+    log("Writing variables :",log_main_step,last);
     final.push_back("data:");
     int a=1;
     for (auto i:variablesdict) {
         if (i.second.thing==vodka::variables::VariableDatatype::vodint) {
             if (i.second.variable_metadata.in_data_section==true) {
-                log("Writing "+i.second.variable_metadata.uuid+".",verbose,log_main_step,last,1,{a},{variablesdict.size()});
+                log("Writing "+i.second.variable_metadata.uuid+".",log_main_step,last,1,{a},{variablesdict.size()});
                 if (i.second.variable_metadata.is_kernel_constant==true) {
                     final.push_back(i.second.variable_metadata.uuid+"="+i.second.vodint_element.value);
                 }
@@ -852,7 +868,7 @@ int main (int argc,char* argv[]) {
             }
         } else if (i.second.thing==vodka::variables::VariableDatatype::vodec) {
             if (i.second.variable_metadata.in_data_section==true) {
-                log("Writing "+i.second.variable_metadata.uuid+".",verbose,log_main_step,last,1,{a},{variablesdict.size()});
+                log("Writing "+i.second.variable_metadata.uuid+".",log_main_step,last,1,{a},{variablesdict.size()});
                 if (i.second.variable_metadata.is_kernel_constant==true) {
                     final.push_back(i.second.variable_metadata.uuid+"="+i.second.vodec_element.value);
                 }
@@ -862,7 +878,7 @@ int main (int argc,char* argv[]) {
     }
     final.push_back("enddata");
     log_main_step=log_main_step+1;
-    log("Writing main code section :",verbose,log_main_step,last);
+    log("Writing main code section :",log_main_step,last);
     a=1;
     vector<string> kernel_sections={"main"};
     vector<int> kernel_sections_line={(int)final.size()};
@@ -870,7 +886,7 @@ int main (int argc,char* argv[]) {
     map<string,string> vodka_cell_hash;
     final.push_back("main:");
     for (auto i:instructions_main) {
-        log("Writing "+vodka::syscalls::syscall_to_string(i.thing)+" instruction.",verbose,log_main_step,last,1,{a},{instructions_main.size()});
+        log("Writing "+vodka::syscalls::syscall_to_string(i.thing)+" instruction.",log_main_step,last,1,{a},{instructions_main.size()});
         final.push_back(i.syntax());
         kernel_sections_content["main"]=kernel_sections_content["main"]+"\n"+i.syntax();
         a=a+1;
@@ -898,7 +914,7 @@ int main (int argc,char* argv[]) {
                 cout<<"The output file may have been compiled with integrity checksum enabled but someone tried to mask it by adding a wrong no-integrity tag. Remove all the invisibles caracters at the start of the first line and then retry."<<endl;
             }
         }
-        log("Retrieving checksum.",verbose,log_main_step,last);
+        log("Retrieving checksum.",log_main_step,last);
         map<string,string> vodka_checksum;
         map<string,string> checksum_line;
         vector<string> founded_sections;
@@ -919,14 +935,14 @@ int main (int argc,char* argv[]) {
             return -1;
         }
         log_main_step=log_main_step+1;
-        log("Extracting checksum.",verbose,log_main_step,last);
+        log("Extracting checksum.",log_main_step,last);
         for (auto sect:founded_sections) {
             auto linet=checksum_line.at(sect);
             string checksum=linet.substr(0,1536);
             vodka_checksum[sect]=checksum;
         }
         log_main_step=log_main_step+1;
-        log("Checking checksum.",verbose,log_main_step,last);
+        log("Checking checksum.",log_main_step,last);
         cout<<endl<<"Check result:"<<endl;
         for (auto checksum:vodka_checksum) {
             cout<<" - "+checksum.first+": ";
@@ -938,28 +954,28 @@ int main (int argc,char* argv[]) {
         }
     } else if (mode=="compile") {
         log_main_step=log_main_step+1;
-        log("Opening output file.",verbose,log_main_step,last);
+        log("Opening output file.",log_main_step,last);
         ofstream outputfile(output);
         log_main_step=log_main_step+1;
-        log("Writing in output file :",verbose,log_main_step,last);
+        log("Writing in output file :",log_main_step,last);
         if (outputfile.is_open()) {
             a=1;
             for (const auto& line:final) {
-                log("Writing line number "+to_string(a)+".",verbose,log_main_step,last,1,{a},{final.size()});
+                log("Writing line number "+to_string(a)+".",log_main_step,last,1,{a},{final.size()});
                 outputfile<<line<<"\n";
                 a=a+1;
             }
             log_main_step=log_main_step+1;
-            log("Closing output file.",verbose,log_main_step,last);
+            log("Closing output file.",log_main_step,last);
             outputfile.close();
             if (verbose=="r" || verbose=="a") {cout<<"\nSucessfully compile "+file_source+" to "+output<<endl;}
         }
     } else if (mode=="jsonkernel") {
         log_main_step=log_main_step+1;
-        log("Opening output file.",verbose,log_main_step,last);
+        log("Opening output file.",log_main_step,last);
         ofstream outputfile(output);
         log_main_step=log_main_step+1;
-        log("Converting kernel code to json format :",verbose,log_main_step,last);
+        log("Converting kernel code to json format :",log_main_step,last);
         a=1;
         auto now=chrono::system_clock::now();
         time_t now_c=chrono::system_clock::to_time_t(now);
@@ -975,7 +991,7 @@ int main (int argc,char* argv[]) {
         }
         for (const string& line:final) {
             string actualcell="main";
-            log("Converting line "+to_string(a)+".",verbose,log_main_step,last,1,{a},{final.size()});
+            log("Converting line "+to_string(a)+".",log_main_step,last,1,{a},{final.size()});
             if (find(kernel_symbol.begin(),kernel_symbol.end(),line)==kernel_symbol.end() && line.substr(0,4)!="type") {
                 if (std::isalpha(line[0]) && std::isupper(line[0])) {
                     vodka::json::kernel::JsonContainer jsonth;
@@ -1007,31 +1023,31 @@ int main (int argc,char* argv[]) {
             a=a+1;
         }
         log_main_step=log_main_step+1;
-        log("Writing json file.",verbose,log_main_step,last);
+        log("Writing json file.",log_main_step,last);
         nlohmann::json j=json_ints;
         outputfile<<j.dump();
         outputfile.close();
         if (verbose=="r" || verbose=="a") {cout<<"\nSucessfully compile "+file_source+" to "+output<<endl;}
     } else if (mode=="jsonvodka") {
         log_main_step=log_main_step+1;
-        log("Opening output file.",verbose,log_main_step,last);
+        log("Opening output file.",log_main_step,last);
         ofstream outputfile(output);
         log_main_step=log_main_step+1;
-        log("Converting vodka code to json format :",verbose,log_main_step,last);
+        log("Converting vodka code to json format :",log_main_step,last);
         auto now=chrono::system_clock::now();
         time_t now_c=chrono::system_clock::to_time_t(now);
         tm utc=*std::gmtime(&now_c);
         stringstream ss;
         ss<<put_time(&utc, "%Y-%m-%dT%H:%M:%SZ");
         json_ints_v["metadata"]={{"metadata",{{"type","metadata"},{"vodka_version",vodka::LibraryVersion},{"json_version","4"},{"source_file",file_source},{"timestamp",ss.str()},{"json_type","vodka"}}}};
-        log("Converting symbols : ",verbose,log_main_step,last,1,{1},{2});
+        log("Converting symbols : ",log_main_step,last,1,{1},{2});
         json_ints_v["symbols"]={};
         bool cellstart=false;
         vodka::json::vodka::VodkaCell actualcell;
         vector<vodka::json::vodka::VodkaCell> idencell;
         int cellcount=0;
         for (int i=0;i<symbols.size();++i) {
-            log("Converting \""+symbols[i].content+"\".",verbose,log_main_step,last,2,{1,i+1},{2,symbols.size()});
+            log("Converting \""+symbols[i].content+"\".",log_main_step,last,2,{1,i+1},{2,symbols.size()});
             vodka::json::vodka::VodkaSymbol symb;
             symb.type=symbols[i].type;
             auto args=split(symbols[i].content," ");
@@ -1054,10 +1070,10 @@ int main (int argc,char* argv[]) {
             }
             json_ints_v["symbols"][to_string(i+1)+":"+to_string(genuid())]=symb.syntax();
         }
-        log("Converting cells : ",verbose,log_main_step,last,1,{2},{2});
+        log("Converting cells : ",log_main_step,last,1,{2},{2});
         vector<string> vodkaints=vodka::VodkaInstructions;
         for (int i=0;i<idencell.size();++i) {
-            log("Converting cell "+cells[i].name+".",verbose,log_main_step,last,2,{2,i+1},{2,cells.size()});
+            log("Converting cell "+cells[i].name+".",log_main_step,last,2,{2,i+1},{2,cells.size()});
             auto cellcontent=cells[i].content;
             for (auto a:cellcontent) {
                 if (a.substr(0,5)=="vodka") {
@@ -1112,7 +1128,7 @@ int main (int argc,char* argv[]) {
             json_ints_v[idencell[i].uid]=idencell[i].syntax();
         }
         log_main_step=log_main_step+1;
-        log("Writing json file.",verbose,log_main_step,last);
+        log("Writing json file.",log_main_step,last);
         nlohmann::json j=json_ints_v;
         outputfile<<j.dump();
         outputfile.close();
@@ -1120,5 +1136,7 @@ int main (int argc,char* argv[]) {
     }
     unsetenv("VODKA_SHOW_LOG_TIME");
     unsetenv("VODKA_DEBUG_MODE");
+    unsetenv("VODKA_VERBOSE_MODE");
+    unsetenv("VODKA_SHOW_VAR_WARNING");
     return 0;
 }
