@@ -91,18 +91,17 @@ vodka::syscalls::ABS::info.support_multiple_argument is now set to false
 compiling script now check if g++ is installed
 
 for vodka 4.0 beta 1:
-introduce `enum class` in vodka-lib everywhere it's pertinent 
-replaced some `const string&` with `string`
-renamed possibles values for vodka::json::vodka::VodkaLine::thing from `int` and `var` to `instruction` and `variable_declaration`
-rename every single attribute, variable and class that need it in order to be more standard and explicit
-variables metadata are now accessible without checking the datatype
-add support for vodec datatype to kernel.invert, kernel.free
-introduce a datatype checking technic common to all libraries and instructions thats also allow users to use it
-use the datatype and syscall type everywhere pertinent
-put split and the other functions inside vodka-lib
-add a timer system for log output
-the metadata of a variable is now stored in the general container and not into the datatype-specific container
-clean transcoder code mainly by reorganizing and renamming
-use env variables to transmit informations
+made : introduce `enum class` in vodka-lib everywhere it's pertinent 
+made : replaced some `const string&` with `string`
+made : renamed possibles values for vodka::json::vodka::VodkaLine::thing from `int` and `var` to `instruction` and `variable_declaration`
+made : renamed every single attribute, variable and class that need it in order to be more standard and explicit
+made : add support for vodec datatype to kernel.invert, kernel.free
+made : introduce a datatype checking technic common to all libraries and instructions thats also allow users to use it
+made : use the datatype and syscall type everywhere pertinent
+made : put split and the other functions inside vodka-lib
+made : add a timer system for log output
+made : the metadata of a variable is now stored in the general container and not into the datatype-specific container
+made : clean transcoder code mainly by reorganizing and renamming
+made : use env variables to transmit informations
 modified json output to match attributes names inside vodka-lib
-add --version
+made : add --version

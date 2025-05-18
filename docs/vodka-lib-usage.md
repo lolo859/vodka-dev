@@ -55,6 +55,7 @@ vodka-lib is the static internal C++ library that powers the Vodka transcoder an
   - [class vodka::analyser::LineSyntaxChecker](#class-vodkaanalyserlinesyntaxchecker)
   - [class vodka::analyser::LineTypeChecker](#class-vodkaanalyserlinetypechecker)
   - [class vodka::analyser::VariableDeclarationAnalyser](#class-vodkaanalyservariabledeclarationanalyser)
+  - [class vodka::analyser::ArgumentChecker](#class-vodkaanalyserargumentchecker)
 - [vodka::type](#vodkatype)
   - [vodka::type::vodint](#vodkatypevodint)
     - [bool vodka::type::vodint::check_value()](#bool-vodkatypevodintcheck_valuestdstring-value-vodkaanalyserline-context-vodkaerrorssourcesstack-lclstack)
@@ -576,6 +577,20 @@ This is the class that will parse and convert a variable declaration into a usab
 - `bool make_info(vodka::errors::SourcesStack lclstack)` : set up the `var` attribute. **This method raise his own error so you don't need to. It will raise an error if `checked_type_value` isn't `true`.**
 - `bool value_pre_treatement(vodka::errors::SourcesStack lclstack)` : pre-treat the value to store. **This method raise his own error so you don't need to. It will raise an error if `checked_type_value` isn't `true`.**
 - `bool make_output(vodka::errors::SourcesStack lclstack)` : generate the `vodka::variables::VariableContainer` container in order to store the variable and the `vodka::syscalls::SyscallContainer` in order to declare/duplicate the variable in the kernel code. **This method raise his own error so you don't need to. It will raise an error if `pre_treated` isn't `true`.**
+
+### `class vodka::analyser::ArgumentChecker`
+
+This is the class responsible to analyse the existence and datatype of each argument in a line.
+
+**Attributes that must be set after declaration:**
+- `std::vector<std::string> variableslist_context` : the list of variables
+- `std::map<std::string,vodka::variables::VariableContainer> variablesdict_context` : the map for each variable
+- `std::vector<std::vector<vodka::variables::VariableDatatype>> patern` : the patern to use in order to specify from which datatype a argument can be
+- `std::vector<vodka::variables::VariableDatatype> lastest_allowed_type` : the list of datatype allowed for arguments in a infinite or pseudo infinite instruction
+- `vodka::analyser::LineTypeChecker line_content` : the line to analyse
+
+**Method:**
+- `bool check(vodka::errors::SourcesStack lclstack={})` : the method to check existence and datatype of each argument, return `true` if succesfull, `false` in case of errors
 
 ## `vodka::type`
 
