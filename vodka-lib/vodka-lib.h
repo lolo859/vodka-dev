@@ -13,14 +13,14 @@ using namespace std;
 //* Vodka standard utilities
 //* For documentation, please refer to vodka-lib-usage.md
 namespace vodka {
-    const string LibraryVersion="0.4 beta 1";
+    const string LibraryVersion="0.4 beta 2";
     const string JsonVersion="4";
     //* Every library that has a reserved name inside the transcoder
     const vector<string> InternalLibraryList={"kernel"};
     //* Every functions for every internal library
     const map<string,vector<string>> InternalLibraryFunctions={{"kernel",{"print","add","assign","free","invert","back","duplicate","abs","divmod","toint","todec","divide","mulint","muldec"}}};
     //* Every internal type
-    const vector<string> InternalDataypes={"vodint","vodec","vodarg","vodka"};
+    const vector<string> InternalDataypes={"vodint","vodec","vodstr","vodarg","vodka"};
     //* Every syscall
     const vector<string> InternalSyscalls={"PRINT","ADD","ASSIGN","FREE","INVERT","DUPLICATE","ABS","DIVMOD","TOINT","TODEC","MULINT","MULDEC","DIVIDE"};
     //* Every vodka codebase instructions
@@ -188,6 +188,7 @@ namespace vodka {
         enum class VariableDatatype {
             vodint,
             vodec,
+            vodstr,
             vodarg
         };
         //* Convert VariableDatatype object to string
@@ -212,6 +213,11 @@ namespace vodka {
             public:
                 string value;
         };
+        //* Vodec type class : optimize for vodec internal structure
+        class VodstrVariable {
+            public:
+                string value;
+        };
         //* Vodarg type class : optimize for vodarg internal structure
         class VodargVariable {
             public:
@@ -224,6 +230,7 @@ namespace vodka {
                 VariableMetadata variable_metadata;
                 VodintVariable vodint_element;
                 VodecVariable vodec_element;
+                VodstrVariable vodstr_element;
                 VodargVariable vodarg_element;
         };
     }

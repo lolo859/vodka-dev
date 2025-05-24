@@ -1,5 +1,8 @@
 #include "vodka-lib/vodka-lib.h"
+#include <iostream>
+#include <string>
 int main() {
-    vodka::analyser::
+    auto a=vodka::utilities::split("vodka  ","  ");
+    cout<<a.size()<<endl;
     return 1;
 }

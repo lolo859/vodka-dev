@@ -91,15 +91,6 @@ bool vodka::analyser::VariableDeclarationAnalyser::parser(SourcesStack lclstack)
         auto eles=split(line_checked.line_checked.content,"=");
         if (eles.size()>=2) {
             auto namepart=split(eles[0]," ");
-            string valuestr;
-            for (int i=1;i<eles.size();++i) {
-                if (i==1) {
-                    valuestr=eles[i];
-                } else {
-                    valuestr=valuestr+" "+eles[i];
-                }
-            }
-            auto valuepart=split(valuestr," ");
             if (namepart.size()==2) {
                 name=namepart[1];
                 is_kernel_constant=name.substr(0,2)=="$$";
@@ -112,9 +103,19 @@ bool vodka::analyser::VariableDeclarationAnalyser::parser(SourcesStack lclstack)
                 raise(ErrorContainer("vodka.error.variables.invalid_name : Can't create variable starting with # or %.",line_checked.line_checked.file,{line_checked.line_checked.content},{line_checked.line_checked.line_number},srclclstack));
                 return false;
             }
+            string valueside;
+            for (int i=1;i<eles.size();++i) {
+                if (i==1) {
+                    valueside=eles[i];
+                } else {
+                    valueside=valueside+"="+eles[i];
+                }
+            }
+            auto valuepart=split(valueside," ");
             if (valuepart.size()>=2) {
                 datatype=valuepart[0];
-                value=valuestr.substr(datatype.size()+1);
+                string valuevec=valueside.substr(datatype.size()+1);
+                value=valuevec;
                 if (datatype=="vodka" && name.substr(0,2)=="$$") {
                     raise(ErrorContainer("vodka.error.variables.duplicate_kernel_constant : Can't create kernel constant from duplication.",line_checked.line_checked.file,{line_checked.line_checked.content},{line_checked.line_checked.line_number},srclclstack));
                     return false;

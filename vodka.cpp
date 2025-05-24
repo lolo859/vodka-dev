@@ -579,7 +579,7 @@ int main (int argc,char* argv[]) {
         case '!':
             var_warning_enabled=false;
         case '1':
-            cout<<"Vodka transcoder version 0.4 beta 1"<<endl;
+            cout<<"Vodka transcoder version 0.4 beta 2"<<endl;
             cout<<"vodka-lib version "+vodka::LibraryVersion<<endl;
             cout<<"Json export format version 4"<<endl;
             cout<<"vodka-lib Json namespace version "+vodka::JsonVersion<<endl;
