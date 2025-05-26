@@ -107,9 +107,8 @@ made : add --version
 
 for vodka 0.4 beta 2:
 made : optimized even more define replacement process to be compatible with vodstr syntax and extended the new method to other cells
-added vodka::utilities::strip function
-add vodstr
-compatible with kernel.print/free/toint/todec
-rework functions organizations in vodka::utilities
-add tostr instruction (not in kernel internal library)
-warning : update docs
+made : added vodka::utilities::strip function
+made : add vodstr
+made : compatible with kernel.print/free/toint/todec
+made : rework functions organizations in vodka::utilities
+made : add tostr instruction (not in kernel internal library)

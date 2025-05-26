@@ -1,11 +1,6 @@
 £VODTYPE command
-£VODSTART main j
-vodka a=vodint 0
-vodka b=vodec 0.0
-vodka out=vodstr x
-tostr out j
-tostr out a
-tostr out b
-kernel.toint a out
-kernel.todec b out
+£VODSTART main
+vodka a=vodstr hello
+vodka b=vodstr   hello  
+vodka c=vodstr hello\nworld!
 £VODEND

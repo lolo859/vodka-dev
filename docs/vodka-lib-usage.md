@@ -85,6 +85,7 @@ vodka-lib is the static internal C++ library that powers the Vodka transcoder an
   - [vodka::utilities::string_utilities](#vodkautilitiesstring_utilities)
     - [std::vector\<std::string> vodka::utilities::string_utilities::split()](#stdvectorstdstring-vodkautilitiessplitstdstring-str-stdstring-delimiter)
     - [void vodka::utilities::string_utilities::replaceall()](#void-vodkautilitiesreplaceallstdstring-str-stdstring-from-stdstring-to)
+    - [std::string vodka::utilities::string_utilities::strip()](#stdstring-vodkautilitiesstring_utilitiesstripstdstring-text-stdstring-character)
   - [double vodka::utilities::get_process_time()](#double-vodkautilitiesget_process_time)
 - [vodka::library](#vodkalibrary)
   - [class vodka::library::FunctionCall](#class-vodkalibraryfunctioncall)
@@ -422,7 +423,7 @@ That namespace is for internal management of vodka variables. This is not the na
 
 This is the class responsible for indicating which datatype is the variable.
 
-**Possibles values:** `vodint`, `vodec`, `vodarg`
+**Possibles values:** `vodint`, `vodec`, `vodarg`, `vodstr`
 
 ---
 
@@ -470,6 +471,17 @@ This is the class responsible for storing `vodec` variable.
 
 ---
 
+### `class vodka::variables::VodstrVariable`
+
+This is the class responsible for storing `vodstr` variable.
+
+**Attributes that must be set after declaration:**
+- `std::string value` : the value of the variable
+
+**This class has no methods.**
+
+---
+
 ### `class vodka::variables::VodargVariable`
 
 This is the class responsible for storing `vodarg` variable.
@@ -493,6 +505,7 @@ This is the class for storing a variable.
 **According to the value in `thing`, one this attribute must be set:**
 - `vodka::variables::VodintVariable vodint_element` : if `thing` is  `vodka::variables::VariableDatatype::vodint`
 - `vodka::variables::VodecVariable vodec_element` : if `thing` is  `vodka::variables::VariableDatatype::vodec`
+- `vodka::variables::VodstrVariable vodstr_element` : if `thing` is  `vodka::variables::VariableDatatype::vodstr`
 - `vodka::variables::VodargVariable vodarg_variable` : if `thing` is  `vodka::variables::VariableDatatype::vodarg`
 
 **This class has no methods.**
@@ -634,6 +647,7 @@ This function check the value for the `vodec` datatype. The `context` argument n
 #### `std::string vodka::type::vodec::remove_zero(std::string value, vodka::errors::SourcesStack lclstack)`
 
 This function remove the useless zeros for a `vodec` value.
+
 
 ## `vodka::json`
 
@@ -902,11 +916,19 @@ This is the function to replace all occurences of a string by another string ins
 
 ---
 
+#### `std::string vodka::utilities::string_utilities::strip(std::string text, std::string character)`
+
+This is the function to remove specified character at the start of a string.
+
+**Arguments:**
+- `std::string text` : the source string
+- `std::string character` : the character to remove. Must be one character long
+
+---
+
 ### `double vodka::utilities::get_process_time()`
 
 This function return the time from the beginning of the process.
-
----
 
 ## `vodka::library`
 
