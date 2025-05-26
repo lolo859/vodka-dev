@@ -1,8 +1,11 @@
 £VODTYPE command
-£VODSTART main b
-vodka output=vodec 0.0
-vodka b_int=vodec 0.0
-kernel.todec b_int b
-vodka $$a=vodec 5.0
-multiply output $$a b_int
+£VODSTART main j
+vodka a=vodint 0
+vodka b=vodec 0.0
+vodka out=vodstr x
+tostr out j
+tostr out a
+tostr out b
+kernel.toint a out
+kernel.todec b out
 £VODEND

@@ -73,15 +73,18 @@ vodka-lib is the static internal C++ library that powers the Vodka transcoder an
     - [class vodka::json::vodka::VodkaLine](#class-vodkajsonvodkavodkaline)
     - [class vodka::json::vodka::VodkaCell](#class-vodkajsonvodkavodkacell)
 - [vodka::utilities](#vodkautilities)
-  - [struct vodka::utilities::symbol](#struct-vodkautilitiessymbol)
-  - [struct vodka::utilities::cellule](#struct-vodkautilitiescellule)
-  - [struct vodka::utilities::import](#struct-vodkautilitiesimport)
+  - [vodka::utilities::structs](#vodkautilitiesstructs)
+    - [struct vodka::utilities::structs::symbol](#struct-vodkautilitiessymbol)
+    - [struct vodka::utilities::structs::cellule](#struct-vodkautilitiescellule)
+    - [struct vodka::utilities::structs::import](#struct-vodkautilitiesimport)
   - [boost::uuids::uuid vodka::utilities::genuid()](#boostuuidsuuid-vodkautilitiesgenuid)
-  - [void vodka::utilities::log()](#void-vodkautilitieslogstdstring-text-stdstring-verbose-int-log_main_step-stdstring-last-int-sublevel-stdvectorint-substep---stdvectorunsigned-long-subtotal--)
-  - [void vodka::utilities::debuglog()](#void-vodkautilitiesdebuglogstdstring-text-int-line-stdstring-cell-bool-debug_mode-stdstring-verbose-stdstring-file-bool-debug_info)
-  - [void vodka::utilities::var_warning()](#void-vodkautilitiesvar_warningstdstring-namevar-stdstring-typevar-stdstring-namecell-stdstring-line-bool-var_warning_enabled-stdstring-verbose)
-  - [std::vector\<std::string> vodka::utilities::split()](#stdvectorstdstring-vodkautilitiessplitstdstring-str-stdstring-delimiter)
-  - [void vodka::utilities::replaceall()](#void-vodkautilitiesreplaceallstdstring-str-stdstring-from-stdstring-to)
+  - [vodka::utilities::output](#vodkautilitiesoutput)
+    - [void vodka::utilities::output::log()](#void-vodkautilitiesoutputlogstdstring-text-int-log_main_step-stdstring-last-int-sublevel-stdvectorint-substep---stdvectorunsigned-long-subtotal--)
+    - [void vodka::utilities::output::debuglog()](#void-vodkautilitiesoutputdebuglogstdstring-text-int-line-stdstring-cell-bool-debug_mode-stdstring-file-bool-debug_info)
+    - [void vodka::utilities::output::var_warning()](#void-vodkautilitiesoutputvar_warningstdstring-namevar-stdstring-typevar-stdstring-namecell-stdstring-line)
+  - [vodka::utilities::string_utilities](#vodkautilitiesstring_utilities)
+    - [std::vector\<std::string> vodka::utilities::string_utilities::split()](#stdvectorstdstring-vodkautilitiessplitstdstring-str-stdstring-delimiter)
+    - [void vodka::utilities::string_utilities::replaceall()](#void-vodkautilitiesreplaceallstdstring-str-stdstring-from-stdstring-to)
   - [double vodka::utilities::get_process_time()](#double-vodkautilitiesget_process_time)
 - [vodka::library](#vodkalibrary)
   - [class vodka::library::FunctionCall](#class-vodkalibraryfunctioncall)
@@ -743,7 +746,13 @@ That namespace is responsible for storing the necessary structure for early code
 
 ---
 
-### `struct vodka::utilities::symbol`
+### `vodka::utilities::structs`
+
+That namespace contains every structs.
+
+---
+
+#### `struct vodka::utilities::structs::symbol`
 
 This is the structure responsible for storing a vodka symbol.
 
@@ -754,7 +763,7 @@ This is the structure responsible for storing a vodka symbol.
 
 ---
 
-### `struct vodka::utilities::cellule`
+#### `struct vodka::utilities::structs::cellule`
 
 This is the structure responsible for storing a cell.
 
@@ -768,7 +777,7 @@ This is the structure responsible for storing a cell.
 
 ---
 
-### `struct vodka::utilities::import`
+#### `struct vodka::utilities::structs::import`
 
 This is the structure responsible for storing an import. **It's not actually used in the transcoder or the library but will be in the future.**
 
@@ -786,7 +795,13 @@ This function is used to generate UID for all the elements inside the Vodka tran
 
 ---
 
-### `void vodka::utilities::log(std::string text, std::string verbose, int log_main_step, std::string last, int sublevel, std::vector<int> substep = {}, std::vector<unsigned long> subtotal = {})`
+### `vodka::utilities::output`
+
+That namespace contains every functions used for various outputs.
+
+---
+
+#### `void vodka::utilities::output::log(std::string text, int log_main_step, std::string last, int sublevel, std::vector<int> substep = {}, std::vector<unsigned long> subtotal = {})`
 
 This fonction is used to output logs in a stepped format.
 
@@ -811,7 +826,7 @@ log("this is a log","a",6,"12",2,{5,5},{10,10});
 
 ---
 
-### `void vodka::utilities::debuglog(std::string text, int line, std::string cell, bool debug_mode, std::string verbose, std::string file, bool debug_info)`
+#### `void vodka::utilities::output::debuglog(std::string text, int line, std::string cell, bool debug_mode, std::string file, bool debug_info)`
 
 This is the function used to print debug lines in the vodka code.
 
@@ -834,7 +849,9 @@ debuglog(">hello",5,"main",true,"a","file.vod",true);
 
 **Warning:** this log function has been conceived for the Vodka transcoder which combine a specific schema for lines break that will probably result in a mess in your terminal. Use `e` for normal printing mode.
 
-### `void vodka::utilities::var_warning(std::string namevar, std::string typevar, std::string namecell, std::string line, bool var_warning_enabled, std::string verbose)`
+---
+
+#### `void vodka::utilities::output::var_warning(std::string namevar, std::string typevar, std::string namecell, std::string line)`
 
 This is the function used to print unesed variables warning.
 
@@ -856,7 +873,15 @@ var_warning("var","vodint","main","6",true,"e");
 
 **Warning:** this log function has been conceived for the Vodka transcoder which combine a specific schema for lines break that will probably result in a mess in your terminal. Use `e` for normal printing mode.
 
-### `std::vector<std::string> vodka::utilities::split(std::string str, std::string delimiter)`
+---
+
+### `vodka::utilities::string_utilities`
+
+That namespace contains every functions used to format and analyse strings.
+
+---
+
+#### `std::vector<std::string> vodka::utilities::string_utilities::split(std::string str, std::string delimiter)`
 
 This is the function to split a string with a delimiter.
 
@@ -864,7 +889,9 @@ This is the function to split a string with a delimiter.
 - `std::string str` : the string to split
 - `std::string delimiter` : the delimiter
 
-### `void vodka::utilities::replaceall(std::string str, std::string from, std::string to)`
+---
+
+#### `void vodka::utilities::string_utilities::replaceall(std::string str, std::string from, std::string to)`
 
 This is the function to replace all occurences of a string by another string inside the main string.
 
@@ -873,9 +900,13 @@ This is the function to replace all occurences of a string by another string ins
 - `std::string from` : the string to replace
 - `std::string to` : the string that should be added everywhere
 
+---
+
 ### `double vodka::utilities::get_process_time()`
 
 This function return the time from the beginning of the process.
+
+---
 
 ## `vodka::library`
 
