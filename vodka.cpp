@@ -581,6 +581,7 @@ int main (int argc,char* argv[]) {
         {"check-mode",no_argument,nullptr,'c'},
         {"show-log-time",no_argument,nullptr,'t'},
         {"version",no_argument,nullptr,'1'},
+        {"license",no_argument,nullptr,'2'},
         {nullptr,0,nullptr,0}
     };
     //* Args management
@@ -603,8 +604,11 @@ int main (int argc,char* argv[]) {
                 cout<<"Compiled with unknow compiler."<<endl;
             }
             return 0;
+        case '2':
+            cout<<"The vodka transcoder, vodka-lib, the vodka programming language and all the documentations and related elements of this ecosystem is under the GPL-3.0 license."<<endl;
+            return 0;
         case 'h':
-            cout<<"Vodka Objective Dictionary for Kernel Analyser\nOptions :\n  -h, --help :\n    show this help\n  -f, --find object_to_find :\n    (not working for the moment)\n  -s, --source-file source_file :\n    source file \n  -o, --output-file output_file :\n    output file\n  -v, --verbose-reduced :\n    set verbose mode to reduced\n  -V, --verbose-full :\n    set verbose mode to full\n  -d, --debug-lines :\n    enable debug mode\n  -j, --json-kernel :\n    export output to a json file specified with -o\n  -J, --json-vodka :\n    export .vod structure to a json file specified with -o\n  -r, --disable-replacements :\n    disable define replacement\n  -w, --disable-all-warnings :\n    disable warnings\n  --disable-variables-warnings :\n    disable variables warnings\n  -H, --disable-integrity-hash :\n    disable the integrity hash integration into the output\n  -c, --check-mode :\n    verify the integrity between the inputed file witn -s and the output file specified with -o\n  -t, --show-log-time :\n    show time in every log output, should be used alongside -v or -V\n  --version :\n    show version of every sub-section of the code, transcoder, dependencies, JSON and compiler"<<endl;
+            cout<<"Vodka Objective Dictionary for Kernel Analyser\nOptions :\n  -h, --help :\n    show this help\n  -f, --find object_to_find :\n    (not working for the moment)\n  -s, --source-file source_file :\n    source file \n  -o, --output-file output_file :\n    output file\n  -v, --verbose-reduced :\n    set verbose mode to reduced\n  -V, --verbose-full :\n    set verbose mode to full\n  -d, --debug-lines :\n    enable debug mode\n  -j, --json-kernel :\n    export output to a json file specified with -o\n  -J, --json-vodka :\n    export .vod structure to a json file specified with -o\n  -r, --disable-replacements :\n    disable define replacement\n  -w, --disable-all-warnings :\n    disable warnings\n  --disable-variables-warnings :\n    disable variables warnings\n  -H, --disable-integrity-hash :\n    disable the integrity hash integration into the output\n  -c, --check-mode :\n    verify the integrity between the inputed file witn -s and the output file specified with -o\n  -t, --show-log-time :\n    show time in every log output, should be used alongside -v or -V\n  --version :\n    show version of every sub-section of the code, transcoder, dependencies, JSON and compiler\n  --license:\n    show the license"<<endl;
             return 0;
         case 'f':
             mode="find";
