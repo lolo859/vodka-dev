@@ -1,6 +1,6 @@
 £VODTYPE command
 £VODSTART main
-vodka a=vodstr hello
-vodka b=vodstr   hello  
-vodka c=vodstr hello\nworld!
+vodka a=vodint 6
+vodka b=vodec 7.9
+math.multiply b b b
 £VODEND

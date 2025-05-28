@@ -34,7 +34,7 @@ bool vodka::library::kernel::CallTreatement::print_int(SourcesStack lclstack) {
         vodka::syscalls::SyscallContainer syscont;
         syscont.thing=vodka::syscalls::SyscallsNames::PRINT;
         syscont.print_element=syscal;
-        syscall_output.push_back(syscont);
+        syscalls_output.push_back(syscont);
         return true;
     } else {
         raise(ErrorContainer("vodka.error.kernel.print.invalid syntax : Invalid syntax.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
@@ -79,7 +79,7 @@ bool vodka::library::kernel::CallTreatement::add_int(SourcesStack lclstack) {
         vodka::syscalls::SyscallContainer syscont;
         syscont.thing=vodka::syscalls::SyscallsNames::ADD;
         syscont.add_element=syscal;
-        syscall_output.push_back(syscont);
+        syscalls_output.push_back(syscont);
         return true;
     } else {
         raise(ErrorContainer("vodka.error.kernel.add.invalid_syntax : Invalid syntax.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
@@ -114,7 +114,7 @@ bool vodka::library::kernel::CallTreatement::invert_int(SourcesStack lclstack) {
         vodka::syscalls::SyscallContainer syscont;
         syscont.thing=vodka::syscalls::SyscallsNames::INVERT;
         syscont.invert_element=syscal;
-        syscall_output.push_back(syscont);
+        syscalls_output.push_back(syscont);
         return true;
     } else {
         raise(ErrorContainer("vodka.error.kernel.invert.invalid_syntax : Invalid syntax.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
@@ -155,7 +155,7 @@ bool vodka::library::kernel::CallTreatement::free_int(SourcesStack lclstack) {
         vodka::syscalls::SyscallContainer syscont;
         syscont.free_element=freecall;
         syscont.thing=vodka::syscalls::SyscallsNames::FREE;
-        syscall_output.push_back(syscont);
+        syscalls_output.push_back(syscont);
         var_flag=true;
         auto args_erase=vector<string>(eles.begin()+1,eles.end());
         for (auto a:args_erase) {
@@ -198,7 +198,7 @@ bool vodka::library::kernel::CallTreatement::abs_int(SourcesStack lclstack) {
         vodka::syscalls::SyscallContainer syscont;
         syscont.thing=vodka::syscalls::SyscallsNames::ABS;
         syscont.abs_element=abscall;
-        syscall_output.push_back(syscont);
+        syscalls_output.push_back(syscont);
         return true;
     } else {
         raise(ErrorContainer("vodka.error.kernel.abs.invalid_syntax : Invalid syntax.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
@@ -243,80 +243,10 @@ bool vodka::library::kernel::CallTreatement::divmod_int(SourcesStack lclstack) {
         vodka::syscalls::SyscallContainer syscont;
         syscont.thing=vodka::syscalls::SyscallsNames::DIVMOD;
         syscont.divmod_element=divmodcall;
-        syscall_output.push_back(syscont);
+        syscalls_output.push_back(syscont);
         return true;
     } else {
         raise(ErrorContainer("vodka.error.kernel.divmod.invalid_syntax : Invalid syntax.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
-        return false;
-    }
-}
-bool vodka::library::kernel::CallTreatement::toint_int(SourcesStack lclstack) {
-    auto srclclstack=lclstack;
-    srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
-    output::log("Checking system call syntax.",function_call.main_logstep_context,function_call.last_logstep_context,2,{(int)function_call.iteration_number_context+1,1},{function_call.cell_context.content.size(),3});
-    auto eles=string_utilities::split(line," ");
-    if (eles.size()==3) {
-        output::log("Checking content existence and datatype.",function_call.main_logstep_context,function_call.last_logstep_context,2,{(int)function_call.iteration_number_context+1,2},{function_call.cell_context.content.size(),3});
-        auto arg=vector<string>(eles.begin()+1,eles.end());
-        vodka::analyser::ArgumentChecker argcheck;
-        argcheck.lastest_allowed_type={};
-        argcheck.patern={{vodka::variables::VariableDatatype::vodint},{vodka::variables::VariableDatatype::vodec,vodka::variables::VariableDatatype::vodstr,vodka::variables::VariableDatatype::vodarg}};
-        argcheck.line_content=function_call.line_checked;
-        argcheck.variablesdict_context=function_call.variablesdict_context;
-        argcheck.variableslist_context=function_call.variableslist_context;
-        if (argcheck.check(srclclstack)==false) {
-            return false;
-        }
-        if (eles[1].substr(0,2)=="$$" || eles[1].substr(0,1)=="$") {
-            raise(ErrorContainer("vodka.error.variables.constant : Can't modify a constant.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
-            return false;
-        }
-        output::log("Registering system call.",function_call.main_logstep_context,function_call.last_logstep_context,2,{(int)function_call.iteration_number_context+1,3},{function_call.cell_context.content.size(),3});
-        vodka::syscalls::TOINT tointcall;
-        tointcall.uid_source=function_call.variablesdict_context[arg[1]].variable_metadata.uuid;
-        tointcall.uid_output=function_call.variablesdict_context[arg[0]].variable_metadata.uuid;
-        vodka::syscalls::SyscallContainer syscont;
-        syscont.thing=vodka::syscalls::SyscallsNames::TOINT;
-        syscont.toint_element=tointcall;
-        syscall_output.push_back(syscont);
-        return true;
-    } else {
-        raise(ErrorContainer("vodka.error.kernel.toint.invalid_syntax : Invalid syntax.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
-        return false;
-    }
-}
-bool vodka::library::kernel::CallTreatement::todec_int(SourcesStack lclstack) {
-    auto srclclstack=lclstack;
-    srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
-    output::log("Checking system call syntax.",function_call.main_logstep_context,function_call.last_logstep_context,2,{(int)function_call.iteration_number_context+1,1},{function_call.cell_context.content.size(),3});
-    auto eles=string_utilities::split(line," ");
-    if (eles.size()==3) {
-        output::log("Checking content existence and datatype.",function_call.main_logstep_context,function_call.last_logstep_context,2,{(int)function_call.iteration_number_context+1,2},{function_call.cell_context.content.size(),3});
-        auto arg=vector<string>(eles.begin()+1,eles.end());
-        vodka::analyser::ArgumentChecker argcheck;
-        argcheck.lastest_allowed_type={};
-        argcheck.patern={{vodka::variables::VariableDatatype::vodec},{vodka::variables::VariableDatatype::vodint,vodka::variables::VariableDatatype::vodstr,vodka::variables::VariableDatatype::vodarg}};
-        argcheck.line_content=function_call.line_checked;
-        argcheck.variablesdict_context=function_call.variablesdict_context;
-        argcheck.variableslist_context=function_call.variableslist_context;
-        if (argcheck.check(srclclstack)==false) {
-            return false;
-        }
-        if (eles[1].substr(0,2)=="$$" || eles[1].substr(0,1)=="$") {
-            raise(ErrorContainer("vodka.error.variables.constant : Can't modify a constant.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
-            return false;
-        }
-        output::log("Registering system call.",function_call.main_logstep_context,function_call.last_logstep_context,2,{(int)function_call.iteration_number_context+1,3},{function_call.cell_context.content.size(),3});
-        vodka::syscalls::TODEC todeccall;
-        todeccall.uid_source=function_call.variablesdict_context[arg[1]].variable_metadata.uuid;
-        todeccall.uid_output=function_call.variablesdict_context[arg[0]].variable_metadata.uuid;
-        vodka::syscalls::SyscallContainer syscont;
-        syscont.thing=vodka::syscalls::SyscallsNames::TODEC;
-        syscont.todec_element=todeccall;
-        syscall_output.push_back(syscont);
-        return true;
-    } else {
-        raise(ErrorContainer("vodka.error.kernel.todec.invalid_syntax : Invalid syntax.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
         return false;
     }
 }
@@ -350,7 +280,7 @@ bool vodka::library::kernel::CallTreatement::divide_int(SourcesStack lclstack) {
         vodka::syscalls::SyscallContainer dividecont;
         dividecont.divide_element=dividecall;
         dividecont.thing=vodka::syscalls::SyscallsNames::DIVIDE;
-        syscall_output.push_back(dividecont);
+        syscalls_output.push_back(dividecont);
         return true;
     } else {
         raise(ErrorContainer("vodka.error.kernel.divide.invalid_syntax : Invalid syntax.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
@@ -386,7 +316,7 @@ bool vodka::library::kernel::CallTreatement::mulint_int(SourcesStack lclstack) {
         vodka::syscalls::SyscallContainer syscont;
         syscont.thing=vodka::syscalls::SyscallsNames::MULINT;
         syscont.mulint_element=mulintcall;
-        syscall_output.push_back(syscont);
+        syscalls_output.push_back(syscont);
         return true;
     } else {
         raise(ErrorContainer("vodka.error.kernel.mulint.invalid_syntax : Invalid syntax.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
@@ -423,7 +353,7 @@ bool vodka::library::kernel::CallTreatement::muldec_int(SourcesStack lclstack) {
         vodka::syscalls::SyscallContainer syscont;
         syscont.thing=vodka::syscalls::SyscallsNames::MULDEC;
         syscont.muldec_element=muldeccall;
-        syscall_output.push_back(syscont);
+        syscalls_output.push_back(syscont);
         return true;
     } else {
         raise(ErrorContainer("vodka.error.kernel.muldec.invalid_syntax : Invalid syntax.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
@@ -453,10 +383,6 @@ bool vodka::library::kernel::CallTreatement::call_treatement(SourcesStack lclsta
         return abs_int(srclclstack);
     } else if (line.substr(0,13)=="kernel.divmod") {
         return divmod_int(srclclstack);
-    } else if (line.substr(0,12)=="kernel.toint") {
-        return toint_int(srclclstack);
-    } else if (line.substr(0,12)=="kernel.todec") {
-        return todec_int(srclclstack);
     } else if (line.substr(0,13)=="kernel.divide") {
         return divide_int(srclclstack);
     } else if (line.substr(0,13)=="kernel.mulint") {
