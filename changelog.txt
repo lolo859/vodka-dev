@@ -102,13 +102,21 @@ made : add a timer system for log output
 made : the metadata of a variable is now stored in the general container and not into the datatype-specific container
 made : clean transcoder code mainly by reorganizing and renamming
 made : use env variables to transmit informations
-modified json output to match attributes names inside vodka-lib
+made : modified json output to match attributes names inside vodka-lib
 made : add --version
 
-for vodka 0.4 beta 2:
 made : optimized even more define replacement process to be compatible with vodstr syntax and extended the new method to other cells
 made : added vodka::utilities::strip function
 made : add vodstr
 made : compatible with kernel.print/free/toint/todec
 made : rework functions organizations in vodka::utilities
 made : add tostr instruction (not in kernel internal library)
+
+for vodka 0.4 beta 3 :
+planned : add vodstr.lenght/concat/substring/charat/reverse/escape/insert/find
+planned : add vodstr library
+add LENGHT, CONCAT, SUBSTRING, CHARAT, REVERSE, ESCAPE, INSERT, FIND syscalls
+move kernel.toint/todec and tostr to the new conversions library
+move multiply to the new math library
+planned : add vodnull value for vodint and vodec datatype
+warning : update docs

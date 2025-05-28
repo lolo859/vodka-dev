@@ -45,6 +45,22 @@ string vodka::syscalls::SyscallContainer::syntax() {
         return muldec_element.name+" "+muldec_element.output_uid+" "+muldec_element.first_uid+" "+muldec_element.second_uid+" "+muldec_element.precision_uid;
     } else if (thing==vodka::syscalls::SyscallsNames::DIVIDE) {
         return divide_element.name+" "+divide_element.output_uid+" "+divide_element.first_uid+" "+divide_element.second_uid+" "+divide_element.precision_uid;
+    } else if (thing==vodka::syscalls::SyscallsNames::LENGHT) {
+        return lenght_element.name+" "+lenght_element.output_uid+" "+lenght_element.source_uid;
+    } else if (thing==vodka::syscalls::SyscallsNames::CONCAT) {
+        return concat_element.name+" "+concat_element.output_uid+" "+concat_element.first_uid+" "+concat_element.second_uid;
+    } else if (thing==vodka::syscalls::SyscallsNames::SUBSTRING) {
+        return substring_element.name+" "+substring_element.output_uid+" "+substring_element.source_uid+" "+substring_element.start_index_uid+" "+substring_element.lenght_output_uid;
+    } else if (thing==vodka::syscalls::SyscallsNames::CHARAT) {
+        return charat_element.name+" "+charat_element.output_uid+" "+charat_element.input_uid+" "+charat_element.char_uid;
+    } else if (thing==vodka::syscalls::SyscallsNames::REVERSE) {
+        return reverse_element.name+" "+reverse_element.output_uid+" "+reverse_element.source_uid;
+    } else if (thing==vodka::syscalls::SyscallsNames::ESCAPE) {
+        return escape_element.name+" "+escape_element.output_uid+" "+escape_element.source_uid;
+    } else if (thing==vodka::syscalls::SyscallsNames::INSERT) {
+        return insert_element.name+" "+insert_element.output_uid+" "+insert_element.source_uid+" "+insert_element.index_uid+" "+insert_element.string_to_insert_uid;
+    } else if (thing==vodka::syscalls::SyscallsNames::FIND) {
+        return find_element.name+" "+find_element.output_uid+" "+find_element.source_uid+" "+find_element.char_uid;
     } else {
         return "error";
     }
@@ -65,6 +81,14 @@ string vodka::syscalls::syscall_to_string(SyscallsNames syscall) {
         case SyscallsNames::MULDEC:return "MULDEC";
         case SyscallsNames::MULINT:return "MULINT";
         case SyscallsNames::DIVIDE:return "DIVIDE";
+        case SyscallsNames::LENGHT:return "LENGHT";
+        case SyscallsNames::CONCAT:return "CONCAT";
+        case SyscallsNames::SUBSTRING:return "SUBSTRING";
+        case SyscallsNames::CHARAT:return "CHARAT";
+        case SyscallsNames::REVERSE:return "REVERSE";
+        case SyscallsNames::ESCAPE:return "ESCAPE";
+        case SyscallsNames::INSERT:return "INSERT";
+        case SyscallsNames::FIND:return "FIND";
         default:return "Unknown";
     }
 }

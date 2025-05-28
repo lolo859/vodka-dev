@@ -967,7 +967,7 @@ This is the class that transcode kernel internal library function call into a li
 - `vodka::library::FunctionCall function_call` : the function call with all his context
 
 **Arguments that indicate the output (only set after call_treatement):**
-- `std::vector<vodka::syscalls::SyscallContainer> syscall_output` : the list of syscall object that should be added in the kernel code output
+- `std::vector<vodka::syscalls::SyscallContainer> syscalls_output` : the list of syscall object that should be added in the kernel code output
 - `bool var_flag` : indicate if the main program should replace his list and map of existing variables with the one into the function call object that was modified
 
 **Arguments that should be set by method:**
@@ -1007,7 +1007,7 @@ This is the class that transcode vodka instruction call into a list of usable `v
 - `vodka::library::instruction_call instruction_call` : the instruction call with all his context
 
 **Arguments that indicate the output (only set after call_treatement):**
-- `std::vector<vodka::syscalls::SyscallContainer> syscall_output` : the list of syscall object that should be added in the kernel code output
+- `std::vector<vodka::syscalls::SyscallContainer> syscalls_output` : the list of syscall object that should be added in the kernel code output
 - `bool var_flag` : indicate if the main program should replace his list and map of existing variables with the one into the instruction call object that was modified
 
 **Arguments that should be set by method:**
