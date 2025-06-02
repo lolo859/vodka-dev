@@ -31,7 +31,7 @@ bool vodka::library::math::CallTreatement::multiply(SourcesStack lclstack) {
         vector<string> argsname(eles.begin()+1,eles.end());
         for (int i=1;i<argsname.size();++i) {
             if (function_call.variablesdict_context[argsname[i-1]].thing!=function_call.variablesdict_context[argsname[i]].thing) {
-                raise(ErrorContainer("vodka.error.math.multiply.not_same_type : All arguments must be of the same type.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
+                raise(ErrorContainer("vodka.error.library.math.multiply.not_same_type : All arguments must be of the same type.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
                 return false;
             }
         }
@@ -114,7 +114,7 @@ bool vodka::library::math::CallTreatement::multiply(SourcesStack lclstack) {
         syscalls_output.push_back(muldeccont);
         return true;
     } else {
-        raise(ErrorContainer("vodka.error.math.multiply.invalid_syntax : Invalid syntax.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
+        raise(ErrorContainer("vodka.error.library.math.multiply.invalid_syntax : Invalid syntax.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
         return false;
     }
     return false;

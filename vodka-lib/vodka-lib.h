@@ -16,13 +16,13 @@ namespace vodka {
     const string LibraryVersion="0.4 beta 3";
     const string JsonVersion="4";
     //* Every library that has a reserved name inside the transcoder
-    const vector<string> InternalLibraryList={"kernel","conversions","math"};
+    const vector<string> InternalLibraryList={"kernel","conversions","math","vodstr"};
     //* Every functions for every internal library
-    const map<string,vector<string>> InternalLibraryFunctions={{"kernel",{"print","add","assign","free","invert","back","duplicate","abs","divmod","divide","mulint","muldec"}},{"conversions",{"toint","todec","tostr"}},{"math",{"multiply"}}};
+    const map<string,vector<string>> InternalLibraryFunctions={{"kernel",{"print","add","assign","free","invert","duplicate","abs","divmod","divide","mulint","muldec"}},{"conversions",{"toint","todec","tostr"}},{"math",{"multiply"}},{"vodstr",{"length","concat","substring","charat","reverse","escape","insert","find"}}};
     //* Every internal type
     const vector<string> InternalDataypes={"vodint","vodec","vodstr","vodarg","vodka"};
     //* Every syscall
-    const vector<string> InternalSyscalls={"PRINT","ADD","ASSIGN","FREE","INVERT","DUPLICATE","ABS","DIVMOD","TOINT","TODEC","MULINT","MULDEC","DIVIDE","LENGHT","CONCAT","SUBSTRING","CHARAT","REVERSE","ESCAPE","INSERT","FIND"};
+    const vector<string> InternalSyscalls={"PRINT","ADD","ASSIGN","FREE","INVERT","DUPLICATE","ABS","DIVMOD","TOINT","TODEC","MULINT","MULDEC","DIVIDE","LENGTH","CONCAT","SUBSTRING","CHARAT","REVERSE","ESCAPE","INSERT","FIND"};
     //* Errors handling
     namespace errors {
         //* Contain the call stack of the error
@@ -71,7 +71,7 @@ namespace vodka {
             MULDEC,
             MULINT,
             DIVIDE,
-            LENGHT,
+            LENGTH,
             CONCAT,
             SUBSTRING,
             CHARAT,
@@ -85,13 +85,14 @@ namespace vodka {
         //* Each syscall has his own class without heritating from the base one
         class PRINT {
             public:
-                vector<string> argument_uid;
+                string argument_uid;
                 string name="PRINT";
         };
         class ADD {
             public:
-                vector<string> argument_uid;
                 string output_uid;
+                string first_uid;
+                string second_uid;
                 string name="ADD";
         };
         class ASSIGN {
@@ -102,12 +103,13 @@ namespace vodka {
         };
         class FREE {
             public:
-                vector<string> argument_uid;
+                string argument_uid;
                 string name="FREE";
         };
         class INVERT {
             public:
-                string uid;
+                string source_uid;
+                string output_uid;
                 string name="INVERT";
         };
         class DUPLICATE {
@@ -118,7 +120,8 @@ namespace vodka {
         };
         class ABS {
             public:
-                string uid;
+                string source_uid;
+                string output_uid;
                 string name="ABS";
         };
         class DIVMOD {
@@ -131,14 +134,14 @@ namespace vodka {
         };
         class TOINT {
             public:
-                string uid_source;
-                string uid_output;
+                string source_uid;
+                string output_uid;
                 string name="TOINT";
         };
         class TODEC {
             public:
-                string uid_source;
-                string uid_output;
+                string source_uid;
+                string output_uid;
                 string name="TODEC";
         };
         class MULDEC {
@@ -164,11 +167,11 @@ namespace vodka {
                 string precision_uid;
                 string name="DIVIDE";
         };
-        class LENGHT {
+        class LENGTH {
             public:
                 string output_uid;
                 string source_uid;
-                string name="LENGHT";
+                string name="LENGTH";
         };
         class CONCAT {
             public:
@@ -182,7 +185,7 @@ namespace vodka {
                 string source_uid;
                 string output_uid;
                 string start_index_uid;
-                string lenght_output_uid;
+                string length_output_uid;
                 string name="SUBSTRING";
         };
         class CHARAT {
@@ -237,7 +240,7 @@ namespace vodka {
                 MULINT mulint_element;
                 MULDEC muldec_element;
                 DIVIDE divide_element;
-                LENGHT lenght_element;
+                LENGTH length_element;
                 CONCAT concat_element;
                 SUBSTRING substring_element;
                 CHARAT charat_element;
@@ -268,6 +271,7 @@ namespace vodka {
                 bool is_vodka_constant;
                 bool in_data_section=true;
                 bool is_kernel_constant=false;
+                bool is_null_as_declaration=false;
                 bool algo_dependant;
         };
         //* Vodint type class : optimize for vodint internal structure
@@ -555,6 +559,29 @@ namespace vodka {
                     string line;
                     //* Private functions for analysing each instructions
                     bool multiply(vodka::errors::SourcesStack lclstack={});
+            };
+        }
+        namespace vodstr {
+            //* Main class for parsing line that call converions internal library
+            class CallTreatement {
+                public:
+                    vodka::library::FunctionCall function_call;
+                    vector<vodka::syscalls::SyscallContainer> syscalls_output;
+                    bool checked=false;
+                    bool var_flag=false;
+                    //* Main function for parsing math internal library
+                    bool call_treatement(vodka::errors::SourcesStack lclstack={});
+                private:
+                    string line;
+                    //* Private functions for analysing each instructions
+                    bool length_int(vodka::errors::SourcesStack lclstack={});
+                    bool concat_int(vodka::errors::SourcesStack lclstack={});
+                    bool substring_int(vodka::errors::SourcesStack lclstack={});
+                    bool charat_int(vodka::errors::SourcesStack lclstack={});
+                    bool reverse_int(vodka::errors::SourcesStack lclstack={});
+                    bool escape_int(vodka::errors::SourcesStack lclstack={});
+                    bool insert_int(vodka::errors::SourcesStack lclstack={});
+                    bool find_int(vodka::errors::SourcesStack lclstack={});
             };
         }
     }

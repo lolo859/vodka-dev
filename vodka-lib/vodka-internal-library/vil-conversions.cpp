@@ -30,15 +30,15 @@ bool vodka::library::conversions::CallTreatement::toint_int(SourcesStack lclstac
         }
         output::log("Registering system call.",function_call.main_logstep_context,function_call.last_logstep_context,2,{(int)function_call.iteration_number_context+1,3},{function_call.cell_context.content.size(),3});
         vodka::syscalls::TOINT tointcall;
-        tointcall.uid_source=function_call.variablesdict_context[arg[1]].variable_metadata.uuid;
-        tointcall.uid_output=function_call.variablesdict_context[arg[0]].variable_metadata.uuid;
+        tointcall.source_uid=function_call.variablesdict_context[arg[1]].variable_metadata.uuid;
+        tointcall.output_uid=function_call.variablesdict_context[arg[0]].variable_metadata.uuid;
         vodka::syscalls::SyscallContainer syscont;
         syscont.thing=vodka::syscalls::SyscallsNames::TOINT;
         syscont.toint_element=tointcall;
         syscalls_output.push_back(syscont);
         return true;
     } else {
-        raise(ErrorContainer("vodka.error.conversions.toint.invalid_syntax : Invalid syntax.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
+        raise(ErrorContainer("vodka.error.library.conversions.toint.invalid_syntax : Invalid syntax.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
         return false;
     }
 }
@@ -65,15 +65,15 @@ bool vodka::library::conversions::CallTreatement::todec_int(SourcesStack lclstac
         }
         output::log("Registering system call.",function_call.main_logstep_context,function_call.last_logstep_context,2,{(int)function_call.iteration_number_context+1,3},{function_call.cell_context.content.size(),3});
         vodka::syscalls::TODEC todeccall;
-        todeccall.uid_source=function_call.variablesdict_context[arg[1]].variable_metadata.uuid;
-        todeccall.uid_output=function_call.variablesdict_context[arg[0]].variable_metadata.uuid;
+        todeccall.source_uid=function_call.variablesdict_context[arg[1]].variable_metadata.uuid;
+        todeccall.output_uid=function_call.variablesdict_context[arg[0]].variable_metadata.uuid;
         vodka::syscalls::SyscallContainer syscont;
         syscont.thing=vodka::syscalls::SyscallsNames::TODEC;
         syscont.todec_element=todeccall;
         syscalls_output.push_back(syscont);
         return true;
     } else {
-        raise(ErrorContainer("vodka.error.conversions.todec.invalid_syntax : Invalid syntax.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
+        raise(ErrorContainer("vodka.error.library.conversions.todec.invalid_syntax : Invalid syntax.",function_call.file_name_context,{line},{function_call.cell_context.start.line+(int)function_call.iteration_number_context+1},srclclstack));
         return false;
     }
 }

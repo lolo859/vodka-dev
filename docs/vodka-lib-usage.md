@@ -208,7 +208,7 @@ That class contain all the information necessary to raise an error.
 - `std::string error` : the actual error
 - `std::string file` : the .vod file from which the error come. Leave empty (by default) to not display any file
 - `std::vector<std::string> lines_content` : the content of each lines that need to be displayed. Leave empty (by default) to not display any line
-- `std::vector<int> lines` : the line(s) that caused the error. Leave empty (by default) to not display any line. **It should have the same lenght as lines_content**
+- `std::vector<int> lines` : the line(s) that caused the error. Leave empty (by default) to not display any line. **It should have the same length as lines_content**
 - `vodka::errors::SourcesStack source` : the source stack
 - `bool class_mode` : specifie if the error came from a class method or a function
 
@@ -333,8 +333,8 @@ This is the class for the `DIVMOD` syscall.
 This is the class for the `TOINT` syscall.
 
 **Attributes that must be set after declaration:**
-- `std::string uid_source` : the UID of the variable that should be converted into integer number syntax
-- `std::string uid_output` : the UID of the variable that should receive the converted value
+- `std::string source_uid` : the UID of the variable that should be converted into integer number syntax
+- `std::string output_uid` : the UID of the variable that should receive the converted value
 - `string name` : the name of the syscall. **Shouldn't be modified.**
 
 ---
@@ -344,8 +344,8 @@ This is the class for the `TOINT` syscall.
 This is the class for the `TODEC` syscall.
 
 **Attributes that must be set after declaration:**
-- `std::string uid_source` : the UID of the variable that should be converted into decimal number syntax
-- `std::string uid_output` : the UID of the variable that should receive the converted value
+- `std::string source_uid` : the UID of the variable that should be converted into decimal number syntax
+- `std::string output_uid` : the UID of the variable that should receive the converted value
 - `string name` : the name of the syscall. **Shouldn't be modified.**
 
 ---

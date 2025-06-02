@@ -1,6 +1,7 @@
 £VODTYPE command
 £VODSTART main
-vodka a=vodint 6
-vodka b=vodec 7.9
-math.multiply b b b
+vodka a=vodint 4
+vodka b=vodec 5.0
+kernel.invert a b
+kernel.abs a b
 £VODEND

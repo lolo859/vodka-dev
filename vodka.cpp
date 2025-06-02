@@ -867,6 +867,29 @@ int main (int argc,char* argv[]) {
                     main_variableslist=engine.function_call.variableslist_context;
                     main_variablesdict=engine.function_call.variablesdict_context;
                 }
+            } else if (type_analyser.library_name=="vodstr") {
+                vodka::library::FunctionCall fcall;
+                fcall.verbose_context=verbose;
+                fcall.main_logstep_context=log_main_step;
+                fcall.last_logstep_context=last;
+                fcall.variableslist_context=main_variableslist;
+                fcall.cell_context=maincell;
+                fcall.iteration_number_context=i;
+                fcall.file_name_context=file_source;
+                fcall.variablesdict_context=main_variablesdict;
+                fcall.line_checked=type_analyser;
+                vodka::library::vodstr::CallTreatement engine;
+                engine.function_call=fcall;
+                engine.checked=engine.call_treatement(lclstack);
+                if (engine.checked==false) {
+                    return -1;
+                } else {
+                    instructions_main.insert(instructions_main.end(),engine.syscalls_output.begin(),engine.syscalls_output.end());
+                }
+                if (engine.var_flag==true) {
+                    main_variableslist=engine.function_call.variableslist_context;
+                    main_variablesdict=engine.function_call.variablesdict_context;
+                }
             }
         } else {
             raise(ErrorContainer("vodka.error.function.unknow : Unknow function.",file_source,{line},{maincell.start.line+(int)i+1},lclstack));
