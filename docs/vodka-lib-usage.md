@@ -39,6 +39,14 @@ vodka-lib is the static internal C++ library that powers the Vodka transcoder an
   - [class vodka::syscalls::MULINT](#class-vodkasyscallsmulint)
   - [class vodka::syscalls::MULDEC](#class-vodkasyscallsmuldec)
   - [class vodka::syscalls::DIVIDE](#class-vodkasyscallsdivide)
+  - [class vodka::syscalls::LENGTH](#class-vodkasyscallslength)
+  - [class vodka::syscalls::CONCAT](#class-vodkasyscallsconcat)
+  - [class vodka::syscalls::SUBSTRING](#class-vodkasyscallssubstring)
+  - [class vodka::syscalls::CHARAT](#class-vodkasyscallscharat)
+  - [class vodka::syscalls::REVERSE](#class-vodkasyscallsreverse)
+  - [class vodka::syscalls::ESCAPE](#class-vodkasyscallsescape)
+  - [class vodka::syscalls::INSERT](#class-vodkasyscallsinsert)
+  - [class vodka::syscalls::FIND](#class-vodkasyscallsfind)
   - [class vodka::syscalls::SyscallContainer](#class-vodkasyscallssyscallcontainer)
 - [vodka::variables](#vodkavariables)
   - [enum class vodka::variables::VariableDatatype](#enum-class-vodkavariablesvariabledatatype)
@@ -461,7 +469,20 @@ This is the class for the `INSERT` syscall.
 **Attributes that must be set after declaration:**
 - `std::string output_uid` : the UID of the output variable
 - `std::string source_uid` : the UID of the source variable
-- `std::string index_uid` : the UID of the variable that contain 
+- `std::string index_uid` : the UID of the variable that contain the index where the string will be inserted
+- `std::string string_to_insert` : the UID of the variable to insert
+- `std::string name` : the name of the syscall. **Shouldn't be modified.**
+
+---
+
+### `class vodka::syscalls::FIND`
+
+This is the class for the `FIND` syscall.
+
+**Attributes that must be set after declaration:**
+- `std::string output_uid` : the UID of the output variable
+- `std::string source_uid` : the UID of the source variable
+- `std::string char_uid` : the UID of the variable that contain the variable to search
 - `std::string name` : the name of the syscall. **Shouldn't be modified.**
 
 ---
@@ -487,6 +508,14 @@ This is the class that will generate the syntax for each syscall.
 - `MULINT mulint_element` : if `thing` is `vodka::syscalls::SyscallsNames::MULINT`
 - `MULDEC muldec_element` : if `thing` is `vodka::syscalls::SyscallsNames::MULDEC`
 - `DIVIDE divide_element` : if `thing` is `vodka::syscalls::SyscallsNames::DIVIDE`
+- `LENGHT lenght_element` : if `thing` is `vodka::syscalls::SyscallsNames::LENGHT`
+- `CONCAT concat_element` : if `thing` is `vodka::syscalls::SyscallsNames::CONCAT`
+- `SUBSTRING substring_element` : if `thing` is `vodka::syscalls::SyscallsNames::SUBSTRING`
+- `CHARAT charat_element` : if `thing` is `vodka::syscalls::SyscallsNames::CHARAT`
+- `REVERSE reverse_element` : if `thing` is `vodka::syscalls::SyscallsNames::REVERSE`
+- `ESCAPE escape_element` : if `thing` is `vodka::syscalls::SyscallsNames::ESCAPE`
+- `INSERT insert_element` : if `thing` is `vodka::syscalls::SyscallsNames::INSERT`
+- `FIND find_element` : if `thing` is `vodka::syscalls::SyscallsNames::FIND`
 
 **Methods:**
 - `string syntax()` : generate the line to be outputed, according to the value inside `thing`
