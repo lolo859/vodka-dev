@@ -120,10 +120,11 @@ move kernel.toint/todec and tostr to the new conversions library
 move multiply to the new math library
 all kernel.<instruction> now use a fixed amount of arguments
 no instructions should modify directely a variable without a workaround
-planned : add vodnull value for vodint and vodec datatype
+add null value for vodint and vodec datatype
 warning : update docs
 
 for vodka 0.4 :
 planned : some of them has been enhanced and duplicated to internals libraries
 planned : dispatching syscalls from the kernel library to others internals libraries
 planned : ability to use direct values declarations into any arguments and not only certains arguments
+planned : add memory.getmem
