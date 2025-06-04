@@ -182,7 +182,7 @@ bool vodka::analyser::VariableDeclarationAnalyser::make_info(SourcesStack lclsta
             variable_metadata.uuid=to_string(vodka::utilities::genuid());
             variable_metadata.name=name;
             if (value=="null") {
-                value.
+                variable_metadata.is_null_as_declaration=true;
             }
             return true;
         } else {

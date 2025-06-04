@@ -113,14 +113,14 @@ made : rework functions organizations in vodka::utilities
 made : add tostr instruction (not in kernel internal library)
 
 for vodka 0.4 beta 3 :
-add vodstr.length/concat/substring/charat/reverse/escape/insert/find
-add vodstr library
-add LENGTH, CONCAT, SUBSTRING, CHARAT, REVERSE, ESCAPE, INSERT, FIND syscalls
-move kernel.toint/todec and tostr to the new conversions library
-move multiply to the new math library
-all kernel.<instruction> now use a fixed amount of arguments
-no instructions should modify directely a variable without a workaround
-add null value for vodint and vodec datatype
+made : add vodstr.length/concat/substring/charat/reverse/escape/insert/find
+made : add vodstr library
+made : add LENGTH, CONCAT, SUBSTRING, CHARAT, REVERSE, ESCAPE, INSERT, FIND syscalls
+made : move kernel.toint/todec and tostr to the new conversions library
+made : move multiply to the new math library
+made : all kernel.<instruction> now use a fixed amount of arguments
+made : no instructions should modify directely a variable without a workaround
+made : add null value for vodint and vodec datatype
 
 for vodka 0.4 :
 planned : some of them has been enhanced and duplicated to internals libraries

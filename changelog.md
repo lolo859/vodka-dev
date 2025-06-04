@@ -4,41 +4,71 @@
 
 ### New features (Vodka Transcoder)
 
-- **Added `vodstr` datatype:**
-  - The value is delimited after the first space after the datatype, until the rest of the line
-  - `vodstr` datatype supports `\n` and `\u` for inserting new lines and unicode characters
-  - For the moment, `vodstr` values can't be inserted as arguments inside instructions
+- **Added `vodstr` internal library:**
+  - This library contain every functions useful for the new `vodstr` datatype
+  - Please see Vodka codebase documentation for usage and syntax.
 
-- **Added `tostr` vodka instruction:**
-  - **Syntax:** `tostr <output_variable> <input_variable>`
-  - `<output_variable>` must be `vodstr` and `<input_variable>` can be `vodint`, `vodec` or `vodarg`
+- **Added 8 new functions to Vodka codebase:**
+  - `vodstr.length`
+  - `vodstr.concat`
+  - `vodstr.substring`
+  - `vodstr.charat`
+  - `vodstr.reverse`
+  - `vodstr.escape`
+  - `vodstr.insert`
+  - `vodstr.find`
 
-- **Added the `--license` argument**
+- **Added 8 new instructions to Kernel Code codebase:**
+  - `LENGTH`
+  - `CONCAT`
+  - `SUBSTRING`
+  - `CHARAT`
+  - `REVERSE`
+  - `ESCAPE`
+  - `INSERT`
+  - `FIND`
+  - Please see Kernel Code codebase documentation for usage and syntax.
 
-### Changes and improvements (Vodka Transcoder)
+### Changes and improvements (Vodka transcoder)
 
-- **The following functions of the `kernel` internal library are now compatible with the `vodstr` datatype:**
+- **Reorganize some functions inside multiple new internal libraries:**
+  - `conversions`:
+    - `kernel.toint` and `kernel.todec` has been moved to the new `conversions` library
+    - `tostr` instruction has been moved into the `conversions` library as well
+  - `math`:
+    - `multiply` instruction has been moved to the `math` library
+    - In the long term, all arithmetic functions will be moved into this library
+
+- **The following functions and their equivalent in Kernel Code instructions now have a fixed amount of arguments:**
   - `kernel.print`
+  - `kernel.add`
   - `kernel.free`
-  - `kernel.toint` : only as input variable
-  - `kernel.todec` : only as input variable
 
-- **Optimized define replacement process in order to prevent a bug with `vodstr` value detection**
-  - The new method has been extended to others cells as well
+- **The following functions and their equivalent in Kernel Code instructions now have a dedicated output argument:**
+  - `kernel.invert`
+  - `kernel.abs`
+
+- **`vodint` and `vodec` variables can now be declared as empty by using `null` as value**
 
 ### New features (vodka-lib)
 
-- **Added `vodstr` value to `vodka::variables::VariableDatatype`**
+- **Added three new namespace with their content:**
+  - `vodka::library::conversions`
+    - `class vodka::library::conversions::CallTreatement`
+  - `vodka::library::math`
+    - `class vodka::library::math::CallTreatement`
+  - `vodka::library::vodstr`
+    - `class vodka::library::vodstr::CallTreatement`
 
-- **Added `vodka::variables::VodstrVariable` class**
-
-- **Added a new library constant `vodka::ConversionsInstructions`**
-
-- **Added a new function `vodka::utilities::string_utilities::strip`**
+- **Added corresponding class for the new Kernel Code instructions**
 
 ### Changes and improvements (vodka-lib)
 
-- **Reworked `vodka::utilities` structure:**
-  - `cell`, `symbol` and `import` structs has been moved to the new namespace `vodka::utilities::structs`
-  - `log`, `debuglog` and `var_warning` functions has been moved to `vodka::utilities::output`
-  - `split`, `replaceall` and `strip` functions has been moved to the new namespace `vodka::utilities::string_utilities`
+- **Removed `vodka::instructions` namespace**
+
+- **Modified the following class in `vodka::syscalls` to match new syntax for some syscalls:**
+  - `class vodka::syscalls::PRINT`
+  - `class vodka::syscalls::ADD`
+  - `class vodka::syscalls::FREE`
+  - `class vodka::syscalls::INVERT`
+  - `class vodka::syscalls::ABS`
