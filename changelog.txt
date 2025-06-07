@@ -112,7 +112,6 @@ made : compatible with kernel.print/free/toint/todec
 made : rework functions organizations in vodka::utilities
 made : add tostr instruction (not in kernel internal library)
 
-for vodka 0.4 beta 3 :
 made : add vodstr.length/concat/substring/charat/reverse/escape/insert/find
 made : add vodstr library
 made : add LENGTH, CONCAT, SUBSTRING, CHARAT, REVERSE, ESCAPE, INSERT, FIND syscalls
@@ -123,7 +122,11 @@ made : no instructions should modify directely a variable without a workaround
 made : add null value for vodint and vodec datatype
 
 for vodka 0.4 :
-planned : some of them has been enhanced and duplicated to internals libraries
-planned : dispatching syscalls from the kernel library to others internals libraries
-planned : ability to use direct values declarations into any arguments and not only certains arguments
-planned : add memory.getmem
+memory.print/free and math.add now support more than the corresponding arguments for their syscall
+dispatching math syscalls from the kernel library to math internal librarie
+renamed kernel internal library to memory
+added vodka::IndexStartDatatypeReplacement
+ability to use direct values declarations into any arguments and not only certains arguments, certains instructions and values aren't eligible
+add memory.getmem and GETMEM syscall
+planned : generate ourself uuids and hashs
+warning : update docs, specify which instruction and argument support datatype replacement 

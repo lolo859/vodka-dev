@@ -1,7 +1,5 @@
 £VODTYPE command
 £VODSTART main
-vodka a=vodint 4
-vodka b=vodec 5.0
-kernel.invert a b
-kernel.abs a b
+vodka a=vodint null
+memory.getmem a #3
 £VODEND

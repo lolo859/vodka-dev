@@ -451,7 +451,7 @@ Please note that every time we mention character, we talk about UTF-8 character.
 
 #### length
 
-Used to get the number of character inside a variable. Both argument must be `vodstr` variables.
+Used to get the number of character inside a variable. `<input_variable>` argument must be a `vodstr` variable and `<output_variable>` must be a `vodint` variable.
 
 Syntax: `vodstr.length <output_variable> <input_variable>`
 

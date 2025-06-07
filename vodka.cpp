@@ -442,14 +442,27 @@ bool code_pre_treatement(bool replace,SourcesStack srclclstack) {
         localline.file=file_source;
         localline.content=maincell.content[i];
         auto direct_declared_data=string_utilities::split(maincell.content[i]," ");
-        if (direct_declared_data.size()>2) {
+        if (direct_declared_data.size()>=2) {
             if (direct_declared_data[0]!="vodka") {
-                direct_declared_data.erase(direct_declared_data.begin(),direct_declared_data.begin()+1);
+                bool skip=false;
+                if (vodka::IndexStartDatatypeReplacement.at(direct_declared_data[0])!=-1) {
+                    direct_declared_data.erase(direct_declared_data.begin(),direct_declared_data.begin()+vodka::IndexStartDatatypeReplacement.at(direct_declared_data[0]));
+                } else {
+                    skip=true;
+                }
                 for (auto arg:direct_declared_data) {
                     if (arg.substr(0,1)=="#" && find(directs_data.begin(),directs_data.end(),arg)==directs_data.end()) {
+                        if (skip==true) {
+                            raise(ErrorContainer("vodka.error.line.datatype_replacement.instruction_ineligible : This instruction can't be pre-processed for datatypes replacement process",file_source,{maincell.content[i]},{maincell.start.line+i+1},lclstack));
+                            return false;
+                        }
                         if (vodka::type::vodint::check_value(arg.substr(1,arg.size()-1),localline,lclstack)) {
                             vodka::variables::VodintVariable intele;
                             intele.value=vodka::type::vodint::remove_zero(arg.substr(1,arg.size()-1));
+                            if (intele.value=="null") {
+                                raise(ErrorContainer("vodka.error.line.datatype_replacement.forbidden_value : Values declared inside function can't be null",file_source,{maincell.content[i]},{maincell.start.line+i+1},lclstack));
+                                return false;
+                            }
                             vodka::variables::VariableContainer contele;
                             vodka::variables::VariableMetadata varinfo;
                             varinfo.is_vodka_constant=true;
@@ -468,9 +481,17 @@ bool code_pre_treatement(bool replace,SourcesStack srclclstack) {
                             return false;
                         }
                     } else if (arg.substr(0,1)=="%" && find(directs_data.begin(),directs_data.end(),arg)==directs_data.end()) {
+                        if (skip==true) {
+                            raise(ErrorContainer("vodka.error.line.datatype_replacement.instruction_ineligible : This instruction can't be pre-processed for datatypes replacement process",file_source,{maincell.content[i]},{maincell.start.line+i+1},lclstack));
+                            return false;
+                        }
                         if (vodka::type::vodec::check_value(arg.substr(1,arg.size()-1),localline,lclstack)) {
                             vodka::variables::VodecVariable decele;
                             decele.value=vodka::type::vodec::remove_zero(arg.substr(1,arg.size()-1));
+                            if (decele.value=="null") {
+                                raise(ErrorContainer("vodka.error.line.datatype_replacement.forbidden_value : Values declared inside function can't be null",file_source,{maincell.content[i]},{maincell.start.line+i+1},lclstack));
+                                return false;
+                            }
                             vodka::variables::VariableContainer contele;
                             vodka::variables::VariableMetadata varinfo;
                             varinfo.algo_dependant=false;
@@ -502,12 +523,25 @@ bool code_pre_treatement(bool replace,SourcesStack srclclstack) {
             auto direct_declared_data=string_utilities::split(cell.content[i]," ");
             if (direct_declared_data.size()>2) {
                 if (direct_declared_data[0]!="vodka") {
-                    direct_declared_data.erase(direct_declared_data.begin(),direct_declared_data.begin()+1);
+                    bool skip=false;
+                    if (vodka::IndexStartDatatypeReplacement.at(direct_declared_data[0])!=-1) {
+                        direct_declared_data.erase(direct_declared_data.begin(),direct_declared_data.begin()+vodka::IndexStartDatatypeReplacement.at(direct_declared_data[0]));
+                    } else {
+                        skip=true;
+                    }
                     for (auto arg:direct_declared_data) {
                         if (arg.substr(0,1)=="#" && find(directs_data.begin(),directs_data.end(),arg)==directs_data.end()) {
+                            if (skip==true) {
+                                raise(ErrorContainer("vodka.error.line.datatype_replacement.instruction_ineligible : This instruction can't be pre-processed for datatypes replacement process",file_source,{maincell.content[i]},{maincell.start.line+i+1},lclstack));
+                                return false;
+                            }
                             if (vodka::type::vodint::check_value(arg.substr(1,arg.size()-1),localline,lclstack)) {
                                 vodka::variables::VodintVariable intele;
                                 intele.value=vodka::type::vodint::remove_zero(arg.substr(1,arg.size()-1));
+                                if (intele.value=="null") {
+                                    raise(ErrorContainer("vodka.error.line.datatype_replacement.forbidden_value : Values declared inside function can't be null",file_source,{maincell.content[i]},{maincell.start.line+i+1},lclstack));
+                                    return false;
+                                }
                                 vodka::variables::VariableContainer contele;
                                 vodka::variables::VariableMetadata varinfo;
                                 varinfo.algo_dependant=false;
@@ -526,9 +560,17 @@ bool code_pre_treatement(bool replace,SourcesStack srclclstack) {
                                 return false;
                             }
                         } else if (arg.substr(0,1)=="%" && find(directs_data.begin(),directs_data.end(),arg)==directs_data.end()) {
+                            if (skip==true) {
+                                raise(ErrorContainer("vodka.error.line.datatype_replacement.instruction_ineligible : This instruction can't be pre-processed for datatypes replacement process",file_source,{maincell.content[i]},{maincell.start.line+i+1},lclstack));
+                                return false;
+                            }
                             if (vodka::type::vodec::check_value(arg.substr(1,arg.size()-1),localline,lclstack)) {
                                 vodka::variables::VodecVariable decele;
                                 decele.value=vodka::type::vodec::remove_zero(arg.substr(1,arg.size()-1));
+                                if (decele.value=="null") {
+                                    raise(ErrorContainer("vodka.error.line.datatype_replacement.forbidden_value : Values declared inside function can't be null",file_source,{maincell.content[i]},{maincell.start.line+i+1},lclstack));
+                                    return false;
+                                }
                                 vodka::variables::VariableContainer contele;
                                 vodka::variables::VariableMetadata varinfo;
                                 varinfo.algo_dependant=false;
@@ -590,7 +632,7 @@ int main (int argc,char* argv[]) {
         case '!':
             var_warning_enabled=false;
         case '1':
-            cout<<"Vodka transcoder version 0.4 beta 3"<<endl;
+            cout<<"Vodka transcoder version 0.4"<<endl;
             cout<<"vodka-lib version "+vodka::LibraryVersion<<endl;
             cout<<"Json export format version 4"<<endl;
             cout<<"vodka-lib Json namespace version "+vodka::JsonVersion<<endl;
@@ -798,7 +840,7 @@ int main (int argc,char* argv[]) {
                     //* Error is raised later
                 }
             }
-            if (type_analyser.library_name=="kernel") {
+            if (type_analyser.library_name=="memory") {
                 vodka::library::FunctionCall fcall;
                 fcall.verbose_context=verbose;
                 fcall.main_logstep_context=log_main_step;
@@ -809,7 +851,7 @@ int main (int argc,char* argv[]) {
                 fcall.file_name_context=file_source;
                 fcall.variablesdict_context=main_variablesdict;
                 fcall.line_checked=type_analyser;
-                vodka::library::kernel::CallTreatement engine;
+                vodka::library::memory::CallTreatement engine;
                 engine.function_call=fcall;
                 engine.checked=engine.call_treatement(lclstack);
                 if (engine.checked==false) {

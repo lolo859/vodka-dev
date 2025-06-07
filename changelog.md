@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.4 beta 3
+## Version 0.4
 
 ### New features (Vodka Transcoder)
 
