@@ -1,9 +1,13 @@
 #include "vodka-lib.h"
 #include "../dependencies/termcolor.hpp"
 #include <iostream>
+#include <fstream>
+#include <random>
+#include <sstream>
+#include <iomanip>
 #include <string>
 #include <vector>
-#include <boost/uuid/uuid_io.hpp>
+#include <boost/hash2/sha3.hpp>
 #include <filesystem>
 #include <sys/resource.h>
 #include <stdexcept>
@@ -16,7 +20,6 @@ double vodka::utilities::get_process_time() {
     }
     double user_time=usage.ru_utime.tv_sec+usage.ru_utime.tv_usec/1e6;
     double sys_time=usage.ru_stime.tv_sec+usage.ru_stime.tv_usec/1e6;
-
     return user_time+sys_time;
 }
 //* String utilities
@@ -55,10 +58,89 @@ string vodka::utilities::string_utilities::strip(string text,string character) {
     return text.substr(i);
 }
 //* UUID generator
-boost::uuids::uuid vodka::utilities::genuid() {
-    boost::uuids::random_generator ran;
-    boost::uuids::uuid uuid=ran();
-    return uuid;
+string vodka::utilities::genvyid() {
+    const char* format=getenv("VODKA_EXE_HASH");
+    string hashexe;
+    if (format!=nullptr) {
+        hashexe=string(format);
+    } else {
+        ifstream file("/proc/self/exe",ios::binary);
+        vector<unsigned char> exebuff((istreambuf_iterator<char>(file)),istreambuf_iterator<char>());
+        boost::hash2::sha3_512 exehash;
+        exehash.update(exebuff.data(), exebuff.size());
+        auto exedigest=exehash.result();
+        std::stringstream ssexe;
+        for (auto byte:exedigest) {
+            ssexe<<std::hex<<std::setw(2)<<std::setfill('0')<<(int)(unsigned char)byte;
+        }
+        hashexe=ssexe.str().substr(0,8);
+        setenv("VODKA_EXE_HASH",hashexe.c_str(),1);
+    }
+    std::random_device rd;
+    std::mt19937_64 gen(rd());
+    std::uniform_int_distribution<uint64_t> dist(0, 0xFFFFFFFFFFFFFFFFULL);
+    uint64_t random_value1=dist(gen);
+    std::stringstream ss1;
+    ss1<<std::hex<<std::setfill('0')<<std::setw(16)<< random_value1;
+    string g1=ss1.str();
+    uint64_t random_value2=dist(gen);
+    std::stringstream ss2;
+    ss2<<std::hex<<std::setfill('0')<<std::setw(16)<< random_value2;
+    string g2=ss2.str();
+    uint64_t random_value3=dist(gen);
+    std::stringstream ss3;
+    ss3<<std::hex<<std::setfill('0')<<std::setw(16)<< random_value3;
+    string g3=ss3.str();
+    string small1=g1.substr(0,8);
+    string small2=g2.substr(0,8);
+    string small3=g3.substr(0,8);
+    boost::hash2::sha3_512 hashother1;
+    string other=g2+g3;
+    hashother1.update(other.data(),other.size());
+    auto hash1=hashother1.result();
+    std::stringstream sshash1;
+    for (auto byte:hash1) {
+        sshash1<<std::hex<<std::setw(2)<<std::setfill('0')<<(int)(unsigned char)byte;
+    }
+    auto h1=sshash1.str().substr(0,8);
+    boost::hash2::sha3_512 hashother2;
+    other=g1+g3;
+    hashother2.update(other.data(),other.size());
+    auto hash2=hashother2.result();
+    std::stringstream sshash2;
+    for (auto byte:hash2) {
+        sshash2<<std::hex<<std::setw(2)<<std::setfill('0')<<(int)(unsigned char)byte;
+    }
+    auto h2=sshash2.str().substr(0,8);
+    boost::hash2::sha3_512 hashother3;
+    other=g1+g2;
+    hashother3.update(other.data(),other.size());
+    auto hash3=hashother3.result();
+    std::stringstream sshash3;
+    for (auto byte:hash3) {
+        sshash3<<std::hex<<std::setw(2)<<std::setfill('0')<<(int)(unsigned char)byte;
+    }
+    auto h3=sshash3.str().substr(0,8);
+    uint32_t val1=static_cast<uint32_t>(std::stoul(small1,nullptr,16));
+    uint32_t val2=static_cast<uint32_t>(std::stoul(small2,nullptr,16));
+    uint32_t val3=static_cast<uint32_t>(std::stoul(small3,nullptr,16));
+    uint32_t valother1=static_cast<uint32_t>(std::stoul(h1,nullptr,16));
+    uint32_t valother2=static_cast<uint32_t>(std::stoul(h2,nullptr,16));
+    uint32_t valother3=static_cast<uint32_t>(std::stoul(h3,nullptr,16));
+    uint32_t valexe=static_cast<uint32_t>(std::stoul(hashexe,nullptr,16));
+    uint32_t enc1=val1^valexe^valother1;
+    uint32_t enc2=val2^valexe^valother2;
+    uint32_t enc3=val3^valexe^valother3;
+    std::stringstream sss1;
+    std::stringstream sss2;
+    std::stringstream sss3;
+    sss1<<std::hex<<std::setw(8)<<std::setfill('0')<<enc1;
+    sss2<<std::hex<<std::setw(8)<<std::setfill('0')<<enc2;
+    sss3<<std::hex<<std::setw(8)<<std::setfill('0')<<enc3;
+    string final1=sss1.str()+g1;
+    string final2=sss2.str()+g2;
+    string final3=sss3.str()+g3;
+    return "["+final1+"-"+final2+"-"+final3+"]";
 }
 //* Logs functions
 void vodka::utilities::output::log(string text,int log_main_step,string last,int sublevel,vector<int> substep,vector<unsigned long> subtotal) {

@@ -1,5 +1,10 @@
 £VODTYPE command
 £VODSTART main
-vodka a=vodint null
-memory.getmem a #3
+vodka a=vodint 3
+vodka a=vodint 3
+vodka a=vodint 3
+vodka a=vodint 3
+vodka a=vodint 3
+vodka a=vodint 3
+vodka a=vodint 3
 £VODEND

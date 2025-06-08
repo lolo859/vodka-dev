@@ -179,7 +179,7 @@ bool vodka::analyser::VariableDeclarationAnalyser::make_info(SourcesStack lclsta
             variable_metadata.algo_dependant=false;
             variable_metadata.is_vodka_constant=is_vodka_const;
             variable_metadata.is_kernel_constant=is_kernel_constant;
-            variable_metadata.uuid=to_string(vodka::utilities::genuid());
+            variable_metadata.uuid=vodka::utilities::genvyid();
             variable_metadata.name=name;
             if (value=="null") {
                 variable_metadata.is_null_as_declaration=true;
@@ -191,7 +191,7 @@ bool vodka::analyser::VariableDeclarationAnalyser::make_info(SourcesStack lclsta
                     variable_metadata.algo_dependant=duplication_source_variable.variable_metadata.algo_dependant;
                     variable_metadata.is_vodka_constant=is_vodka_const;
                     variable_metadata.in_data_section=false;
-                    variable_metadata.uuid=to_string(vodka::utilities::genuid());
+                    variable_metadata.uuid=vodka::utilities::genvyid();
                     variable_metadata.name=name;
                     if (value=="null") {
                         variable_metadata.is_null_as_declaration=true;
@@ -201,7 +201,7 @@ bool vodka::analyser::VariableDeclarationAnalyser::make_info(SourcesStack lclsta
                     variable_metadata.algo_dependant=duplication_source_variable.variable_metadata.algo_dependant;
                     variable_metadata.is_vodka_constant=is_vodka_const;
                     variable_metadata.in_data_section=false;
-                    variable_metadata.uuid=to_string(vodka::utilities::genuid());
+                    variable_metadata.uuid=vodka::utilities::genvyid();
                     variable_metadata.name=name;
                     if (value=="null") {
                         variable_metadata.is_null_as_declaration=true;
@@ -211,7 +211,7 @@ bool vodka::analyser::VariableDeclarationAnalyser::make_info(SourcesStack lclsta
                     variable_metadata.algo_dependant=duplication_source_variable.variable_metadata.algo_dependant;
                     variable_metadata.is_vodka_constant=is_vodka_const;
                     variable_metadata.in_data_section=false;
-                    variable_metadata.uuid=to_string(vodka::utilities::genuid());
+                    variable_metadata.uuid=vodka::utilities::genvyid();
                     variable_metadata.name=name;
                     return true;
                 } else {

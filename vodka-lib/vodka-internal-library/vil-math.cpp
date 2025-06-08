@@ -372,7 +372,7 @@ bool vodka::library::math::CallTreatement::multiply(SourcesStack lclstack) {
             for (auto a:argsname) {
                 uidargs.push_back(function_call.variablesdict_context[a].variable_metadata.uuid);
             }
-            string precision_uid=to_string(genuid());
+            string precision_uid=genvyid();
             ASSIGN asscall;
             asscall.output_uid=precision_uid;
             asscall.value="3";

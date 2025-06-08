@@ -4,9 +4,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_generators.hpp>
-#include <boost/uuid/uuid_io.hpp>
+#include <boost/hash2/sha3.hpp>
 #include <filesystem>
 #include <iostream>
 using namespace std;
@@ -504,7 +502,7 @@ namespace vodka {
             };
         }
         //* UUID generator
-        boost::uuids::uuid genuid();
+        string genvyid();
         //* Logs functions
         namespace output {
             void log(string text,int log_main_step,string last,int sublevel=0,vector<int> substep={},vector<unsigned long> subtotal={});

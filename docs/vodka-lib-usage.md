@@ -84,7 +84,7 @@ vodka-lib is the static internal C++ library that powers the Vodka transcoder an
     - [struct vodka::utilities::structs::symbol](#struct-vodkautilitiessymbol)
     - [struct vodka::utilities::structs::cellule](#struct-vodkautilitiescellule)
     - [struct vodka::utilities::structs::import](#struct-vodkautilitiesimport)
-  - [boost::uuids::uuid vodka::utilities::genuid()](#boostuuidsuuid-vodkautilitiesgenuid)
+  - [boost::uuids::uuid vodka::utilities::genvyid()](#boostuuidsuuid-vodkautilitiesgenvyid)
   - [vodka::utilities::output](#vodkautilitiesoutput)
     - [void vodka::utilities::output::log()](#void-vodkautilitiesoutputlogstdstring-text-int-log_main_step-stdstring-last-int-sublevel-stdvectorint-substep---stdvectorunsigned-long-subtotal--)
     - [void vodka::utilities::output::debuglog()](#void-vodkautilitiesoutputdebuglogstdstring-text-int-line-stdstring-cell-bool-debug_mode-stdstring-file-bool-debug_info)
@@ -910,7 +910,7 @@ This is the structure responsible for storing an import. **It's not actually use
 
 ---
 
-### `boost::uuids::uuid vodka::utilities::genuid()`
+### `boost::uuids::uuid vodka::utilities::genvyid()`
 
 This function is used to generate UID for all the elements inside the Vodka transcoder and vodka-lib. These UID can be directly translated into `std::string` using `std::to_string`.
 

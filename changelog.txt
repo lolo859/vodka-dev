@@ -128,5 +128,7 @@ renamed kernel internal library to memory
 added vodka::IndexStartDatatypeReplacement
 ability to use direct values declarations into any arguments and not only certains arguments, certains instructions and values aren't eligible
 add memory.getmem and GETMEM syscall
-planned : generate ourself uuids and hashs
+the vodka transcoder now use VYID in place of uuid4
+added VODKA_EXE_HASH
+planned : changing the value of the same variable now use the same uid
 warning : update docs, specify which instruction and argument support datatype replacement 

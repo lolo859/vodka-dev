@@ -344,13 +344,13 @@ bool detect_cells(SourcesStack srclclstack) {
                 if (temp.name=="main") {
                     maincell=temp;
                     for (auto a:maincell.args) {
-                        auto uid=to_string(genuid());
+                        auto uid=genvyid();
                         vodka::variables::VariableMetadata argsinfo;
                         argsinfo.algo_dependant=true;
                         argsinfo.is_vodka_constant=false;
                         argsinfo.is_kernel_constant=false;
                         argsinfo.in_data_section=false;
-                        argsinfo.uuid=to_string(genuid());
+                        argsinfo.uuid=genvyid();
                         argsinfo.name=a;
                         vodka::variables::VodargVariable argscont;
                         vodka::variables::VariableContainer varcont;
@@ -470,7 +470,7 @@ bool code_pre_treatement(bool replace,SourcesStack srclclstack) {
                             varinfo.in_data_section=true;
                             varinfo.algo_dependant=false;
                             varinfo.is_kernel_constant=true;
-                            varinfo.uuid=to_string(vodka::utilities::genuid());
+                            varinfo.uuid=vodka::utilities::genvyid();
                             contele.variable_metadata=varinfo;
                             contele.vodint_element=intele;
                             contele.thing=vodka::variables::VariableDatatype::vodint;
@@ -498,7 +498,7 @@ bool code_pre_treatement(bool replace,SourcesStack srclclstack) {
                             varinfo.is_vodka_constant=true;
                             varinfo.in_data_section=true;
                             varinfo.is_kernel_constant=true;
-                            varinfo.uuid=to_string(vodka::utilities::genuid());
+                            varinfo.uuid=vodka::utilities::genvyid();
                             varinfo.name=arg;
                             contele.variable_metadata=varinfo;
                             contele.vodec_element=decele;
@@ -548,7 +548,7 @@ bool code_pre_treatement(bool replace,SourcesStack srclclstack) {
                                 varinfo.is_vodka_constant=true;
                                 varinfo.in_data_section=true;
                                 varinfo.is_kernel_constant=true;
-                                varinfo.uuid=to_string(vodka::utilities::genuid());
+                                varinfo.uuid=vodka::utilities::genvyid();
                                 varinfo.name=arg;
                                 contele.variable_metadata=varinfo;
                                 contele.vodint_element=intele;
@@ -577,7 +577,7 @@ bool code_pre_treatement(bool replace,SourcesStack srclclstack) {
                                 varinfo.is_vodka_constant=true;
                                 varinfo.in_data_section=true;
                                 varinfo.is_kernel_constant=true;
-                                varinfo.uuid=to_string(vodka::utilities::genuid());
+                                varinfo.uuid=vodka::utilities::genvyid();
                                 varinfo.name=arg;
                                 contele.variable_metadata=varinfo;
                                 contele.vodec_element=decele;
@@ -1099,7 +1099,7 @@ int main (int argc,char* argv[]) {
                     jsonth.instruction_name=string_utilities::split(line," ")[0];
                     auto eles=string_utilities::split(line," ");
                     jsonth.args=vector<string>(eles.begin()+1,eles.end());
-                    json_ints[to_string(a)+"@"+actualcell+":"+to_string(genuid())]=jsonth.syntax();
+                    json_ints[to_string(a)+"@"+actualcell+":"+genvyid()]=jsonth.syntax();
                     a=a+1;
                 } else {
                     vodka::json::kernel::JsonContainer jsonth;
@@ -1115,7 +1115,7 @@ int main (int argc,char* argv[]) {
                         }
                     }
                     jsonth.args={otherside};
-                    json_ints[to_string(a)+":"+to_string(genuid())]=jsonth.syntax();
+                    json_ints[to_string(a)+":"+genvyid()]=jsonth.syntax();
                 }
             } else if (line=="endargs") {
                 endargs=true;
@@ -1152,12 +1152,12 @@ int main (int argc,char* argv[]) {
             symb.type=symbols[i].type;
             auto args=string_utilities::split(symbols[i].content," ");
             symb.args=vector<string>(args.begin()+1,args.end());
-            symb.uid=to_string(genuid());
+            symb.uid=genvyid();
             if (symb.type=="VODSTART" && cellstart==false) {
                 cellcount=cellcount+1;
                 vodka::json::vodka::VodkaCell cell;
                 cell.name=symb.args[0];
-                cell.uid=to_string(cellcount)+":"+to_string(genuid());
+                cell.uid=to_string(cellcount)+":"+genvyid();
                 cell.start=symb;
                 cellstart=true;
                 actualcell=cell;
@@ -1168,7 +1168,7 @@ int main (int argc,char* argv[]) {
                 cellstart=false;
                 idencell.insert(idencell.begin(),actualcell);
             }
-            json_ints_v["symbols"][to_string(i+1)+":"+to_string(genuid())]=symb.syntax();
+            json_ints_v["symbols"][to_string(i+1)+":"+genvyid()]=symb.syntax();
         }
         output::log("Converting cells : ",log_main_step,last,1,{2},{2});
         for (int i=0;i<idencell.size();++i) {
@@ -1177,7 +1177,7 @@ int main (int argc,char* argv[]) {
             for (auto a:cellcontent) {
                 if (a.substr(0,5)=="vodka") {
                     vodka::json::vodka::VodkaVariableDeclaration vardec;
-                    vardec.uid=to_string(genuid());
+                    vardec.uid=genvyid();
                     auto eles=string_utilities::split(a,"=");
                     auto namepart=eles[0];
                     auto valuepart=eles[1];
@@ -1201,7 +1201,7 @@ int main (int argc,char* argv[]) {
                 } else if (a.substr(0,6)=="kernel") {
                     vodka::json::vodka::VodkaInstruction instr;
                     instr.library="kernel";
-                    instr.uid=to_string(genuid());
+                    instr.uid=genvyid();
                     instr.name=string_utilities::split(a," ")[0];
                     instr.source="<builtin>";
                     auto eles=string_utilities::split(a," ");
@@ -1213,7 +1213,7 @@ int main (int argc,char* argv[]) {
                 } else if (a.substr(0,11)=="conversions") {
                     vodka::json::vodka::VodkaInstruction instr;
                     instr.library="conversions";
-                    instr.uid=to_string(genuid());
+                    instr.uid=genvyid();
                     instr.name=string_utilities::split(a," ")[0];
                     instr.source="<builtin>";
                     auto eles=string_utilities::split(a," ");
@@ -1225,7 +1225,7 @@ int main (int argc,char* argv[]) {
                 } else if (a.substr(0,4)=="math") {
                     vodka::json::vodka::VodkaInstruction instr;
                     instr.library="math";
-                    instr.uid=to_string(genuid());
+                    instr.uid=genvyid();
                     instr.name=string_utilities::split(a," ")[0];
                     instr.source="<builtin>";
                     auto eles=string_utilities::split(a," ");

@@ -70,7 +70,8 @@
         "queue": "cpp",
         "semaphore": "cpp",
         "stop_token": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "list": "cpp"
     },
     "C_Cpp.default.compilerPath": "/home/lolo859/.local/bin/g++"
 }
