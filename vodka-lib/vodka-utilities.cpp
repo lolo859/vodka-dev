@@ -1,5 +1,6 @@
 #include "vodka-lib.h"
 #include "../dependencies/termcolor.hpp"
+#include "../dependencies/base64.h"
 #include <iostream>
 #include <fstream>
 #include <random>
@@ -7,7 +8,7 @@
 #include <iomanip>
 #include <string>
 #include <vector>
-#include <boost/hash2/sha3.hpp>
+#include <boost/crc.hpp>
 #include <filesystem>
 #include <sys/resource.h>
 #include <stdexcept>
@@ -66,13 +67,11 @@ string vodka::utilities::genvyid() {
     } else {
         ifstream file("/proc/self/exe",ios::binary);
         vector<unsigned char> exebuff((istreambuf_iterator<char>(file)),istreambuf_iterator<char>());
-        boost::hash2::sha3_512 exehash;
-        exehash.update(exebuff.data(), exebuff.size());
-        auto exedigest=exehash.result();
+        boost::crc_32_type exehash;
+        exehash.process_bytes(exebuff.data(), exebuff.size());
+        auto exedigest=exehash.checksum();
         std::stringstream ssexe;
-        for (auto byte:exedigest) {
-            ssexe<<std::hex<<std::setw(2)<<std::setfill('0')<<(int)(unsigned char)byte;
-        }
+        ssexe<<std::hex<<std::setw(8)<<std::setfill('0')<<exedigest;
         hashexe=ssexe.str().substr(0,8);
         setenv("VODKA_EXE_HASH",hashexe.c_str(),1);
     }
@@ -94,32 +93,26 @@ string vodka::utilities::genvyid() {
     string small1=g1.substr(0,8);
     string small2=g2.substr(0,8);
     string small3=g3.substr(0,8);
-    boost::hash2::sha3_512 hashother1;
+    boost::crc_32_type hashother1;
     string other=g2+g3;
-    hashother1.update(other.data(),other.size());
-    auto hash1=hashother1.result();
+    hashother1.process_bytes(other.data(),other.size());
+    auto hash1=hashother1.checksum();
     std::stringstream sshash1;
-    for (auto byte:hash1) {
-        sshash1<<std::hex<<std::setw(2)<<std::setfill('0')<<(int)(unsigned char)byte;
-    }
+    sshash1<<std::hex<<std::setw(8)<<std::setfill('0')<<hash1;
     auto h1=sshash1.str().substr(0,8);
-    boost::hash2::sha3_512 hashother2;
+    boost::crc_32_type hashother2;
     other=g1+g3;
-    hashother2.update(other.data(),other.size());
-    auto hash2=hashother2.result();
+    hashother2.process_bytes(other.data(),other.size());
+    auto hash2=hashother2.checksum();
     std::stringstream sshash2;
-    for (auto byte:hash2) {
-        sshash2<<std::hex<<std::setw(2)<<std::setfill('0')<<(int)(unsigned char)byte;
-    }
+    sshash2<<std::hex<<std::setw(8)<<std::setfill('0')<<hash2;
     auto h2=sshash2.str().substr(0,8);
-    boost::hash2::sha3_512 hashother3;
+    boost::crc_32_type hashother3;
     other=g1+g2;
-    hashother3.update(other.data(),other.size());
-    auto hash3=hashother3.result();
+    hashother3.process_bytes(other.data(),other.size());
+    auto hash3=hashother3.checksum();
     std::stringstream sshash3;
-    for (auto byte:hash3) {
-        sshash3<<std::hex<<std::setw(2)<<std::setfill('0')<<(int)(unsigned char)byte;
-    }
+    sshash3<<std::hex<<std::setw(8)<<std::setfill('0')<<hash3;
     auto h3=sshash3.str().substr(0,8);
     uint32_t val1=static_cast<uint32_t>(std::stoul(small1,nullptr,16));
     uint32_t val2=static_cast<uint32_t>(std::stoul(small2,nullptr,16));
@@ -137,10 +130,23 @@ string vodka::utilities::genvyid() {
     sss1<<std::hex<<std::setw(8)<<std::setfill('0')<<enc1;
     sss2<<std::hex<<std::setw(8)<<std::setfill('0')<<enc2;
     sss3<<std::hex<<std::setw(8)<<std::setfill('0')<<enc3;
+    boost::crc_32_type hashtotal;
+    string total=sss1.str()+sss2.str()+sss3.str();
+    hashtotal.process_bytes(total.data(),total.size());
+    auto sumtotal=hashtotal.checksum();
+    std::stringstream sstotal;
+    sstotal<<std::hex<<std::setw(8)<<std::setfill('0')<<sumtotal;
+    auto strtotal=sstotal.str();
+    boost::crc_32_type hashgrp;
+    hashgrp.process_bytes(strtotal.data(),strtotal.size());
+    auto sumgrp=hashgrp.checksum();
+    std::stringstream ssgrp;
+    ssgrp<<std::hex<<std::setw(8)<<std::setfill('0')<<sumgrp;
+    auto strgrp=ssgrp.str();
     string final1=sss1.str()+g1;
     string final2=sss2.str()+g2;
     string final3=sss3.str()+g3;
-    return "["+final1+"-"+final2+"-"+final3+"]";
+    return "["+base64::convertHexToBase64(strgrp).substr(0,6)+"-"+base64::convertHexToBase64(final1)+"-"+base64::convertHexToBase64(final2)+"-"+base64::convertHexToBase64(final3)+"-"+base64::convertHexToBase64(strtotal).substr(0,6)+"]";
 }
 //* Logs functions
 void vodka::utilities::output::log(string text,int log_main_step,string last,int sublevel,vector<int> substep,vector<unsigned long> subtotal) {
