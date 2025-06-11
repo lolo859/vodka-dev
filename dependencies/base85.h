@@ -6,18 +6,22 @@ namespace base85 {
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         ".~:+=^!/*?&<>()_|{}@%$#";
     inline void uint32_to_b85(uint32_t value,char* out) {
-        uint32_t div4=52200625;
-        uint32_t div3=614125;
-        uint32_t div2=7225;
-        uint32_t div1=85;
-        out[0]=Z85_CHARS[value/div4];
-        value%=div4;
-        out[1]=Z85_CHARS[value/div3];
-        value%=div3;
-        out[2]=Z85_CHARS[value/div2];
-        value%=div2;
-        out[3]=Z85_CHARS[value/div1];
-        value%=div1;
+        constexpr uint32_t d1=52200625;
+        constexpr uint32_t d2=614125;
+        constexpr uint32_t d3=7225;  
+        constexpr uint32_t d4=85;    
+        uint32_t q1=value/d1;
+        value-=q1*d1;
+        uint32_t q2=value/d2;
+        value-=q2*d2;
+        uint32_t q3=value/d3;
+        value-=q3*d3;
+        uint32_t q4=value/d4;
+        value-=q4*d4;
+        out[0]=Z85_CHARS[q1];
+        out[1]=Z85_CHARS[q2];
+        out[2]=Z85_CHARS[q3];
+        out[3]=Z85_CHARS[q4];
         out[4]=Z85_CHARS[value];
         out[5]='\0';
     }

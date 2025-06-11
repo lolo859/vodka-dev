@@ -65,7 +65,7 @@ string vodka::utilities::string_utilities::strip(string text,string character) {
 }
 //* UUID generator
 string vodka::utilities::genvyid(XoshiroCpp::Xoshiro256StarStar& gen,vodka::utilities::structs::random_values& rand) {
-    uniform_int_distribution<uint64_t> dist(0, 0xFFFFFFFFFFFFFFFFULL);
+    uniform_int_distribution<uint64_t> dist(0,0xFFFFFFFFFFFFFFFFULL);
     rand.rand1=dist(gen);
     rand.rand2=dist(gen);
     rand.rand3=dist(gen);
@@ -75,13 +75,13 @@ string vodka::utilities::genvyid(XoshiroCpp::Xoshiro256StarStar& gen,vodka::util
     char sign3[16];
     std::memcpy(sign1,&rand.rand2,8);
     std::memcpy(sign1+8,&rand.rand3,8);
-    uint64_t sign1h=XXH64(sign1,sizeof(sign1),seed);
+    uint64_t sign1h=XXH3_64bits_withSeed(sign1,sizeof(sign1),seed);
     std::memcpy(sign2,&rand.rand1,8);
     std::memcpy(sign2+8,&rand.rand3,8);
-    uint64_t sign2h=XXH64(sign2,sizeof(sign2),seed);
+    uint64_t sign2h=XXH3_64bits_withSeed(sign2,sizeof(sign2),seed);
     std::memcpy(sign3,&rand.rand1,8);
     std::memcpy(sign3+8,&rand.rand2,8);
-    uint64_t sign3h=XXH64(sign3,sizeof(sign3),seed);
+    uint64_t sign3h=XXH3_64bits_withSeed(sign3,sizeof(sign3),seed);
     uint64_t lenc1=rand.rand1^sign1h;
     uint64_t lenc2=rand.rand2^sign2h;
     uint64_t lenc3=rand.rand3^sign3h;
@@ -92,11 +92,11 @@ string vodka::utilities::genvyid(XoshiroCpp::Xoshiro256StarStar& gen,vodka::util
     std::memcpy(total,&enc1,4);
     std::memcpy(total+4,&enc2,4);
     std::memcpy(total+8,&enc3,4);
-    auto sumtotal=XXH64(total,sizeof(total),seed);
+    auto sumtotal=XXH3_64bits_withSeed(total,sizeof(total),seed);
     uint32_t trunctotal=sumtotal>>32;
     char grph[4];
     std::memcpy(grph,&trunctotal,4);
-    auto sumgrp=XXH64(grph,sizeof(grph),seed);
+    auto sumgrp=XXH3_64bits_withSeed(grph,sizeof(grph),seed);
     uint32_t truncgrp=sumgrp>>32;
     char output[70];
     char grp[6];
@@ -115,7 +115,30 @@ string vodka::utilities::genvyid(XoshiroCpp::Xoshiro256StarStar& gen,vodka::util
     base85::uint64_to_b85(rand.rand2,rand2);
     base85::uint64_to_b85(rand.rand3,rand3);
     base85::uint32_to_b85(trunctotal,hash);
-    snprintf(output,sizeof(output),"[%s-%s%s-%s%s-%s%s-%s]",grp,enchar1,rand1,enchar2,rand2,enchar3,rand3,hash);
+    int offset=0;
+    output[offset++]='[';
+    std::memcpy(output+offset,grp,5);
+    offset+=5;
+    output[offset++]='-';
+    std::memcpy(output+offset,enchar1,5);
+    offset+=5;
+    std::memcpy(output+offset,rand1,10);
+    offset+=10;
+    output[offset++]='-';
+    std::memcpy(output+offset,enchar2,5);
+    offset+=5;
+    std::memcpy(output+offset,rand2,10);
+    offset+=10;
+    output[offset++]='-';
+    std::memcpy(output+offset,enchar3,5);
+    offset+=5;
+    std::memcpy(output+offset,rand3,10);
+    offset+=10;
+    output[offset++]='-';
+    std::memcpy(output+offset,hash,5);
+    offset+=5;
+    output[offset++]=']';
+    output[offset]='\0';
     return string(output);
 }
 string vodka::utilities::genvyid() {
