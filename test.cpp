@@ -6,7 +6,7 @@
 random_device rd;
 mt19937_64 gen(rd());
 int main() {
-    const size_t iterations = 100000;
+    const size_t iterations = 10000000;
     using namespace std::chrono;
 
     auto start = high_resolution_clock::now();
