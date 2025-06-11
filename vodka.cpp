@@ -21,9 +21,13 @@ bool compiled_with_gpp=false;
 #include <chrono>
 #include <boost/hash2/sha3.hpp>
 #include <boost/version.hpp>
+#include <random>
 #include <cstdlib>
 #include "vodka-lib/vodka-lib.h"
 #include "dependencies/json.hpp"
+extern "C" {
+    #include "dependencies/xxhash.h"
+};
 //* Some necessary functions
 string hash_then_encode(string origin) {
     boost::hash2::sha3_512 hasher;
@@ -63,6 +67,9 @@ using namespace std;
 using namespace vodka::utilities;
 using namespace vodka::errors;
 //* Some variables
+//* Random things
+random_device rd;
+mt19937_64 gen(rd());
 //* Variables for compilation and options
 string verbose="e";
 bool debug_mode=false;
@@ -640,6 +647,7 @@ int main (int argc,char* argv[]) {
             cout<<" - Boost version "<<BOOST_VERSION/100000<<"."<< BOOST_VERSION/100%1000<<"."<<BOOST_VERSION%100<<endl;
             cout<<" - Json version "<<NLOHMANN_JSON_VERSION_MAJOR<<"."<<NLOHMANN_JSON_VERSION_MINOR<<"."<<NLOHMANN_JSON_VERSION_PATCH<<endl;
             cout<<" - Termcolor version 2.1.0"<<endl;
+            cout<<" - xxHash version "<<XXH_VERSION_MAJOR<<"."<<XXH_VERSION_MINOR<<"."<<XXH_VERSION_RELEASE<<endl;
             if (compiled_with_gpp) {
                 cout<<"g++ version used for compilation : "<<to_string(gpp_major)<<"."<<to_string(gpp_minor)<<"."<<to_string(gpp_patch)<<endl;
             } else {

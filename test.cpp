@@ -1,29 +1,26 @@
-#include <string>
 #include <iostream>
-#include "dependencies/base64.h"
-#include <vector>
-#include <sstream>
-#include <iomanip>
-using namespace std;
-string hex_to_base64(string hex) {
-    vector<unsigned char> bytes;
-    for (size_t i=0;i<hex.length();i+=2) {
-        string bytestr=hex.substr(i,2);
-        unsigned char byte=(unsigned char)strtol(bytestr.c_str(),nullptr,16);
-        bytes.push_back(byte);
-    }
-    string binstr(bytes.begin(),bytes.end());
-    return to_base64(binstr);
-}
-string base64_to_hex(string b64) {
-    string bin=from_base64(b64);
-    stringstream ss;
-    for (unsigned char c:bin) {
-        ss<<hex<<setw(2)<<setfill('0')<<(int)c;
-    }
-    return ss.str();
-}
+#include <chrono>
+#include <random>
+#include <stdlib.h>
+#include "vodka-lib/vodka-lib.h" // Assure-toi que ta fonction est bien déclarée ici
+random_device rd;
+mt19937_64 gen(rd());
 int main() {
-    cout<<hex_to_base64("653775ceb0eaae419983c98c")<<endl;
-    cout<<base64_to_hex(hex_to_base64("653775ceb0eaae419983c98c"))<<endl;
+    const size_t iterations = 100000;
+    using namespace std::chrono;
+
+    auto start = high_resolution_clock::now();
+
+    for (size_t i = 0; i < iterations; ++i) {
+        vodka::utilities::genvyid();
+        // volatile pour éviter une éventuelle optimisation par le compilateur
+    }
+
+    auto end = high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start);
+
+    std::cout << "Total time: " << duration.count() << " seconds\n";
+    std::cout << "Average time per call: " << (duration.count() / iterations) * 1000000 << " µs\n";
+
+    return 0;
 }

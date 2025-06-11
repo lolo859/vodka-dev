@@ -10,6 +10,7 @@ The Vodka transcoder and vodka-lib have the following dependencies in order to b
 - termcolor by ikalnytskyi
 - nlohmann/json
 - base64
+- xxHash by Cyan4973
 - boost
 
 The first two are already included inside the dependencies folder. Boost version need to be at least 1.84 (1.88 is the recommended version) and, because of his unavaibality on packages managers, need to be compiled by hand. The compilation script need Boost to be located in the system folder.

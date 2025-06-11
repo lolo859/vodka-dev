@@ -2,6 +2,7 @@
 #define VODKA_LIB_H
 #include <string>
 #include <vector>
+#include <random>
 #include <map>
 #include <algorithm>
 #include <boost/hash2/sha3.hpp>
@@ -500,9 +501,15 @@ namespace vodka {
                 string importas;
                 vector<string> content;
             };
+            struct random_values {
+                uint64_t rand1;
+                uint64_t rand2;
+                uint64_t rand3;
+            };
         }
         //* UUID generator
-        string genvyid();
+        std::string genvyid(std::mt19937_64& gen,vodka::utilities::structs::random_values& rand);
+        std::string genvyid();
         //* Logs functions
         namespace output {
             void log(string text,int log_main_step,string last,int sublevel=0,vector<int> substep={},vector<unsigned long> subtotal={});
