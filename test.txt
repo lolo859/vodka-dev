@@ -1,33 +1,15 @@
-[lolo859@FedoraMachine vodka]$ ./test
-Total time: 0.135367 seconds
-Average time per call: 1.35367 µs
-[lolo859@FedoraMachine vodka]$ ./test
-Total time: 0.135985 seconds
-Average time per call: 1.35985 µs
-[lolo859@FedoraMachine vodka]$ ./test
-Total time: 0.13608 seconds
-Average time per call: 1.3608 µs
-[lolo859@FedoraMachine vodka]$ ./test
-Total time: 0.136355 seconds
-Average time per call: 1.36355 µs
-[lolo859@FedoraMachine vodka]$ ./test
-Total time: 0.146208 seconds
-Average time per call: 1.46208 µs
-[lolo859@FedoraMachine vodka]$ ./test
-Total time: 0.129841 seconds
-Average time per call: 1.29841 µs
-[lolo859@FedoraMachine vodka]$ ./test
-Total time: 0.135882 seconds
-Average time per call: 1.35882 µs
-[lolo859@FedoraMachine vodka]$ ./test
-Total time: 0.131348 seconds
-Average time per call: 1.31348 µs
-[lolo859@FedoraMachine vodka]$ ./test
-Total time: 0.134257 seconds
-Average time per call: 1.34257 µs
-[lolo859@FedoraMachine vodka]$ ./test
-Total time: 0.136884 seconds
-Average time per call: 1.36884 µs
-[lolo859@FedoraMachine vodka]$ ./test
-Total time: 0.131843 seconds
-Average time per call: 1.31843 µs
+lolo859@FedoraMachine:/vystem/vodka$ ./test
+Total time: 12.5668 seconds
+Average time per call: 1.25668 µs
+lolo859@FedoraMachine:/vystem/vodka$ ./test
+Total time: 12.5625 seconds
+Average time per call: 1.25625 µs
+lolo859@FedoraMachine:/vystem/vodka$ ./test
+Total time: 12.5957 seconds
+Average time per call: 1.25957 µs
+lolo859@FedoraMachine:/vystem/vodka$ ./test
+Total time: 12.558 seconds
+Average time per call: 1.2558 µs
+lolo859@FedoraMachine:/vystem/vodka$ ./test
+Total time: 12.5483 seconds
+Average time per call: 1.25483 µs
