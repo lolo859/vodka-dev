@@ -1,6 +1,6 @@
 #include "vodka-lib.h"
 #include "../dependencies/termcolor.hpp"
-#include "../dependencies/base64.h"
+#include "../dependencies/base85.h"
 #include <iostream>
 #include <fstream>
 #include <random>
@@ -82,73 +82,34 @@ string vodka::utilities::genvyid(std::mt19937_64& gen,vodka::utilities::structs:
     uint32_t enc1=small1^sign1;
     uint32_t enc2=small2^sign2;
     uint32_t enc3=small3^sign3;
-    char ench1[9];
-    ench1[8]='\0';
-    for (int i=7;i>=0;--i) {
-        ench1[i]=hex_chars[enc1 & 0xF];
-        enc1>>=4;
-    }
-    char ench2[9];
-    ench2[8]='\0';
-    for (int i=7;i>=0;--i) {
-        ench2[i]=hex_chars[enc2 & 0xF];
-        enc2>>=4;
-    }
-    char ench3[9];
-    ench3[8]='\0';
-    for (int i=7;i>=0;--i) {
-        ench3[i]=hex_chars[enc3 & 0xF];
-        enc3>>=4;
-    }
-    char rand1[17];
-    rand1[16]='\0';
-    for (int i=15;i>=0;--i) {
-        rand1[i]=hex_chars[rand.rand1 & 0xF];
-        rand.rand1>>=4;
-    }
-    char rand2[17];
-    rand2[16]='\0';
-    for (int i=15;i>=0;--i) {
-        rand2[i]=hex_chars[rand.rand2 & 0xF];
-        rand.rand2>>=4;
-    }
-    char rand3[17];
-    rand3[16]='\0';
-    for (int i=15;i>=0;--i) {
-        rand3[i]=hex_chars[rand.rand3 & 0xF];
-        rand.rand3>>=4;
-    }
-    char total[25];
-    std::memcpy(total,ench1,8);
-    std::memcpy(total+8,ench2,8);
-    std::memcpy(total+16,ench3,8);
-    total[24]='\0';
+    char total[12];
+    std::memcpy(total,&enc1,4);
+    std::memcpy(total+4,&enc2,4);
+    std::memcpy(total+8,&enc3,4);
     auto sumtotal=XXH64(total,sizeof(total),seed);
     uint32_t trunctotal=sumtotal>>32;
-    char strtotal[9];
-    strtotal[8]='\0';
-    for (int i=7;i>=0;--i) {
-        strtotal[i]=hex_chars[trunctotal & 0xF];
-        trunctotal>>=4;
-    }
-    auto sumgrp=XXH64(strtotal,sizeof(strtotal),seed);
+    char grph[4];
+    std::memcpy(grph,&trunctotal,4);
+    auto sumgrp=XXH64(grph,sizeof(grph),seed);
     uint32_t truncgrp=sumgrp>>32;
-    char strgrp[9];
-    strgrp[8]='\0';
-    for (int i=7;i>=0;--i) {
-        strgrp[i]=hex_chars[truncgrp & 0xF];
-        truncgrp>>=4;
-    }
     char output[70];
-    std::string b64_grp=base64::convertHexToBase64(strgrp).substr(0,6);
-    std::string b64_1=base64::convertHexToBase64(ench1);
-    std::string b64_2=base64::convertHexToBase64(ench2);
-    std::string b64_3=base64::convertHexToBase64(ench3);
-    std::string b64_r1=base64::convertHexToBase64(ench1);
-    std::string b64_r2=base64::convertHexToBase64(ench2);
-    std::string b64_r3=base64::convertHexToBase64(ench3);
-    std::string b64_total=base64::convertHexToBase64(strtotal).substr(0,6);
-    snprintf(output,sizeof(output),"[%s-%s%s-%s%s-%s%s-%s]",b64_grp.c_str(),b64_1.c_str(),b64_r1.c_str(),b64_2.c_str(),b64_r2.c_str(),b64_3.c_str(),b64_r3.c_str(),b64_total.c_str());
+    char grp[6];
+    char hash[6];
+    char enchar1[6];
+    char enchar2[6];
+    char enchar3[6];
+    char rand1[11];
+    char rand2[11];
+    char rand3[11];
+    base85::uint32_to_b85(truncgrp,grp);
+    base85::uint32_to_b85(enc1,enchar1);
+    base85::uint32_to_b85(enc2,enchar2);
+    base85::uint32_to_b85(enc3,enchar3);
+    base85::uint64_to_b85(rand.rand1,rand1);
+    base85::uint64_to_b85(rand.rand2,rand2);
+    base85::uint64_to_b85(rand.rand3,rand3);
+    base85::uint32_to_b85(trunctotal,hash);
+    snprintf(output,sizeof(output),"[%s-%s%s-%s%s-%s%s-%s]",grp,enchar1,rand1,enchar2,rand2,enchar3,rand3,hash);
     return string(output);
 }
 string vodka::utilities::genvyid() {
