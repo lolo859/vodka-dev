@@ -70,9 +70,6 @@ string vodka::utilities::genvyid(XoshiroCpp::Xoshiro256StarStar& gen,vodka::util
     rand.rand2=dist(gen);
     rand.rand3=dist(gen);
     uint64_t seed=rand.rand1^rand.rand2^rand.rand3;
-    // uint64_t sign1=rand.rand2^rand.rand3;
-    // uint64_t sign2=rand.rand1^rand.rand3;
-    // uint64_t sign3=rand.rand1^rand.rand2;
     char sign1[16];
     char sign2[16];
     char sign3[16];
