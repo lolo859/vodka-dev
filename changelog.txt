@@ -130,6 +130,7 @@ ability to use direct values declarations into any arguments and not only certai
 add memory.getmem and GETMEM syscall
 the vodka transcoder now use VYID in place of uuid4
 added base64.h to dependencies
+added XoshiroCpp.hpp to dependencies
 added vodka::utilities::struct::random_values
 planned : changing the value of the same variable now use the same uid
 warning : update docs, specify which instruction and argument support datatype replacement 

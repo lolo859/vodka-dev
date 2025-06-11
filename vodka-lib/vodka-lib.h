@@ -5,9 +5,9 @@
 #include <random>
 #include <map>
 #include <algorithm>
-#include <boost/hash2/sha3.hpp>
 #include <filesystem>
 #include <iostream>
+#include "../dependencies/XoshiroCpp.hpp"
 using namespace std;
 //* Vodka standard utilities
 //* For documentation, please refer to vodka-lib-usage.md
@@ -508,7 +508,7 @@ namespace vodka {
             };
         }
         //* UUID generator
-        std::string genvyid(std::mt19937_64& gen,vodka::utilities::structs::random_values& rand);
+        std::string genvyid(XoshiroCpp::Xoshiro256StarStar& gen,vodka::utilities::structs::random_values& rand);
         std::string genvyid();
         //* Logs functions
         namespace output {

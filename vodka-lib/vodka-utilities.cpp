@@ -1,6 +1,7 @@
 #include "vodka-lib.h"
 #include "../dependencies/termcolor.hpp"
 #include "../dependencies/base85.h"
+#include "../dependencies/XoshiroCpp.hpp"
 #include <iostream>
 #include <fstream>
 #include <random>
@@ -63,7 +64,7 @@ string vodka::utilities::string_utilities::strip(string text,string character) {
     return text.substr(i);
 }
 //* UUID generator
-string vodka::utilities::genvyid(std::mt19937_64& gen,vodka::utilities::structs::random_values& rand) {
+string vodka::utilities::genvyid(XoshiroCpp::Xoshiro256StarStar& gen,vodka::utilities::structs::random_values& rand) {
     uniform_int_distribution<uint64_t> dist(0, 0xFFFFFFFFFFFFFFFFULL);
     rand.rand1=dist(gen);
     rand.rand2=dist(gen);
@@ -113,10 +114,13 @@ string vodka::utilities::genvyid(std::mt19937_64& gen,vodka::utilities::structs:
     return string(output);
 }
 string vodka::utilities::genvyid() {
-    static thread_local std::random_device rd;
-    static thread_local std::mt19937_64 gen(rd());
+    static thread_local XoshiroCpp::Xoshiro256StarStar ran = []() {std::random_device rd;
+        std::mt19937_64 seeder(rd());
+        std::array<uint64_t,4> seed_data={seeder(),seeder(),seeder(),seeder()};
+        return XoshiroCpp::Xoshiro256StarStar(seed_data);
+    }();
     static thread_local vodka::utilities::structs::random_values rands;
-    return genvyid(gen,rands);
+    return genvyid(ran,rands);
 }
 //* Logs functions
 void vodka::utilities::output::log(string text,int log_main_step,string last,int sublevel,vector<int> substep,vector<unsigned long> subtotal) {
