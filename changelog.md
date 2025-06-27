@@ -4,71 +4,41 @@
 
 ### New features (Vodka Transcoder)
 
-- **Added `vodstr` internal library:**
-  - This library contain every functions useful for the new `vodstr` datatype
-  - Please see Vodka codebase documentation for usage and syntax.
+- **Value replacement (also known as datatype replacement process) is now supported by all functions, with varying levels of flexibility depending on function constraints.**
+  - See vodka codebase docs for more infos
 
-- **Added 8 new functions to Vodka codebase:**
-  - `vodstr.length`
-  - `vodstr.concat`
-  - `vodstr.substring`
-  - `vodstr.charat`
-  - `vodstr.reverse`
-  - `vodstr.escape`
-  - `vodstr.insert`
-  - `vodstr.find`
+- **Added `memory.getmem` function:**
+  - Syntax: `memory.getmem <output_variable> <input_variable>`
+  - Usage: get the amount of bits occupied by a variable
+  - Note: `<output_variable>` must be `vodint` datatype
 
-- **Added 8 new instructions to Kernel Code codebase:**
-  - `LENGTH`
-  - `CONCAT`
-  - `SUBSTRING`
-  - `CHARAT`
-  - `REVERSE`
-  - `ESCAPE`
-  - `INSERT`
-  - `FIND`
-  - Please see Kernel Code codebase documentation for usage and syntax.
+- **Added the corresponding `GETMEM` syscall**
 
 ### Changes and improvements (Vodka transcoder)
 
-- **Reorganize some functions inside multiple new internal libraries:**
-  - `conversions`:
-    - `kernel.toint` and `kernel.todec` has been moved to the new `conversions` library
-    - `tostr` instruction has been moved into the `conversions` library as well
-  - `math`:
-    - `multiply` instruction has been moved to the `math` library
-    - In the long term, all arithmetic functions will be moved into this library
+- **The following functions now support more arguments than expected by the corresponding syscall:**
+  - `memory.print`
+  - `memory.free`
+  - `math.add`
 
-- **The following functions and their equivalent in Kernel Code instructions now have a fixed amount of arguments:**
-  - `kernel.print`
-  - `kernel.add`
-  - `kernel.free`
+- **All the mathematic-related functions contained in the `kernel` internal library have been moved to the `math` internal library**
 
-- **The following functions and their equivalent in Kernel Code instructions now have a dedicated output argument:**
-  - `kernel.invert`
-  - `kernel.abs`
+- **`kernel` internal library has been renamed `memory`**
 
-- **`vodint` and `vodec` variables can now be declared as empty by using `null` as value**
+- **The Vodka Transcoder now use VYID in place of uuid v4.** These should be available for testing inside vodka-lib and have their own separate library in the future.
+
+- **The Vodka Transcoder now have `xxhash.h`/`xxhash.c` and `base85.h` as dependencies, all included with the project**
+
+- **Changing the value of a variable with a variable declaration now keep the same VYID of the variable**
 
 ### New features (vodka-lib)
 
-- **Added three new namespace with their content:**
-  - `vodka::library::conversions`
-    - `class vodka::library::conversions::CallTreatement`
-  - `vodka::library::math`
-    - `class vodka::library::math::CallTreatement`
-  - `vodka::library::vodstr`
-    - `class vodka::library::vodstr::CallTreatement`
+- **Added `vodka::IndexStartDatatypeReplacement`:** see vodka-lib-usage docs for usage
 
-- **Added corresponding class for the new Kernel Code instructions**
+- **Added `vodka::syscalls::GETMEM`**
+
+- **Added `vodka::utilities::struct::random_values`**
 
 ### Changes and improvements (vodka-lib)
 
-- **Removed `vodka::instructions` namespace**
-
-- **Modified the following class in `vodka::syscalls` to match new syntax for some syscalls:**
-  - `class vodka::syscalls::PRINT`
-  - `class vodka::syscalls::ADD`
-  - `class vodka::syscalls::FREE`
-  - `class vodka::syscalls::INVERT`
-  - `class vodka::syscalls::ABS`
+- **vodka-lib now have `XoshiroCpp.hpp`, `xxhash.h`/`xxhash.c` and `base85.h` as dependencies, all included with the project**

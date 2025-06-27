@@ -179,7 +179,11 @@ bool vodka::analyser::VariableDeclarationAnalyser::make_info(SourcesStack lclsta
             variable_metadata.algo_dependant=false;
             variable_metadata.is_vodka_constant=is_vodka_const;
             variable_metadata.is_kernel_constant=is_kernel_constant;
-            variable_metadata.uuid=vodka::utilities::genvyid();
+            if (find(variableslist_context.begin(),variableslist_context.end(),name)==variableslist_context.end()) {
+                variable_metadata.uuid=vodka::utilities::genvyid();
+            } else {
+                variable_metadata.uuid=variablesdict_context.at(name).variable_metadata.uuid;
+            }
             variable_metadata.name=name;
             if (value=="null") {
                 variable_metadata.is_null_as_declaration=true;

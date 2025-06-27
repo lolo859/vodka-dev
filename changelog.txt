@@ -121,16 +121,14 @@ made : all kernel.<instruction> now use a fixed amount of arguments
 made : no instructions should modify directely a variable without a workaround
 made : add null value for vodint and vodec datatype
 
-for vodka 0.4 :
-memory.print/free and math.add now support more than the corresponding arguments for their syscall
-dispatching math syscalls from the kernel library to math internal librarie
-renamed kernel internal library to memory
-added vodka::IndexStartDatatypeReplacement
-ability to use direct values declarations into any arguments and not only certains arguments, certains instructions and values aren't eligible
-add memory.getmem and GETMEM syscall
-the vodka transcoder now use VYID in place of uuid4
-added base64.h to dependencies
-added XoshiroCpp.hpp to dependencies
-added vodka::utilities::struct::random_values
-planned : changing the value of the same variable now use the same uid
-warning : update docs, specify which instruction and argument support datatype replacement 
+made : memory.print/free and math.add now support more than the corresponding arguments for their syscall
+made : dispatching math syscalls from the kernel library to math internal librarie
+made : renamed kernel internal library to memory
+made : added vodka::IndexStartDatatypeReplacement
+made : ability to use direct values declarations into any arguments and not only certains arguments, certains instructions and values aren't eligible
+made : add memory.getmem and GETMEM syscall
+made : the vodka transcoder now use VYID in place of uuid4
+made : added base64.h to dependencies
+made : added XoshiroCpp.hpp to dependencies
+made : added vodka::utilities::struct::random_values
+made : changing the value of the same variable now use the same uid

@@ -379,6 +379,8 @@ namespace vodka {
                 vodka::variables::VariableContainer variable_container;
                 vodka::variables::VariableContainer duplication_source_variable;
                 vodka::syscalls::SyscallContainer syscall_container;
+                vector<string> variableslist_context;
+                map<string,vodka::variables::VariableContainer> variablesdict_context;
             //* These functions should be used in this order
             //* Parse the variable declaration (name, datatype, value, constant)
             bool parser(vodka::errors::SourcesStack lclstack={});
@@ -530,13 +532,13 @@ namespace vodka {
         class FunctionCall {
             public:
                 vodka::analyser::LineTypeChecker line_checked;
-                vector<string> variableslist_context;
                 vodka::utilities::structs::cell cell_context;
                 int iteration_number_context;
                 string file_name_context;
                 string verbose_context;
                 int main_logstep_context;
                 string last_logstep_context;
+                vector<string> variableslist_context;
                 map<string,vodka::variables::VariableContainer> variablesdict_context;
         };
         //* Memory internal library

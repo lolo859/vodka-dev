@@ -9,7 +9,7 @@ Welcome to the documentation for the Vodka transcoder and vodka-lib, the C++ lib
 The Vodka transcoder and vodka-lib have the following dependencies in order to be build :
 - termcolor by ikalnytskyi
 - nlohmann/json
-- base64
+- base85
 - xxHash by Cyan4973
 - XoshiroCpp by Reputeless
 - boost

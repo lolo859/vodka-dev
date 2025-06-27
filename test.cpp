@@ -2,9 +2,9 @@
 #include <chrono>
 #include <random>
 #include <stdlib.h>
-#include "vodka-lib/vodka-lib.h" // Assure-toi que ta fonction est bien déclarée ici
-random_device rd;
-mt19937_64 gen(rd());
+#include <array>
+#include "../vyid/vyid.h"
+using namespace std;
 int main() {
     const size_t iterations = 10000000;
     using namespace std::chrono;
@@ -12,7 +12,7 @@ int main() {
     auto start = high_resolution_clock::now();
 
     for (size_t i = 0; i < iterations; ++i) {
-        vodka::utilities::genvyid();
+        vyid::generate_vyid_string();
         // volatile pour éviter une éventuelle optimisation par le compilateur
     }
 
