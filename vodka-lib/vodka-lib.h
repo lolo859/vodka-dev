@@ -503,11 +503,6 @@ namespace vodka {
                 string importas;
                 vector<string> content;
             };
-            struct random_values {
-                uint64_t rand1;
-                uint64_t rand2;
-                uint64_t rand3;
-            };
         }
         //* UUID generator
         std::string genvyid();

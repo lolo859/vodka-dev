@@ -19,26 +19,29 @@ bool compiled_with_gpp=false;
 #include <cctype>
 #include <getopt.h>
 #include <chrono>
-#include <boost/hash2/sha3.hpp>
-#include <boost/version.hpp>
 #include <random>
 #include <cstdlib>
 #include "vodka-lib/vodka-lib.h"
 #include "dependencies/json.hpp"
+#include "dependencies/blake3.h"
+#include "dependencies/xxhash.h"
+#include "dependencies/XoshiroCpp.hpp"
 //* Some necessary functions
 string hash_then_encode(string origin) {
-    boost::hash2::sha3_512 hasher;
-    hasher.update(origin.data(),origin.size());
-    auto digest=hasher.result();
+    blake3_hasher hasher;
+    blake3_hasher_init(&hasher);
+    blake3_hasher_update(&hasher,origin.data(),origin.size());
+    uint8_t digest[64];
+    blake3_hasher_finalize(&hasher,digest,sizeof(digest));
     string out;
     for (auto byte:digest) {
         bitset<8> bits(static_cast<unsigned char>(byte));
         auto str=bits.to_string();
         for (auto a:str) {
             if (a=='0') {
-                out=out+u8"\u200B";
+                out+=u8"\u200B";
             } else {
-                out=out+u8"\u2063";
+                out+=u8"\u2063";
             }
         }
     }
@@ -641,10 +644,11 @@ int main (int argc,char* argv[]) {
             cout<<"Json export format version 4"<<endl;
             cout<<"vodka-lib Json namespace version "+vodka::JsonVersion<<endl;
             cout<<"Dependencies:"<<endl;
-            cout<<" - Boost version "<<BOOST_VERSION/100000<<"."<< BOOST_VERSION/100%1000<<"."<<BOOST_VERSION%100<<endl;
+            cout<<" - blake3 version "<<BLAKE3_VERSION_STRING<<endl;
             cout<<" - Json version "<<NLOHMANN_JSON_VERSION_MAJOR<<"."<<NLOHMANN_JSON_VERSION_MINOR<<"."<<NLOHMANN_JSON_VERSION_PATCH<<endl;
             cout<<" - Termcolor version 2.1.0"<<endl;
-            cout<<"The dependencies without versioning system doesn't show here."<<endl;
+            cout<<" - xxHash version "<<XXH_VERSION_MAJOR<<"."<<XXH_VERSION_MINOR<<"."<<XXH_VERSION_RELEASE<<endl;
+            cout<<" - XoshiroCpp"<<endl;
             if (compiled_with_gpp) {
                 cout<<"g++ version used for compilation : "<<to_string(gpp_major)<<"."<<to_string(gpp_minor)<<"."<<to_string(gpp_patch)<<endl;
             } else {

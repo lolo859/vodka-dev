@@ -135,3 +135,4 @@ made : changing the value of the same variable now use the same uid
 
 vodka 0.4.1.1 :
 now use the official vyid library
+now use blake3 as hashing function
