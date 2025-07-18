@@ -132,3 +132,6 @@ made : added base64.h to dependencies
 made : added XoshiroCpp.hpp to dependencies
 made : added vodka::utilities::struct::random_values
 made : changing the value of the same variable now use the same uid
+
+vodka 0.4.1.1 :
+now use the official vyid library

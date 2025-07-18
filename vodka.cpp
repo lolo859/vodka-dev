@@ -25,9 +25,6 @@ bool compiled_with_gpp=false;
 #include <cstdlib>
 #include "vodka-lib/vodka-lib.h"
 #include "dependencies/json.hpp"
-extern "C" {
-    #include "dependencies/xxhash.h"
-};
 //* Some necessary functions
 string hash_then_encode(string origin) {
     boost::hash2::sha3_512 hasher;
@@ -639,7 +636,7 @@ int main (int argc,char* argv[]) {
         case '!':
             var_warning_enabled=false;
         case '1':
-            cout<<"Vodka transcoder version 0.4"<<endl;
+            cout<<"Vodka transcoder version 0.4.1"<<endl;
             cout<<"vodka-lib version "+vodka::LibraryVersion<<endl;
             cout<<"Json export format version 4"<<endl;
             cout<<"vodka-lib Json namespace version "+vodka::JsonVersion<<endl;
@@ -647,7 +644,6 @@ int main (int argc,char* argv[]) {
             cout<<" - Boost version "<<BOOST_VERSION/100000<<"."<< BOOST_VERSION/100%1000<<"."<<BOOST_VERSION%100<<endl;
             cout<<" - Json version "<<NLOHMANN_JSON_VERSION_MAJOR<<"."<<NLOHMANN_JSON_VERSION_MINOR<<"."<<NLOHMANN_JSON_VERSION_PATCH<<endl;
             cout<<" - Termcolor version 2.1.0"<<endl;
-            cout<<" - xxHash version "<<XXH_VERSION_MAJOR<<"."<<XXH_VERSION_MINOR<<"."<<XXH_VERSION_RELEASE<<endl;
             cout<<"The dependencies without versioning system doesn't show here."<<endl;
             if (compiled_with_gpp) {
                 cout<<"g++ version used for compilation : "<<to_string(gpp_major)<<"."<<to_string(gpp_minor)<<"."<<to_string(gpp_patch)<<endl;

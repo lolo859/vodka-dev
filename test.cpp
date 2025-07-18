@@ -1,26 +1,15 @@
 #include <iostream>
-#include <chrono>
-#include <random>
-#include <stdlib.h>
-#include <array>
-#include "../vyid/vyid.h"
-using namespace std;
+#include <sstream>
+#include "dependencies/termcolor.hpp"
+
 int main() {
-    const size_t iterations = 10000000;
-    using namespace std::chrono;
+    std::stringstream ss;
+    ss << termcolor::red << "This is red text" << termcolor::reset;
+    
+    std::cout << "Raw stringstream content:\n" << ss.str() << "\n";
 
-    auto start = high_resolution_clock::now();
-
-    for (size_t i = 0; i < iterations; ++i) {
-        vyid::generate_vyid_string();
-        // volatile pour éviter une éventuelle optimisation par le compilateur
-    }
-
-    auto end = high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start);
-
-    std::cout << "Total time: " << duration.count() << " seconds\n";
-    std::cout << "Average time per call: " << (duration.count() / iterations) * 1000000 << " µs\n";
+    // When you output the content to the terminal, colors show up:
+    std::cout << ss.str() << "\n";
 
     return 0;
 }
