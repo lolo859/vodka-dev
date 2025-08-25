@@ -1,20 +1,7 @@
 £VODTYPE command
-£VODSTART main
-vodka a=vodint 3
-vodka a=vodint 3
-vodka a=vodint 3
-vodka a=vodint 3
-vodka a=vodint 3
-vodka a=vodint 3
-vodka a=vodint 3
-vodka a=vodint 3
-vodka a=vodint 3
-vodka a=vodint 3
-vodka a=vodint 3
-vodka a=vodint 3
-vodka a=vodint 3
-vodka a=vodint 3
-vodka a=vodint 3
-vodka a=vodint 3
-vodka b=vodint 3
+£VODSTART main hello
+vodka a=vodint 0
+conversions.toint a hello
+memory.print a a
+vodka $$b=vodint 3
 £VODEND

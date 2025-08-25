@@ -1,12 +1,22 @@
-lolo859@FedoraMachine:/vystem/vodka$ ./test
-Total time: 8.48862 seconds
-Average time per call: 0.848862 µs
-lolo859@FedoraMachine:/vystem/vodka$ ./test
-Total time: 8.39344 seconds
-Average time per call: 0.839344 µs
-lolo859@FedoraMachine:/vystem/vodka$ ./test
-Total time: 8.36488 seconds
-Average time per call: 0.836488 µs
-lolo859@FedoraMachine:/vystem/vodka$ ./test
-Total time: 8.40394 seconds
-Average time per call: 0.840394 µs
+Automated Linker and Compilation Of Highly Object Oriented Language
+Using g++ (15)
+Building vodka transcoder
+Building Library
+Building dependencies
+Compiled xxhash
+Compiled vodka-utilities
+Compiled vodka-type
+Compiled vodka-syscalls
+Compiled vodka-json
+Compiled vodka-analyser
+Compiled vodka-errors
+Compiled vodka-variables
+Compiled vodka-compilation
+Compiled vil-memory
+Compiled vil-conversions
+Compiled vil-math
+Compiled vil-vodstr
+Library built under libvodka.a
+Library doesn't not include libblake.a, make sure to link it when compiling something that use libvodka.a
+Building Vodka
+Vodka built under vodka

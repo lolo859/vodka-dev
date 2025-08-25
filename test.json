@@ -1,7 +1,70 @@
-type app
-args:
-endargs
-data:
-enddata
-main:
-endmain
+{
+    "1:[0KH/(-vNnq_vNmmDmqP8D-Og7ZK6Q2~!E8nVn-_ryQDLgo%ZL.gjG-VWe{1]": {
+        "end": {
+            "name": "VODEND",
+            "uid": "[vk!uq-LV4noLV0qUO>I0T-_2TkMdqxLp|s%.w-Q42Uxhkh>JzRRkG-pUUHd]"
+        },
+        "line1": {
+            "type": "variable_declaration",
+            "uid": "[XZRI/-OJZh?OJXw^.PR/R-VxFl^llQQLIa56^-I|JZL7wM|<{L%Ob-TzIMh]",
+            "variable_name": "a",
+            "variable_type": "vodint",
+            "variable_value": "0"
+        },
+        "line2": {
+            "arg1": "a",
+            "arg2": "hello",
+            "library": "conversions",
+            "name": "conversions.toint",
+            "source": "<builtin>",
+            "type": "instruction",
+            "uid": "[fTC:0-&wzg2&wCK#XmB?1-Dj1/EWu2ZF1Rq+a-2>.EZ(a/5IUXOcA-Qso<z]"
+        },
+        "line3": {
+            "type": "variable_declaration",
+            "uid": "[jVm27-rsL1WrsOC9T+dgU-_:e1QhRdQ(u8&~9-l+Xdh7pe3.B7W{W-z*ve8]",
+            "variable_name": "$$b",
+            "variable_type": "vodint",
+            "variable_value": "3"
+        },
+        "name": {
+            "name": "main"
+        },
+        "start": {
+            "arg1": "main",
+            "arg2": "hello",
+            "name": "VODSTART",
+            "uid": "[|FX=f-XI#9ZXJ0MAYEQm+-7x1TcTnjXhtM4R(-Uy*$h7p$:Fe5rW&-5)|EJ]"
+        },
+        "uid": {
+            "uid": "1:[0KH/(-vNnq_vNmmDmqP8D-Og7ZK6Q2~!E8nVn-_ryQDLgo%ZL.gjG-VWe{1]"
+        }
+    },
+    "metadata": {
+        "metadata": {
+            "json_type": "vodka",
+            "json_version": "4",
+            "source_file": "test.vod",
+            "timestamp": "2025-08-24T13:24:55Z",
+            "type": "metadata",
+            "vodka_version": "0.5 beta 1"
+        }
+    },
+    "symbols": {
+        "1:[7tFl?-XXkT}XXk_txcJP!-2/a|ZsD6ED_yg.T-=upvaCGY0.vY&pv-m:>}%]": {
+            "arg1": "command",
+            "name": "VODTYPE",
+            "uid": "[aQWSN-vCtYkvCqvZDB^yP-=Y|palL~bfv7*pp-V}zkO!Sp7fb3u5|-+Bf/%]"
+        },
+        "2:[nIQap-SXz!lSXySvbZaQ<-B>thnxEESe=%q.6-~I#K$z<|+@9XHVD-Djbou]": {
+            "arg1": "main",
+            "arg2": "hello",
+            "name": "VODSTART",
+            "uid": "[|FX=f-XI#9ZXJ0MAYEQm+-7x1TcTnjXhtM4R(-Uy*$h7p$:Fe5rW&-5)|EJ]"
+        },
+        "3:[bBG|V-1?2?$1?4F)uhMHZ-5M^2*ZFI&2Tm^_U-N|jY5P5.tDBc2lt-CuD1f]": {
+            "name": "VODEND",
+            "uid": "[vk!uq-LV4noLV0qUO>I0T-_2TkMdqxLp|s%.w-Q42Uxhkh>JzRRkG-pUUHd]"
+        }
+    }
+}

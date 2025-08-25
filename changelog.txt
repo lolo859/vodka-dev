@@ -133,6 +133,12 @@ made : added XoshiroCpp.hpp to dependencies
 made : added vodka::utilities::struct::random_values
 made : changing the value of the same variable now use the same uid
 
-vodka 0.4.1.1 :
-now use the official vyid library
-now use blake3 as hashing function
+vodka 0.5 beta 1 :
+added vodka::compilation
+added vodka::utilities::SafeAttribute
+adapt all methods to use SafeAttribute
+removed `last` from vodka::utilities::output::log
+json_kernel is now version 5
+json_kernel now uses spaces as separator
+kernel constant are now using space as delimiter between their VYID and their value
+encode_to_bin and hash_then_encode has been moved to vodka::utilities::encoding
