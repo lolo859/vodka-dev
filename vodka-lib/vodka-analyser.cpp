@@ -233,7 +233,7 @@ bool vodka::analyser::VariableDeclarationAnalyser::_make_info(SourcesStack lclst
     }
 }
 //* Make a pre-treatement of the value to store
-bool vodka::analyser::VariableDeclarationAnalyser::_value_pre_traitement(SourcesStack lclstack) {
+bool vodka::analyser::VariableDeclarationAnalyser::_value_pre_treatement(SourcesStack lclstack) {
     auto srclclstack=lclstack;
     srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (get_make_info_result()) {
@@ -260,7 +260,7 @@ bool vodka::analyser::VariableDeclarationAnalyser::_value_pre_traitement(Sources
 bool vodka::analyser::VariableDeclarationAnalyser::_make_output(SourcesStack lclstack) {
     auto srclclstack=lclstack;
     srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
-    if (get_pre_traitement_result()) {
+    if (get_pre_treatement_result()) {
         if (datatype=="vodint") {
             vodka::variables::VodintVariable varr;
             variable_container.variable_metadata=variable_metadata;

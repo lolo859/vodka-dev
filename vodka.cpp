@@ -276,7 +276,7 @@ int main (int argc,char* argv[]) {
     }
     compiled_output.push_back("args:");
     log_main_step=log_main_step+1;
-    bool code_pre_traited=precompilation_engine.code_pretraitement(compiled_output,replace,log_main_step,lclstack);
+    bool code_pre_traited=precompilation_engine.code_pretreatement(compiled_output,replace,log_main_step,lclstack);
     if (code_pre_traited==false) {
         return -1;
     }
@@ -352,8 +352,8 @@ int main (int argc,char* argv[]) {
                 return -1;
             }
             output::log("Pre-treating vodka declaration value.",log_main_step,2,{(int)i+1,4},{context.file.maincell.content.size(),6});
-            VariableDeclarationAnalyser.value_pre_traitement(lclstack);
-            if (VariableDeclarationAnalyser.get_pre_traitement_result()==false) {
+            VariableDeclarationAnalyser.value_pre_treatement(lclstack);
+            if (VariableDeclarationAnalyser.get_pre_treatement_result()==false) {
                 return -1;
             }
             output::log("Compiling vodka declaration into variable container.",log_main_step,2,{(int)i+1,5},{context.file.maincell.content.size(),6});

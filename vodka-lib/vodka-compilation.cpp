@@ -211,7 +211,7 @@ bool vodka::compilation::PreCompilation::_detect_cells(int& log_main_step,Source
     return true;
 }
 //* Apply pre-treatement on the code
-bool vodka::compilation::PreCompilation::_code_pretraitement(vector<string>& compiled_output,bool replace,int& log_main_step,SourcesStack srclclstack) {
+bool vodka::compilation::PreCompilation::_code_pretreatement(vector<string>& compiled_output,bool replace,int& log_main_step,SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (get_detect_cells()==false) {

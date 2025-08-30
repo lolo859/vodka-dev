@@ -446,7 +446,7 @@ namespace vodka {
                 bool _parser(vodka::errors::SourcesStack lclstack={});
                 bool _check_type_value(vector<string> context={},vodka::errors::SourcesStack lclstack={});
                 bool _make_info(vodka::errors::SourcesStack lclstack={});
-                bool _value_pre_traitement(vodka::errors::SourcesStack lclstack={});
+                bool _value_pre_treatement(vodka::errors::SourcesStack lclstack={});
                 bool _make_output(vodka::errors::SourcesStack lclstack={});
                 SafeAttribute<bool,SourcesStack> parsed;
                 SafeAttribute<bool,vector<string>,SourcesStack> checked_type_value;
@@ -458,7 +458,7 @@ namespace vodka {
                 parsed([this](SourcesStack srclclstack){return _parser(srclclstack);}),
                 checked_type_value([this](vector<string> context={},SourcesStack srclclstack){return _check_type_value(context,srclclstack);}),
                 info_done([this](SourcesStack srclclstack){return _make_info(srclclstack);}),
-                pre_treated([this](SourcesStack srclclstack){return _value_pre_traitement(srclclstack);}),
+                pre_treated([this](SourcesStack srclclstack){return _value_pre_treatement(srclclstack);}),
                 output_done([this](SourcesStack srclclstack){return _make_output(srclclstack);}) {}
                 LineTypeChecker line_checked;
                 string name;
@@ -483,8 +483,8 @@ namespace vodka {
                 bool make_info(SourcesStack lclstack) {return info_done.run(lclstack);}
                 bool get_make_info_result() {return info_done.is_initialized() && info_done.get();}
                 //* Make a pre-treatement of the value to store
-                bool value_pre_traitement(SourcesStack lclstack) {return pre_treated.run(lclstack);}
-                bool get_pre_traitement_result() {return pre_treated.is_initialized() && pre_treated.get();}
+                bool value_pre_treatement(SourcesStack lclstack) {return pre_treated.run(lclstack);}
+                bool get_pre_treatement_result() {return pre_treated.is_initialized() && pre_treated.get();}
                 //* Output the variable under a vodka::variable::variable_container object (please specifiy the original variable if datatype is vodka)
                 bool make_output(SourcesStack lclstack) {return output_done.run(lclstack);}
                 bool get_make_output_result() {return output_done.is_initialized() && output_done.get();}
@@ -707,23 +707,23 @@ namespace vodka {
                 bool remove_comments() {return removed_comments.run();}
                 bool get_remove_comments() {return removed_comments.is_initialized() && removed_comments.get();}
         };
-        //* The PreCompilation part, allow for structuring the compilation into symbols, cells and code pre-traitement
+        //* The PreCompilation part, allow for structuring the compilation into symbols, cells and code pre-treatement
         class PreCompilation {
             private:
                 SafeAttribute<bool,int&,SourcesStack> symbols_parsed;
                 SafeAttribute<bool,int&,SourcesStack> type_found;
                 SafeAttribute<bool,int&,SourcesStack> cells_done;
-                SafeAttribute<bool,vector<string>&,bool,int&,SourcesStack> code_pretraitement_done;
+                SafeAttribute<bool,vector<string>&,bool,int&,SourcesStack> code_pretreatement_done;
                 bool _parse_symbols(int& log_main_step,SourcesStack srclclstack);
                 bool _detect_program_type(int& log_main_step,SourcesStack srclclstack);
                 bool _detect_cells(int& log_main_step,SourcesStack srclclstack);
-                bool _code_pretraitement(vector<string>& compiled_output,bool replace,int& log_main_step,SourcesStack srclclstack);
+                bool _code_pretreatement(vector<string>& compiled_output,bool replace,int& log_main_step,SourcesStack srclclstack);
             public:
                 PreCompilation():
                 symbols_parsed([this](int& log_main_step,SourcesStack srclclstack){return _parse_symbols(log_main_step,srclclstack);}),
                 type_found([this](int& log_main_step,SourcesStack srclclstack){return _detect_program_type(log_main_step,srclclstack);}),
                 cells_done([this](int& log_main_step,SourcesStack srclclstack){return _detect_cells(log_main_step,srclclstack);}),
-                code_pretraitement_done([this](vector<string>& compiled_output,bool replace,int& log_main_step,SourcesStack srclclstack){return _code_pretraitement(compiled_output,replace,log_main_step,srclclstack);}) {}
+                code_pretreatement_done([this](vector<string>& compiled_output,bool replace,int& log_main_step,SourcesStack srclclstack){return _code_pretreatement(compiled_output,replace,log_main_step,srclclstack);}) {}
                 map<string,vodka::variables::VariableContainer> maincell_args_dict;
                 map<string,vodka::variables::VariableContainer> variables_dict;
                 vector<string> maincell_args_list;
@@ -745,8 +745,8 @@ namespace vodka {
                 bool detect_cells(int& log_main_step,SourcesStack srclclstack) {return cells_done.run(log_main_step,srclclstack);};
                 bool get_detect_cells() {return cells_done.is_initialized() && cells_done.get();};
                 //* Apply pre-treatement on the code
-                bool code_pretraitement(vector<string>& compiled_output,bool replace,int& log_main_step,SourcesStack srclclstack) {return code_pretraitement_done.run(compiled_output,replace,log_main_step,srclclstack);};
-                bool get_code_pretraitement() {return code_pretraitement_done.is_initialized() && code_pretraitement_done.get();};
+                bool code_pretreatement(vector<string>& compiled_output,bool replace,int& log_main_step,SourcesStack srclclstack) {return code_pretreatement_done.run(compiled_output,replace,log_main_step,srclclstack);};
+                bool get_code_pretreatement() {return code_pretreatement_done.is_initialized() && code_pretreatement_done.get();};
         };
         class CompilationContext {
             public:
@@ -757,7 +757,7 @@ namespace vodka {
                 vector<string> variables_list;
                 //* Set all the variables to their expected values
                 bool setup() {
-                    if (file.get_code_pretraitement()==false) {
+                    if (file.get_code_pretreatement()==false) {
                         return false;
                     }
                     maincell_args_dict=file.maincell_args_dict;
