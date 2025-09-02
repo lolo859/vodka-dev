@@ -669,11 +669,10 @@ This is the class responsible for checking the basic syntax of each line : all a
 **Attributes that indicate the output:**
 - `bool should_be_skip` : tell the main program to skip the line. Only happen if the line is empty
 
-**Attributes that should be set by methods:**
-- `bool checked` : should be set with the value returned by the `check` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `check`, the line doesn't pass the test and can't be transmitted to the next step.
 
-**Method:**
-- `bool check(vodka::errors::SourcesStack lclstack)` : check the line. The output should be put inside the `checked` attribute. **This method raise his own error so you don't need to.**
+**Methods:**
+- `bool check(SourcesStack lclstack)` : check the type of the line, return the result. **This method raise his own error so you don't need to.**
+- `bool get_check_result()` : return the result of the previous method. It will return `false` if the previous method hasn't been executed.
 
 ---
 
@@ -688,12 +687,12 @@ This is the class responsible for deciding of which type the line is (debug line
 - `string type` : the result of the test, set by the `line_type_analyse` method. Can be `debug_one`, `debug_two`, `var`, `internal_library` or `vodka_instruction`
 
 **Attributes that should be set by methods:**
-- `bool checked` : should be set with the value returned by the `line_type_analyse` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `check`, the line doesn't pass the test and can't be transmitted to the next step.
 - `std::string library_name` : indicate the name of the detected internal library, will only be set if `type` is `internal_library`
 - `std::string instruction_name` : indicate the name of the detected instruction, will only be set if `type` is `vodka_instruction`
 
 **Method:**
-- `bool line_type_analyse(vodka::errors::SourcesStack lclstack)` : check the line. The output should be put inside the `checked` attribute. **This method raise his own error so you don't need to. It will raise an error if `line_checked.checked` isn't `true`.**
+- `bool line_type_analyse(SourcesStack lclstack)` : analyse the line and return the sucess status. **This method raise his own error so you don't need to. It will resturn `false` if `line_checked.get_check_result()` isn't `true`**
+- `bool get_analyse_result()` : return the result of the previous method. It will return `false` if the previous method hasn't been executed.
 
 ---
 
@@ -718,16 +717,20 @@ This is the class that will parse and convert a variable declaration into a usab
 - `vodka::syscalls::SyscallContainer syscall_container` : the syscall to put into the kernel code in order to declare the variable
 
 **Attributes that should be set by methods:**
-- `bool checked` : should be set with the value returned by the `parser` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `check`, the line doesn't pass the test and can't be transmitted to the next step.
 - `bool checked_type_value` : should be set with the value returned by the `check_type_value` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `check`, the line doesn't pass the test and can't be transmitted to the next step.
 - `bool pre_treated` : should be set with the value returned by the `value_pre_treatement` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `check`, the line doesn't pass the test and can't be transmitted to the next step.
 
 **Methods (should be used in order):**
-- `bool parser(vodka::errors::SourcesStack lclstack)` : parse the variable declaration and extract the five first attributes listed in the one that shouldn't be modified by the user. **This method raise his own error so you don't need to. It will raise an error if `line_checked.checked` isn't `true`.**
-- `bool check_type_info(vodka::errors::SourcesStack lclstack, vector<std::string> context)` : check the type and value of the variable, provide a list of already existing variable in `context`. **This method raise his own error so you don't need to. It will raise an error if `checked` isn't `true`.**
-- `bool make_info(vodka::errors::SourcesStack lclstack)` : set up the `var` attribute. **This method raise his own error so you don't need to. It will raise an error if `checked_type_value` isn't `true`.**
-- `bool value_pre_treatement(vodka::errors::SourcesStack lclstack)` : pre-treat the value to store. **This method raise his own error so you don't need to. It will raise an error if `checked_type_value` isn't `true`.**
-- `bool make_output(vodka::errors::SourcesStack lclstack)` : generate the `vodka::variables::VariableContainer` container in order to store the variable and the `vodka::syscalls::SyscallContainer` in order to declare/duplicate the variable in the kernel code. **This method raise his own error so you don't need to. It will raise an error if `pre_treated` isn't `true`.**
+- `bool parser(SourcesStack lclstack)` : parse the variable declaration (name, datatype, value, constant). **This method raise his own error so you don't need to. It will resturn `false` if `line_checked.get_analyse_result()` isn't `true`**
+- `bool get_parser_result()` : return the result of the previous method. It will return `false` if the previous method hasn't been executed.
+- `bool check_type_value(std::vector<std::string> context,SourcesStack lclstack)` : check the type and the value of the variable. **This method raise his own error so you don't need to. It will resturn `false` if `get_parser_result()` isn't `true`**
+- `bool get_check_type_value_result()` : return the result of the previous method. It will return `false` if the previous method hasn't been executed.
+- `bool make_info(SourcesStack lclstack)` : make the corresponding `vodka::variables::VariableMetadat` object. **This method raise his own error so you don't need to. It will resturn `false` if `get_check_type_value_result()` isn't `true`**
+- `bool get_make_info_result()` : return the result of the previous method. It will return `false` if the previous method hasn't been executed.
+- `bool value_pre_treatement(SourcesStack lclstack)` : make a pre-treatement of the value to store. **This method raise his own error so you don't need to. It will resturn `false` if `get_make_info_result()` isn't `true`**
+- `bool get_pre_treatement_result()` : return the result of the previous method. It will return `false` if the previous method hasn't been executed.
+- `bool make_output(SourcesStack lclstack)` : output the variable under a `vodka::variable::VariableContainer` object. **This method raise his own error so you don't need to. It will resturn `false` if `get_pre_treatement_result()` isn't `true`**
+- `bool get_make_output_result()` : return the result of the previous method. It will return `false` if the previous method hasn't been executed.
 
 ### `class vodka::analyser::ArgumentChecker`
 
@@ -1153,14 +1156,12 @@ This is the class that transcode memory internal library function call into a li
 - `vodka::library::FunctionCall function_call` : the function call with all his context
 
 **Attributes that indicate the output (only set after call_treatement):**
-- `std::vector<vodka::syscalls::SyscallContainer> syscalls_output` : the list of syscall object that should be added in the memory code output
+- `std::vector<vodka::syscalls::SyscallContainer> syscalls_output` : the list of syscall object that should be added in the kernel code output
 - `bool var_flag` : indicate if the main program should replace his list and map of existing variables with the one into the function call object that was modified
 
-**Attributes that should be set by method:**
-- `bool checked` : should be set with the value returned by the `call_treatement` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `call_treatement`, the line doesn't pass the test and can't be consideer valid.
-
-**Method:**
-- `bool call_treatement(SourcesStack lclstack)` : automatically choose the expected call_treatement for the function call and transcode it into syscall. The output should be put inside the `checked` attribute. **This method raise his own error so you don't need to. It will return `false` if `call.type_analyser.checked` isn't `true` or `call.type_analyser.type` isn't `internal_library`.**
+**Methods:**
+- `bool call_treatement(SourcesStack srclclstack)` : main function for parsing memory internal library. **This method raise his own error so you don't need to. It will return `false` if `function_call.line_checked.get_analyse_result()` isn't `true` and if `function_call.line_checked.type` isn't `internal_library`.**
+- `bool get_call_treatement_result()` : return the result of the previous method. It will return `false` if the previous method hasn't been executed.
 
 ---
 
@@ -1181,11 +1182,9 @@ This is the class that transcode conversions internal library function call into
 - `std::vector<vodka::syscalls::SyscallContainer> syscalls_output` : the list of syscall object that should be added in the kernel code output
 - `bool var_flag` : indicate if the main program should replace his list and map of existing variables with the one into the function call object that was modified
 
-**Attributes that should be set by method:**
-- `bool checked` : should be set with the value returned by the `call_treatement` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `call_treatement`, the line doesn't pass the test and can't be consideer valid.
-
-**Method:**
-- `bool call_treatement(SourcesStack lclstack)` : automatically choose the expected call_treatement for the function call and transcode it into syscall. The output should be put inside the `checked` attribute. **This method raise his own error so you don't need to. It will return `false` if `call.type_analyser.checked` isn't `true` or `call.type_analyser.type` isn't `internal_library`.**
+**Methods:**
+- `bool call_treatement(SourcesStack srclclstack)` : main function for parsing conversions internal library. **This method raise his own error so you don't need to. It will return `false` if `function_call.line_checked.get_analyse_result()` isn't `true` and if `function_call.line_checked.type` isn't `internal_library`.**
+- `bool get_call_treatement_result()` : return the result of the previous method. It will return `false` if the previous method hasn't been executed.
 
 ---
 
@@ -1206,11 +1205,9 @@ This is the class that transcode vodstr internal library function call into a li
 - `std::vector<vodka::syscalls::SyscallContainer> syscalls_output` : the list of syscall object that should be added in the kernel code output
 - `bool var_flag` : indicate if the main program should replace his list and map of existing variables with the one into the function call object that was modified
 
-**Attributes that should be set by method:**
-- `bool checked` : should be set with the value returned by the `call_treatement` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `call_treatement`, the line doesn't pass the test and can't be consideer valid.
-
-**Method:**
-- `bool call_treatement(SourcesStack lclstack)` : automatically choose the expected call_treatement for the function call and transcode it into syscall. The output should be put inside the `checked` attribute. **This method raise his own error so you don't need to. It will return `false` if `call.type_analyser.checked` isn't `true` or `call.type_analyser.type` isn't `internal_library`.**
+**Methods:**
+- `bool call_treatement(SourcesStack srclclstack)` : main function for parsing vodstr internal library. **This method raise his own error so you don't need to. It will return `false` if `function_call.line_checked.get_analyse_result()` isn't `true` and if `function_call.line_checked.type` isn't `internal_library`.**
+- `bool get_call_treatement_result()` : return the result of the previous method. It will return `false` if the previous method hasn't been executed.
 
 ---
 
@@ -1231,11 +1228,9 @@ This is the class that transcode math internal library function call into a list
 - `std::vector<vodka::syscalls::SyscallContainer> syscalls_output` : the list of syscall object that should be added in the kernel code output
 - `bool var_flag` : indicate if the main program should replace his list and map of existing variables with the one into the function call object that was modified
 
-**Attributes that should be set by method:**
-- `bool checked` : should be set with the value returned by the `call_treatement` method (need to be set manually in the main program). Defaulted to `false` but if the value doesn't change after a call on `call_treatement`, the line doesn't pass the test and can't be consideer valid.
-
-**Method:**
-- `bool call_treatement(SourcesStack lclstack)` : automatically choose the expected call_treatement for the function call and transcode it into syscall. The output should be put inside the `checked` attribute. **This method raise his own error so you don't need to. It will return `false` if `call.type_analyser.checked` isn't `true` or `call.type_analyser.type` isn't `internal_library`.**
+**Methods:**
+- `bool call_treatement(SourcesStack srclclstack)` : main function for parsing math internal library. **This method raise his own error so you don't need to. It will return `false` if `function_call.line_checked.get_analyse_result()` isn't `true` and if `function_call.line_checked.type` isn't `internal_library`.**
+- `bool get_call_treatement_result()` : return the result of the previous method. It will return `false` if the previous method hasn't been executed.
 
 ---
 

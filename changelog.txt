@@ -136,9 +136,12 @@ made : changing the value of the same variable now use the same uid
 vodka 0.5 beta 1 :
 made : added vodka::compilation
 made : added vodka::utilities::SafeAttribute
-adapt all methods to use SafeAttribute
+made : adapt all methods to use SafeAttribute
 made : removed `last` from vodka::utilities::output::log
 made : json_kernel is now version 5
 made : json_kernel now uses spaces as separator
 made : kernel constant are now using space as delimiter between their VYID and their value
 made : encode_to_bin and hash_then_encode has been moved to vodka::utilities::encoding
+
+vodka 0.5 beta 2 :
+planned : add vodka::analyser::LineType (enum)

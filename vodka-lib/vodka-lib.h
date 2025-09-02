@@ -479,13 +479,13 @@ namespace vodka {
                 //* Check the type and value of the variable (use vodka::type::<concerned type>::check_value(), if datatype is vodka, please include a list of already declared variables inside the context argument) 
                 bool check_type_value(vector<string> context,SourcesStack lclstack) {return checked_type_value.run(context,lclstack);}
                 bool get_check_type_value_result() {return checked_type_value.is_initialized() && checked_type_value.get();}
-                //* Make the corresponding vodka::variables::variable (please specifiy the original variable if datatype is vodka)
+                //* Make the corresponding vodka::variables::VariableMetadata (please specifiy the original variable if datatype is vodka)
                 bool make_info(SourcesStack lclstack) {return info_done.run(lclstack);}
                 bool get_make_info_result() {return info_done.is_initialized() && info_done.get();}
                 //* Make a pre-treatement of the value to store
                 bool value_pre_treatement(SourcesStack lclstack) {return pre_treated.run(lclstack);}
                 bool get_pre_treatement_result() {return pre_treated.is_initialized() && pre_treated.get();}
-                //* Output the variable under a vodka::variable::variable_container object (please specifiy the original variable if datatype is vodka)
+                //* Output the variable under a vodka::variable::VariableContainer object (please specifiy the original variable if datatype is vodka)
                 bool make_output(SourcesStack lclstack) {return output_done.run(lclstack);}
                 bool get_make_output_result() {return output_done.is_initialized() && output_done.get();}
         };

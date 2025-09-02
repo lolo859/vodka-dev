@@ -1,15 +1,32 @@
 # Changelog
 
-## Version 0.4.1
+## Version 0.5 beta 1
 
 ### Changes and improvements (Vodka transcoder)
 
-- **Vodka Transcoder now use blake3 instead of the Boost implementation of sha3-512 for the integrity check, all files for blake3 are included with the project**
+- **Moved `encode_to_bin` and `hash_then_encode` functions to vodka-lib**
+  - **Note:** A better implementation is planned for the next beta
 
-- **Vodka Transcoder now use the official VYID library for generating VYID:** the `vodka::utilities::genvyid` function stay in place and is the official gateway for generating VYIDs
+- **Updated the JSON export version to 5**
+
+- **The kernel code JSON export now use space as separator between the number of line, the name of the section and their VYID**
+
+- **In the data section, the VYID of each kernel constants is now separated with a space from his value.**
+
+### New features (vodka-lib)
+
+- **Added a new class `SafeAttribute` to `vodka::utilities` namespace**
+  - **See vodka-lib documentation for usage**
+
+- **Added `vodka::compilation` namespace which contain all the code parsing, symbol and cells processing and code pre-treatement logic**
+  - **The classes inside of it are shells for the previous functions located directly inside the Vodka Transcoder**
+
+- **Added `vodka::utilities::encoding` namespace which contain the encoding function from the Vodka Transcoder**
 
 ### Changes and improvements (vodka-lib)
 
-- **vodka-lib now have `XoshiroCpp.hpp`, `xxhash.h`/`xxhash.c` and `base85.h` as dependencies, all included with the project**
+- **All classes that previously used public boolean attributes to store methods result now use private `SafeAttribute` object.**
+  - **The affected classes include classes from `vodka::analyser`, `vodka::library` and `vodka::compilation`**
+  - **See vodka-lib documentation for the usage of the new API**
 
-- **Removed `vodka::utilities::struct::random_values`**
+- **Removed `last` argument from `vodka::utilities::output::log` function**
