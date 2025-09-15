@@ -3,7 +3,6 @@
 #include <vector>
 #include <map>
 #include <algorithm>
-#include <boost/uuid/uuid_io.hpp>
 using namespace std;
 using namespace vodka::errors;
 using namespace vodka::utilities;

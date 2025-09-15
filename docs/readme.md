@@ -18,7 +18,7 @@ All the files are included into the repository.
 
 ## Installation
 
-For the moment, there aren't any official package file so you will have ether to use the binaries included in each release or compile yourself the program. We provide a .sh file for easier compiling.
+For the moment, the only package manager to have Vodka is `dnf`, please see the main readme for instructions on how to install. For others distribution, you will have ether to use the binaries included in each release or compile yourself the program. We provide a .sh file for easier compiling.
 
 ### vodka
 

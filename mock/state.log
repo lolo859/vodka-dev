@@ -1,0 +1,573 @@
+2025-09-04 19:40:57,598 - Mock Version: 6.3
+2025-09-04 19:40:57,606 - Start(bootstrap): chroot init
+2025-09-04 19:40:57,638 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 19:40:57,639 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 19:40:57,939 - Finish(bootstrap): chroot init
+2025-09-04 19:40:57,943 - Start: chroot init
+2025-09-04 19:40:57,957 - Start: unpacking root cache
+2025-09-04 19:40:58,360 - Finish: unpacking root cache
+2025-09-04 19:40:58,363 - Start: cleaning package manager metadata
+2025-09-04 19:40:58,366 - Finish: cleaning package manager metadata
+2025-09-04 19:40:58,695 - Start: dnf5 update
+2025-09-04 19:41:02,665 - Finish: dnf5 update
+2025-09-04 19:41:02,824 - Finish: chroot init
+2025-09-04 19:41:02,825 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:41:02,826 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:41:04,095 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:41:04,095 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:41:04,098 - Start: Outputting list of installed packages
+2025-09-04 19:41:04,275 - Finish: Outputting list of installed packages
+2025-09-04 19:41:04,385 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:41:04,385 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:41:04,386 - Start: clean chroot
+2025-09-04 19:41:06,306 - Finish: clean chroot
+2025-09-04 19:44:26,926 - Mock Version: 6.3
+2025-09-04 19:44:26,933 - Start(bootstrap): chroot init
+2025-09-04 19:44:26,966 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 19:44:26,966 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 19:44:27,235 - Finish(bootstrap): chroot init
+2025-09-04 19:44:27,239 - Start: chroot init
+2025-09-04 19:44:27,253 - Start: unpacking root cache
+2025-09-04 19:44:27,654 - Finish: unpacking root cache
+2025-09-04 19:44:27,657 - Start: cleaning package manager metadata
+2025-09-04 19:44:27,658 - Finish: cleaning package manager metadata
+2025-09-04 19:44:27,951 - Start: dnf5 update
+2025-09-04 19:44:29,746 - Finish: dnf5 update
+2025-09-04 19:44:29,868 - Finish: chroot init
+2025-09-04 19:44:29,869 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:44:29,870 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:44:31,773 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:44:31,774 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:44:31,776 - Start: Outputting list of installed packages
+2025-09-04 19:44:31,924 - Finish: Outputting list of installed packages
+2025-09-04 19:44:32,030 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:44:32,030 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:44:32,032 - Start: clean chroot
+2025-09-04 19:44:33,930 - Finish: clean chroot
+2025-09-04 19:54:34,608 - Mock Version: 6.3
+2025-09-04 19:54:34,616 - Start(bootstrap): chroot init
+2025-09-04 19:54:34,648 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 19:54:34,648 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 19:54:34,900 - Finish(bootstrap): chroot init
+2025-09-04 19:54:34,904 - Start: chroot init
+2025-09-04 19:54:34,918 - Start: unpacking root cache
+2025-09-04 19:54:35,317 - Finish: unpacking root cache
+2025-09-04 19:54:35,320 - Start: cleaning package manager metadata
+2025-09-04 19:54:35,321 - Finish: cleaning package manager metadata
+2025-09-04 19:54:35,617 - Start: dnf5 update
+2025-09-04 19:54:37,367 - Finish: dnf5 update
+2025-09-04 19:54:37,489 - Finish: chroot init
+2025-09-04 19:54:37,490 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:54:37,491 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:54:38,697 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:54:38,698 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:54:38,700 - Start: Outputting list of installed packages
+2025-09-04 19:54:38,843 - Finish: Outputting list of installed packages
+2025-09-04 19:54:38,982 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:54:38,982 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:54:38,984 - Start: clean chroot
+2025-09-04 19:54:40,899 - Finish: clean chroot
+2025-09-04 19:55:12,201 - Mock Version: 6.3
+2025-09-04 19:55:12,208 - Start(bootstrap): chroot init
+2025-09-04 19:55:12,242 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 19:55:12,242 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 19:55:12,498 - Finish(bootstrap): chroot init
+2025-09-04 19:55:12,501 - Start: chroot init
+2025-09-04 19:55:12,515 - Start: unpacking root cache
+2025-09-04 19:55:12,918 - Finish: unpacking root cache
+2025-09-04 19:55:12,921 - Start: cleaning package manager metadata
+2025-09-04 19:55:12,921 - Finish: cleaning package manager metadata
+2025-09-04 19:55:13,209 - Start: dnf5 update
+2025-09-04 19:55:14,363 - Finish: dnf5 update
+2025-09-04 19:55:14,487 - Finish: chroot init
+2025-09-04 19:55:14,488 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:55:14,489 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:55:15,706 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:55:15,707 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:55:15,709 - Start: Outputting list of installed packages
+2025-09-04 19:55:15,857 - Finish: Outputting list of installed packages
+2025-09-04 19:55:15,999 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:55:15,999 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:55:16,001 - Start: clean chroot
+2025-09-04 19:55:17,884 - Finish: clean chroot
+2025-09-04 19:57:10,530 - Mock Version: 6.3
+2025-09-04 19:57:10,537 - Start(bootstrap): chroot init
+2025-09-04 19:57:10,570 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 19:57:10,570 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 19:57:10,829 - Finish(bootstrap): chroot init
+2025-09-04 19:57:10,833 - Start: chroot init
+2025-09-04 19:57:10,847 - Start: unpacking root cache
+2025-09-04 19:57:11,248 - Finish: unpacking root cache
+2025-09-04 19:57:11,251 - Start: cleaning package manager metadata
+2025-09-04 19:57:11,252 - Finish: cleaning package manager metadata
+2025-09-04 19:57:11,556 - Start: dnf5 update
+2025-09-04 19:57:12,737 - Finish: dnf5 update
+2025-09-04 19:57:12,859 - Finish: chroot init
+2025-09-04 19:57:12,861 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:57:12,862 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:57:14,058 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:57:14,059 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:57:14,061 - Start: Outputting list of installed packages
+2025-09-04 19:57:14,208 - Finish: Outputting list of installed packages
+2025-09-04 19:57:14,353 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:57:14,353 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:57:14,355 - Start: clean chroot
+2025-09-04 19:57:16,251 - Finish: clean chroot
+2025-09-04 19:59:06,148 - Mock Version: 6.3
+2025-09-04 19:59:06,155 - Start(bootstrap): chroot init
+2025-09-04 19:59:06,188 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 19:59:06,188 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 19:59:06,444 - Finish(bootstrap): chroot init
+2025-09-04 19:59:06,447 - Start: chroot init
+2025-09-04 19:59:06,461 - Start: unpacking root cache
+2025-09-04 19:59:06,863 - Finish: unpacking root cache
+2025-09-04 19:59:06,866 - Start: cleaning package manager metadata
+2025-09-04 19:59:06,867 - Finish: cleaning package manager metadata
+2025-09-04 19:59:07,150 - Start: dnf5 update
+2025-09-04 19:59:08,948 - Finish: dnf5 update
+2025-09-04 19:59:09,073 - Finish: chroot init
+2025-09-04 19:59:09,074 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:59:09,075 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:59:10,896 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:59:10,897 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:59:10,899 - Start: Outputting list of installed packages
+2025-09-04 19:59:11,047 - Finish: Outputting list of installed packages
+2025-09-04 19:59:11,194 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:59:11,194 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 19:59:11,196 - Start: clean chroot
+2025-09-04 19:59:13,085 - Finish: clean chroot
+2025-09-04 20:00:11,319 - Mock Version: 6.3
+2025-09-04 20:00:11,326 - Start(bootstrap): chroot init
+2025-09-04 20:00:11,358 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 20:00:11,358 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 20:00:11,613 - Finish(bootstrap): chroot init
+2025-09-04 20:00:11,617 - Start: chroot init
+2025-09-04 20:00:11,631 - Start: unpacking root cache
+2025-09-04 20:00:12,026 - Finish: unpacking root cache
+2025-09-04 20:00:12,029 - Start: cleaning package manager metadata
+2025-09-04 20:00:12,030 - Finish: cleaning package manager metadata
+2025-09-04 20:00:12,325 - Start: dnf5 update
+2025-09-04 20:00:13,869 - Finish: dnf5 update
+2025-09-04 20:00:14,000 - Finish: chroot init
+2025-09-04 20:00:14,001 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:00:14,002 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:00:16,621 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:00:16,622 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:00:16,624 - Start: Outputting list of installed packages
+2025-09-04 20:00:16,774 - Finish: Outputting list of installed packages
+2025-09-04 20:00:16,908 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:00:16,908 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:00:16,910 - Start: clean chroot
+2025-09-04 20:00:18,837 - Finish: clean chroot
+2025-09-04 20:06:35,154 - Mock Version: 6.3
+2025-09-04 20:06:35,161 - Start(bootstrap): chroot init
+2025-09-04 20:06:35,195 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 20:06:35,195 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 20:06:35,457 - Finish(bootstrap): chroot init
+2025-09-04 20:06:35,461 - Start: chroot init
+2025-09-04 20:06:35,475 - Start: unpacking root cache
+2025-09-04 20:06:35,881 - Finish: unpacking root cache
+2025-09-04 20:06:35,884 - Start: cleaning package manager metadata
+2025-09-04 20:06:35,885 - Finish: cleaning package manager metadata
+2025-09-04 20:06:36,174 - Start: dnf5 update
+2025-09-04 20:06:37,331 - Finish: dnf5 update
+2025-09-04 20:06:37,454 - Finish: chroot init
+2025-09-04 20:06:37,456 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:06:37,457 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:06:39,307 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:06:39,308 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:06:39,310 - Start: Outputting list of installed packages
+2025-09-04 20:06:39,446 - Finish: Outputting list of installed packages
+2025-09-04 20:06:39,542 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:06:39,542 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:06:39,544 - Start: clean chroot
+2025-09-04 20:06:41,437 - Finish: clean chroot
+2025-09-04 20:07:35,215 - Mock Version: 6.3
+2025-09-04 20:07:35,223 - Start(bootstrap): chroot init
+2025-09-04 20:07:35,262 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 20:07:35,262 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 20:07:35,523 - Finish(bootstrap): chroot init
+2025-09-04 20:07:35,526 - Start: chroot init
+2025-09-04 20:07:35,540 - Start: unpacking root cache
+2025-09-04 20:07:35,938 - Finish: unpacking root cache
+2025-09-04 20:07:35,941 - Start: cleaning package manager metadata
+2025-09-04 20:07:35,941 - Finish: cleaning package manager metadata
+2025-09-04 20:07:36,231 - Start: dnf5 update
+2025-09-04 20:07:37,370 - Finish: dnf5 update
+2025-09-04 20:07:37,495 - Finish: chroot init
+2025-09-04 20:07:37,497 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:07:37,498 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:07:39,414 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:07:39,415 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:07:39,417 - Start: Outputting list of installed packages
+2025-09-04 20:07:39,561 - Finish: Outputting list of installed packages
+2025-09-04 20:07:39,667 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:07:39,667 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:07:39,669 - Start: clean chroot
+2025-09-04 20:07:41,566 - Finish: clean chroot
+2025-09-04 20:08:16,970 - Mock Version: 6.3
+2025-09-04 20:08:16,977 - Start(bootstrap): chroot init
+2025-09-04 20:08:17,011 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 20:08:17,011 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 20:08:17,265 - Finish(bootstrap): chroot init
+2025-09-04 20:08:17,269 - Start: chroot init
+2025-09-04 20:08:17,283 - Start: unpacking root cache
+2025-09-04 20:08:17,686 - Finish: unpacking root cache
+2025-09-04 20:08:17,689 - Start: cleaning package manager metadata
+2025-09-04 20:08:17,690 - Finish: cleaning package manager metadata
+2025-09-04 20:08:17,970 - Start: dnf5 update
+2025-09-04 20:08:19,804 - Finish: dnf5 update
+2025-09-04 20:08:19,926 - Finish: chroot init
+2025-09-04 20:08:19,928 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:08:19,929 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:08:22,493 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:08:22,494 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:08:22,496 - Start: Outputting list of installed packages
+2025-09-04 20:08:22,638 - Finish: Outputting list of installed packages
+2025-09-04 20:08:22,735 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:08:22,735 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:08:22,737 - Start: clean chroot
+2025-09-04 20:08:24,625 - Finish: clean chroot
+2025-09-04 20:09:36,455 - Mock Version: 6.3
+2025-09-04 20:09:36,463 - Start(bootstrap): chroot init
+2025-09-04 20:09:36,495 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 20:09:36,495 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 20:09:36,751 - Finish(bootstrap): chroot init
+2025-09-04 20:09:36,754 - Start: chroot init
+2025-09-04 20:09:36,768 - Start: unpacking root cache
+2025-09-04 20:09:37,162 - Finish: unpacking root cache
+2025-09-04 20:09:37,165 - Start: cleaning package manager metadata
+2025-09-04 20:09:37,166 - Finish: cleaning package manager metadata
+2025-09-04 20:09:37,469 - Start: dnf5 update
+2025-09-04 20:09:39,227 - Finish: dnf5 update
+2025-09-04 20:09:39,358 - Finish: chroot init
+2025-09-04 20:09:39,360 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:09:39,361 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:09:41,276 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:09:41,277 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:09:41,279 - Start: Outputting list of installed packages
+2025-09-04 20:09:41,435 - Finish: Outputting list of installed packages
+2025-09-04 20:09:41,531 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:09:41,531 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:09:41,533 - Start: clean chroot
+2025-09-04 20:09:43,464 - Finish: clean chroot
+2025-09-04 20:10:21,937 - Mock Version: 6.3
+2025-09-04 20:10:21,944 - Start(bootstrap): chroot init
+2025-09-04 20:10:21,977 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 20:10:21,977 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 20:10:22,236 - Finish(bootstrap): chroot init
+2025-09-04 20:10:22,240 - Start: chroot init
+2025-09-04 20:10:22,254 - Start: unpacking root cache
+2025-09-04 20:10:22,658 - Finish: unpacking root cache
+2025-09-04 20:10:22,661 - Start: cleaning package manager metadata
+2025-09-04 20:10:22,662 - Finish: cleaning package manager metadata
+2025-09-04 20:10:22,954 - Start: dnf5 update
+2025-09-04 20:10:24,760 - Finish: dnf5 update
+2025-09-04 20:10:24,883 - Finish: chroot init
+2025-09-04 20:10:24,885 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:10:24,886 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:10:26,732 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:10:26,733 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:10:26,735 - Start: Outputting list of installed packages
+2025-09-04 20:10:26,886 - Finish: Outputting list of installed packages
+2025-09-04 20:10:27,036 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:10:27,036 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:10:27,038 - Start: clean chroot
+2025-09-04 20:10:28,943 - Finish: clean chroot
+2025-09-04 20:11:10,887 - Mock Version: 6.3
+2025-09-04 20:11:10,894 - Start(bootstrap): chroot init
+2025-09-04 20:11:10,927 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 20:11:10,927 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 20:11:11,184 - Finish(bootstrap): chroot init
+2025-09-04 20:11:11,188 - Start: chroot init
+2025-09-04 20:11:11,203 - Start: unpacking root cache
+2025-09-04 20:11:11,603 - Finish: unpacking root cache
+2025-09-04 20:11:11,606 - Start: cleaning package manager metadata
+2025-09-04 20:11:11,606 - Finish: cleaning package manager metadata
+2025-09-04 20:11:11,900 - Start: dnf5 update
+2025-09-04 20:11:13,028 - Finish: dnf5 update
+2025-09-04 20:11:13,152 - Finish: chroot init
+2025-09-04 20:11:13,154 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:11:13,155 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:11:14,945 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:11:14,945 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:11:14,948 - Start: Outputting list of installed packages
+2025-09-04 20:11:15,095 - Finish: Outputting list of installed packages
+2025-09-04 20:11:15,252 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:11:15,252 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:11:15,254 - Start: clean chroot
+2025-09-04 20:11:17,144 - Finish: clean chroot
+2025-09-04 20:12:19,542 - Mock Version: 6.3
+2025-09-04 20:12:19,549 - Start(bootstrap): chroot init
+2025-09-04 20:12:19,582 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 20:12:19,582 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 20:12:19,840 - Finish(bootstrap): chroot init
+2025-09-04 20:12:19,844 - Start: chroot init
+2025-09-04 20:12:19,858 - Start: unpacking root cache
+2025-09-04 20:12:20,258 - Finish: unpacking root cache
+2025-09-04 20:12:20,261 - Start: cleaning package manager metadata
+2025-09-04 20:12:20,262 - Finish: cleaning package manager metadata
+2025-09-04 20:12:20,549 - Start: dnf5 update
+2025-09-04 20:12:21,675 - Finish: dnf5 update
+2025-09-04 20:12:21,799 - Finish: chroot init
+2025-09-04 20:12:21,801 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:12:21,802 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:12:40,896 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:12:40,897 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:12:40,899 - Start: Outputting list of installed packages
+2025-09-04 20:12:41,049 - Finish: Outputting list of installed packages
+2025-09-04 20:12:41,921 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:12:41,921 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:12:41,923 - Start: clean chroot
+2025-09-04 20:12:43,985 - Finish: clean chroot
+2025-09-04 20:13:35,249 - Mock Version: 6.3
+2025-09-04 20:13:35,256 - Start(bootstrap): chroot init
+2025-09-04 20:13:35,289 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 20:13:35,289 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 20:13:35,547 - Finish(bootstrap): chroot init
+2025-09-04 20:13:35,551 - Start: chroot init
+2025-09-04 20:13:35,566 - Start: unpacking root cache
+2025-09-04 20:13:35,965 - Finish: unpacking root cache
+2025-09-04 20:13:35,968 - Start: cleaning package manager metadata
+2025-09-04 20:13:35,969 - Finish: cleaning package manager metadata
+2025-09-04 20:13:36,255 - Start: dnf5 update
+2025-09-04 20:13:37,490 - Finish: dnf5 update
+2025-09-04 20:13:37,613 - Finish: chroot init
+2025-09-04 20:13:37,614 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:13:37,615 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:13:40,641 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:13:40,641 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:13:40,644 - Start: Outputting list of installed packages
+2025-09-04 20:13:40,800 - Finish: Outputting list of installed packages
+2025-09-04 20:13:47,018 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:13:47,018 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:13:47,020 - Start: clean chroot
+2025-09-04 20:13:49,106 - Finish: clean chroot
+2025-09-04 20:14:58,166 - Mock Version: 6.3
+2025-09-04 20:14:58,173 - Start(bootstrap): chroot init
+2025-09-04 20:14:58,205 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 20:14:58,205 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 20:14:58,461 - Finish(bootstrap): chroot init
+2025-09-04 20:14:58,465 - Start: chroot init
+2025-09-04 20:14:58,479 - Start: unpacking root cache
+2025-09-04 20:14:58,879 - Finish: unpacking root cache
+2025-09-04 20:14:58,882 - Start: cleaning package manager metadata
+2025-09-04 20:14:58,883 - Finish: cleaning package manager metadata
+2025-09-04 20:14:59,185 - Start: dnf5 update
+2025-09-04 20:15:01,209 - Finish: dnf5 update
+2025-09-04 20:15:01,337 - Finish: chroot init
+2025-09-04 20:15:01,338 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:15:01,339 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:15:05,194 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:15:05,194 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:15:05,197 - Start: Outputting list of installed packages
+2025-09-04 20:15:05,357 - Finish: Outputting list of installed packages
+2025-09-04 20:15:12,779 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:15:12,779 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:15:12,781 - Start: clean chroot
+2025-09-04 20:15:14,855 - Finish: clean chroot
+2025-09-04 20:19:32,576 - Mock Version: 6.3
+2025-09-04 20:19:32,583 - Start(bootstrap): chroot init
+2025-09-04 20:19:32,616 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 20:19:32,617 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 20:19:32,872 - Finish(bootstrap): chroot init
+2025-09-04 20:19:32,875 - Start: chroot init
+2025-09-04 20:19:32,890 - Start: unpacking root cache
+2025-09-04 20:19:33,293 - Finish: unpacking root cache
+2025-09-04 20:19:33,296 - Start: cleaning package manager metadata
+2025-09-04 20:19:33,296 - Finish: cleaning package manager metadata
+2025-09-04 20:19:33,578 - Start: dnf5 update
+2025-09-04 20:19:34,754 - Finish: dnf5 update
+2025-09-04 20:19:34,881 - Finish: chroot init
+2025-09-04 20:19:34,883 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:19:34,884 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:19:37,803 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:19:37,804 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:19:37,806 - Start: Outputting list of installed packages
+2025-09-04 20:19:37,957 - Finish: Outputting list of installed packages
+2025-09-04 20:19:38,071 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:19:38,071 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:19:38,073 - Start: clean chroot
+2025-09-04 20:19:40,144 - Finish: clean chroot
+2025-09-04 20:21:54,869 - Mock Version: 6.3
+2025-09-04 20:21:54,876 - Start(bootstrap): chroot init
+2025-09-04 20:21:54,908 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 20:21:54,908 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 20:21:55,165 - Finish(bootstrap): chroot init
+2025-09-04 20:21:55,169 - Start: chroot init
+2025-09-04 20:21:55,183 - Start: unpacking root cache
+2025-09-04 20:21:55,587 - Finish: unpacking root cache
+2025-09-04 20:21:55,590 - Start: cleaning package manager metadata
+2025-09-04 20:21:55,590 - Finish: cleaning package manager metadata
+2025-09-04 20:21:55,904 - Start: dnf5 update
+2025-09-04 20:21:57,887 - Finish: dnf5 update
+2025-09-04 20:21:58,009 - Finish: chroot init
+2025-09-04 20:21:58,011 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:21:58,012 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:22:00,966 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:22:00,967 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:22:00,969 - Start: Outputting list of installed packages
+2025-09-04 20:22:01,114 - Finish: Outputting list of installed packages
+2025-09-04 20:22:08,626 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:22:08,626 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:22:08,628 - Start: clean chroot
+2025-09-04 20:22:10,750 - Finish: clean chroot
+2025-09-04 20:24:14,654 - Mock Version: 6.3
+2025-09-04 20:24:14,662 - Start(bootstrap): chroot init
+2025-09-04 20:24:14,696 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 20:24:14,696 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 20:24:14,967 - Finish(bootstrap): chroot init
+2025-09-04 20:24:14,970 - Start: chroot init
+2025-09-04 20:24:14,984 - Start: unpacking root cache
+2025-09-04 20:24:15,385 - Finish: unpacking root cache
+2025-09-04 20:24:15,388 - Start: cleaning package manager metadata
+2025-09-04 20:24:15,389 - Finish: cleaning package manager metadata
+2025-09-04 20:24:15,676 - Start: dnf5 update
+2025-09-04 20:24:16,976 - Finish: dnf5 update
+2025-09-04 20:24:17,100 - Finish: chroot init
+2025-09-04 20:24:17,102 - Start: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:24:17,103 - Start: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:24:20,844 - Finish: build setup for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:24:20,844 - Start: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:24:20,847 - Start: Outputting list of installed packages
+2025-09-04 20:24:20,996 - Finish: Outputting list of installed packages
+2025-09-04 20:24:29,367 - Finish: rpmbuild vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:24:29,370 - Finish: build phase for vodka-lib-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 20:24:29,373 - Start: clean chroot
+2025-09-04 20:24:31,443 - Finish: clean chroot
+2025-09-04 20:24:31,444 - Finish: run
+2025-09-04 21:58:06,385 - Mock Version: 6.3
+2025-09-04 21:58:06,392 - Start(bootstrap): chroot init
+2025-09-04 21:58:06,425 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 21:58:06,425 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 21:58:06,684 - Finish(bootstrap): chroot init
+2025-09-04 21:58:06,687 - Start: chroot init
+2025-09-04 21:58:06,701 - Start: unpacking root cache
+2025-09-04 21:58:07,103 - Finish: unpacking root cache
+2025-09-04 21:58:07,106 - Start: cleaning package manager metadata
+2025-09-04 21:58:07,107 - Finish: cleaning package manager metadata
+2025-09-04 21:58:07,384 - Start: dnf5 update
+2025-09-04 21:58:09,913 - Finish: dnf5 update
+2025-09-04 21:58:10,036 - Finish: chroot init
+2025-09-04 21:58:10,037 - Start: build phase for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 21:58:10,038 - Start: build setup for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 21:58:12,631 - Finish: build setup for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 21:58:12,631 - Finish: build phase for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 21:58:12,632 - Start: clean chroot
+2025-09-04 21:58:14,526 - Finish: clean chroot
+2025-09-04 22:14:22,302 - Mock Version: 6.3
+2025-09-04 22:14:22,309 - Start(bootstrap): chroot init
+2025-09-04 22:14:22,328 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 22:14:22,328 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 22:14:22,577 - Finish(bootstrap): chroot init
+2025-09-04 22:14:22,581 - Start: chroot init
+2025-09-04 22:14:22,599 - Start: cleaning package manager metadata
+2025-09-04 22:14:22,600 - Finish: cleaning package manager metadata
+2025-09-04 22:14:22,887 - Start: installing minimal buildroot with dnf5
+2025-09-04 22:14:27,909 - Finish: installing minimal buildroot with dnf5
+2025-09-04 22:14:28,029 - Start: creating root cache
+2025-09-04 22:14:28,400 - Finish: creating root cache
+2025-09-04 22:14:28,401 - Finish: chroot init
+2025-09-04 22:14:28,543 - Start: build phase for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:14:28,544 - Start: build setup for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:14:31,680 - Finish: build setup for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:14:31,681 - Start: rpmbuild vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:14:31,683 - Start: Outputting list of installed packages
+2025-09-04 22:14:31,839 - Finish: Outputting list of installed packages
+2025-09-04 22:14:32,059 - Finish: rpmbuild vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:14:32,059 - Finish: build phase for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:14:32,061 - Start: clean chroot
+2025-09-04 22:14:34,107 - Finish: clean chroot
+2025-09-04 22:15:21,312 - Mock Version: 6.3
+2025-09-04 22:15:21,320 - Start(bootstrap): chroot init
+2025-09-04 22:15:21,339 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 22:15:21,339 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 22:15:21,598 - Finish(bootstrap): chroot init
+2025-09-04 22:15:21,602 - Start: chroot init
+2025-09-04 22:15:21,617 - Start: unpacking root cache
+2025-09-04 22:15:22,028 - Finish: unpacking root cache
+2025-09-04 22:15:22,032 - Start: cleaning package manager metadata
+2025-09-04 22:15:22,032 - Finish: cleaning package manager metadata
+2025-09-04 22:15:22,333 - Start: dnf5 update
+2025-09-04 22:15:29,296 - Finish: dnf5 update
+2025-09-04 22:15:29,425 - Finish: chroot init
+2025-09-04 22:15:29,426 - Start: build phase for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:15:29,427 - Start: build setup for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:15:33,136 - Finish: build setup for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:15:33,137 - Start: rpmbuild vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:15:33,139 - Start: Outputting list of installed packages
+2025-09-04 22:15:33,286 - Finish: Outputting list of installed packages
+2025-09-04 22:15:33,529 - Finish: rpmbuild vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:15:33,530 - Finish: build phase for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:15:33,531 - Start: clean chroot
+2025-09-04 22:15:35,632 - Finish: clean chroot
+2025-09-04 22:16:49,654 - Mock Version: 6.3
+2025-09-04 22:16:49,662 - Start(bootstrap): chroot init
+2025-09-04 22:16:49,681 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 22:16:49,682 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 22:16:49,945 - Finish(bootstrap): chroot init
+2025-09-04 22:16:49,949 - Start: chroot init
+2025-09-04 22:16:49,963 - Start: unpacking root cache
+2025-09-04 22:16:50,365 - Finish: unpacking root cache
+2025-09-04 22:16:50,368 - Start: cleaning package manager metadata
+2025-09-04 22:16:50,368 - Finish: cleaning package manager metadata
+2025-09-04 22:16:50,664 - Start: dnf5 update
+2025-09-04 22:16:52,541 - Finish: dnf5 update
+2025-09-04 22:16:52,664 - Finish: chroot init
+2025-09-04 22:16:52,666 - Start: build phase for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:16:52,667 - Start: build setup for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:16:59,760 - Finish: build setup for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:16:59,761 - Start: rpmbuild vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:16:59,763 - Start: Outputting list of installed packages
+2025-09-04 22:16:59,910 - Finish: Outputting list of installed packages
+2025-09-04 22:17:00,205 - Finish: rpmbuild vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:17:00,205 - Finish: build phase for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:17:00,207 - Start: clean chroot
+2025-09-04 22:17:02,373 - Finish: clean chroot
+2025-09-04 22:17:58,694 - Mock Version: 6.3
+2025-09-04 22:17:58,701 - Start(bootstrap): chroot init
+2025-09-04 22:17:58,722 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 22:17:58,722 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 22:17:58,988 - Finish(bootstrap): chroot init
+2025-09-04 22:17:58,992 - Start: chroot init
+2025-09-04 22:17:59,008 - Start: unpacking root cache
+2025-09-04 22:17:59,421 - Finish: unpacking root cache
+2025-09-04 22:17:59,424 - Start: cleaning package manager metadata
+2025-09-04 22:17:59,425 - Finish: cleaning package manager metadata
+2025-09-04 22:17:59,717 - Start: dnf5 update
+2025-09-04 22:18:01,384 - Finish: dnf5 update
+2025-09-04 22:18:01,511 - Finish: chroot init
+2025-09-04 22:18:01,512 - Start: build phase for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:18:01,514 - Start: build setup for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:18:05,976 - Finish: build setup for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:18:05,976 - Start: rpmbuild vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:18:05,979 - Start: Outputting list of installed packages
+2025-09-04 22:18:06,145 - Finish: Outputting list of installed packages
+2025-09-04 22:18:06,434 - Finish: rpmbuild vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:18:06,434 - Finish: build phase for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:18:06,436 - Start: clean chroot
+2025-09-04 22:18:08,809 - Finish: clean chroot
+2025-09-04 22:19:36,998 - Mock Version: 6.3
+2025-09-04 22:19:37,009 - Start(bootstrap): chroot init
+2025-09-04 22:19:37,033 - Start(bootstrap): cleaning package manager metadata
+2025-09-04 22:19:37,033 - Finish(bootstrap): cleaning package manager metadata
+2025-09-04 22:19:37,295 - Finish(bootstrap): chroot init
+2025-09-04 22:19:37,299 - Start: chroot init
+2025-09-04 22:19:37,313 - Start: unpacking root cache
+2025-09-04 22:19:37,707 - Finish: unpacking root cache
+2025-09-04 22:19:37,710 - Start: cleaning package manager metadata
+2025-09-04 22:19:37,711 - Finish: cleaning package manager metadata
+2025-09-04 22:19:38,005 - Start: dnf5 update
+2025-09-04 22:19:39,673 - Finish: dnf5 update
+2025-09-04 22:19:39,803 - Finish: chroot init
+2025-09-04 22:19:39,805 - Start: build phase for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:19:39,806 - Start: build setup for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:19:42,238 - Finish: build setup for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:19:42,238 - Start: rpmbuild vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:19:42,241 - Start: Outputting list of installed packages
+2025-09-04 22:19:42,394 - Finish: Outputting list of installed packages
+2025-09-04 22:19:51,802 - Finish: rpmbuild vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:19:51,805 - Finish: build phase for vodka-beta-0.5_beta_1-1.fc42.src.rpm
+2025-09-04 22:19:51,809 - Start: clean chroot
+2025-09-04 22:19:53,869 - Finish: clean chroot
+2025-09-04 22:19:53,870 - Finish: run

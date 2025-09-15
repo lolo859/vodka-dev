@@ -9,7 +9,6 @@
 #include <string>
 #include <cstring>
 #include <vector>
-#include <boost/crc.hpp>
 #include <filesystem>
 #include <sys/resource.h>
 #include <stdexcept>

@@ -13,7 +13,7 @@ using namespace std;
 //* Vodka standard utilities
 //* For documentation, please refer to vodka-lib-usage.md
 namespace vodka {
-    const string LibraryVersion="0.5 beta 1";
+    const string LibraryVersion="0.5 beta 1 Copr Proof";
     const string JsonVersion="5";
     //* Every library that has a reserved name inside the transcoder
     const vector<string> InternalLibraryList={"memory","conversions","math","vodstr"};
