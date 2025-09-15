@@ -124,7 +124,7 @@ bool vodka::library::conversions::CallTreatement::_call_treatement(SourcesStack 
     if (function_call.line_checked.get_analyse_result()==false) {
         return false;
     }
-    if (function_call.line_checked.type!="internal_library") {
+    if (function_call.line_checked.line_type!=vodka::analyser::LineType::InternalLibraryCall) {
         return false;
     }
     if (line.substr(0,17)=="conversions.toint") {

@@ -13,7 +13,7 @@ using namespace std;
 //* Vodka standard utilities
 //* For documentation, please refer to vodka-lib-usage.md
 namespace vodka {
-    const string LibraryVersion="0.5 beta 1 Copr Proof";
+    const string LibraryVersion="0.5 beta 2";
     const string JsonVersion="5";
     //* Every library that has a reserved name inside the transcoder
     const vector<string> InternalLibraryList={"memory","conversions","math","vodstr"};
@@ -410,6 +410,13 @@ namespace vodka {
         using namespace vodka::utilities;
         //* Return the list of variables passed in argument
         vector<string> get_arguments(string line);
+        //* Class from enumering all lines type
+        enum class LineType {
+            VariableDeclaration,
+            InternalLibraryCall,
+            DebugLineSmall,
+            DebugLineBig
+        };
         //* Base class to check if a line is conform to vodka syntax
         class LineSyntaxChecker {
             private:
@@ -433,7 +440,7 @@ namespace vodka {
             public:
                 LineTypeChecker():checked([this](SourcesStack lclstack){return _line_type_analyse(lclstack);}) {}
                 LineSyntaxChecker line_checked;
-                string type;
+                LineType line_type;
                 string library_name;
                 string instruction_name;
                 //* Analyse the type of line (variable declaration, library instruction, debug line)

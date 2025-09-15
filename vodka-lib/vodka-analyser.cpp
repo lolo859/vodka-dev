@@ -46,18 +46,18 @@ bool vodka::analyser::LineTypeChecker::_line_type_analyse(SourcesStack lclstack)
         return false;
     } else {
         if (line_checked.content.substr(0,2)==">>") {
-            type="debug_two";
+            line_type=LineType::DebugLineBig;
             return true;
         } else if (line_checked.content.substr(0,1)==">" && line_checked.content.substr(0,2)!=">>") {
-            type="debug_one";
+            line_type=LineType::DebugLineSmall;
             return true;
         } else if (line_checked.content.substr(0,6)=="vodka ") {
-            type="var";
+            line_type=LineType::VariableDeclaration;
             return true;
         }
         for (auto a:vodka::InternalLibraryList) {
             if (line_checked.content.substr(0,a.size())==a) {
-                type="internal_library";
+                line_type=LineType::InternalLibraryCall;
                 library_name=a;
                 return true;
             }
@@ -70,7 +70,7 @@ bool vodka::analyser::LineTypeChecker::_line_type_analyse(SourcesStack lclstack)
 bool vodka::analyser::VariableDeclarationAnalyser::_parser(SourcesStack lclstack) {
     auto srclclstack=lclstack;
     srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
-    if (line_checked.get_analyse_result()==false || line_checked.line_checked.get_check_result()==false || line_checked.type!="var") {
+    if (line_checked.get_analyse_result()==false || line_checked.line_checked.get_check_result()==false || line_checked.line_type!=LineType::VariableDeclaration) {
         raise(ErrorContainer("vodka.error.analyser.chain_error : Previous treatement hasn't been well executed.",line_checked.line_checked.file,{line_checked.line_checked.content},{line_checked.line_checked.line_number},srclclstack));
         return false;
     }
@@ -368,7 +368,7 @@ bool vodka::analyser::ArgumentChecker::check(SourcesStack lclstack) {
     auto srclclstack=lclstack;
     srclclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (line_content.get_analyse_result()) {
-        if (line_content.type=="internal_library") {
+        if (line_content.line_type==LineType::InternalLibraryCall) {
             auto argsname=get_arguments(line_content.line_checked.content);
             for (auto arg:argsname) {
                 if (find(variableslist_context.begin(),variableslist_context.end(),arg)==variableslist_context.end()) {

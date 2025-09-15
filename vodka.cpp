@@ -163,7 +163,7 @@ int main (int argc,char* argv[]) {
         case '!':
             var_warning_enabled=false;
         case '1':
-            cout<<"Vodka transcoder version 0.5 beta 1"<<endl;
+            cout<<"Vodka transcoder version 0.5 beta 2"<<endl;
             cout<<"vodka-lib version "+vodka::LibraryVersion<<endl;
             cout<<"Json export format version 5"<<endl;
             cout<<"vodka-lib Json namespace version "+vodka::JsonVersion<<endl;
@@ -314,13 +314,13 @@ int main (int argc,char* argv[]) {
             return -1;
         }
         //* Debug line processing
-        if (type_analyser.type=="debug_one") {
+        if (type_analyser.line_type==vodka::analyser::LineType::DebugLineSmall) {
             output::debuglog(line,context.file.maincell.start.line+(int)i+1,"main",file_source);
-        } else if (type_analyser.type=="debug_two") {
+        } else if (type_analyser.line_type==vodka::analyser::LineType::DebugLineBig) {
             output::debuglog(line,context.file.maincell.start.line+(int)i+1,"main",file_source,false);
         } 
         //* Vodka instruction processing
-        else if (type_analyser.type=="var") {
+        else if (type_analyser.line_type==vodka::analyser::LineType::VariableDeclaration) {
             output::log("Checking vodka declaration syntax.",log_main_step,2,{(int)i+1,1},{context.file.maincell.content.size(),6});
             vodka::analyser::VariableDeclarationAnalyser VariableDeclarationAnalyser;
             VariableDeclarationAnalyser.line_checked=type_analyser;
@@ -373,7 +373,7 @@ int main (int argc,char* argv[]) {
                 context.variables_list.push_back(VariableDeclarationAnalyser.name);   
             }
         //* Kernel function analysis
-        } else if (type_analyser.type=="internal_library") {
+        } else if (type_analyser.line_type==vodka::analyser::LineType::InternalLibraryCall) {
             auto args=vodka::analyser::get_arguments(line);
             for (auto arg:args) {
                 try {
