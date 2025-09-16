@@ -1,7 +1,4 @@
 £VODTYPE command
-£VODSTART main hello
-vodka a=vodint 0
-conversions.toint a hello
-memory.print a a
-vodka $$b=vodint 3
+£VODSTART main
+vodka null=vodint 0
 £VODEND

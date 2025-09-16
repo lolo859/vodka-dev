@@ -8,6 +8,7 @@ string vodka::variables::datatype_to_string(VariableDatatype datatype) {
         case VariableDatatype::vodec:return "vodec";
         case VariableDatatype::vodarg:return "vodarg";
         case VariableDatatype::vodstr:return "vodstr";
+        case VariableDatatype::vodlist:return "vodlist";
         default:return "Unknown";
     }
 }

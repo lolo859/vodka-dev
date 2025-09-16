@@ -48,6 +48,18 @@ string vodka::syscalls::SyscallContainer::syntax() {
         return find_element.name+" "+find_element.output_uid+" "+find_element.source_uid+" "+find_element.char_uid;
     } else if (thing==vodka::syscalls::SyscallsNames::GETMEM) {
         return getmem_element.name+" "+getmem_element.output_uid+" "+getmem_element.source_uid;
+    } else if (thing==vodka::syscalls::SyscallsNames::BUFFER) {
+        return buffer_element.name+" "+buffer_element.uid;
+    } else if (thing==vodka::syscalls::SyscallsNames::BUFFERADD) {
+        return bufferadd_element.name+" "+bufferadd_element.buf_uid+" "+bufferadd_element.var_uid;
+    } else if (thing==vodka::syscalls::SyscallsNames::BUFFERINSERT) {
+        return bufferinsert_element.name+" "+bufferinsert_element.buf_uid+" "+bufferinsert_element.var_uid+" "+bufferinsert_element.index_uid;
+    } else if (thing==vodka::syscalls::SyscallsNames::BUFFERDELETE) {
+        return bufferdelete_element.name+" "+bufferdelete_element.buf_uid+" "+bufferdelete_element.index_uid;
+    } else if (thing==vodka::syscalls::SyscallsNames::BUFFERSIZE) {
+        return buffersize_element.name+" "+buffersize_element.buf_uid+" "+buffersize_element.output_uid;
+    } else if (thing==vodka::syscalls::SyscallsNames::BUFFERGET) {
+        return bufferget_element.name+" "+bufferget_element.buf_uid+" "+bufferget_element.index_uid+" "+bufferget_element.output_uid;
     } else {
         return "error";
     }
@@ -77,6 +89,12 @@ string vodka::syscalls::syscall_to_string(SyscallsNames syscall) {
         case SyscallsNames::INSERT:return "INSERT";
         case SyscallsNames::FIND:return "FIND";
         case SyscallsNames::GETMEM:return "GETMEM";
+        case SyscallsNames::BUFFER:return "BUFFER";
+        case SyscallsNames::BUFFERADD:return "BUFFERADD";
+        case SyscallsNames::BUFFERINSERT:return "BUFFERINSERT";
+        case SyscallsNames::BUFFERDELETE:return "BUFFERDELETE";
+        case SyscallsNames::BUFFERSIZE:return "BUFFERSIZE";
+        case SyscallsNames::BUFFERGET:return "BUFFERGET";
         default:return "Unknown";
     }
 }

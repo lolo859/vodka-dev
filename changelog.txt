@@ -144,4 +144,10 @@ made : kernel constant are now using space as delimiter between their VYID and t
 made : encode_to_bin and hash_then_encode has been moved to vodka::utilities::encoding
 
 vodka 0.5 beta 2 :
-planned : add vodka::analyser::LineType (enum)
+add vodka::analyser::LineType (enum)
+variables can't be nammed null
+added BUFFER, BUFFERADD, BUFFERINSERT, BUFFERDELETE, BUFFERSIZE, BUFFERGET to kernel codebase
+planned : added errors when values that are sure to be set are invalid for the arguments they are used in
+planned : added support to memory.free/getmem for vodlist
+planned : added support to FREE and GETMEM for buffers 
+planned : added vodlist datatype

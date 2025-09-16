@@ -364,9 +364,16 @@ int main (int argc,char* argv[]) {
             output::log("Registering vodka declaration.",log_main_step,2,{(int)i+1,6},{context.file.maincell.content.size(),6});
             main_variablesdict[VariableDeclarationAnalyser.name]=VariableDeclarationAnalyser.variable_container;
             main_variableslist.push_back(VariableDeclarationAnalyser.name);
-            if (!VariableDeclarationAnalyser.is_kernel_constant) {
-                instructions_main.push_back(VariableDeclarationAnalyser.syscall_container);
-                main_vars_used[VariableDeclarationAnalyser.name]={"f",to_string(actual_line.line_number)};
+            if (VariableDeclarationAnalyser.variable_container.thing!=vodka::variables::VariableDatatype::vodlist) {
+                if (!VariableDeclarationAnalyser.is_kernel_constant) {
+                    instructions_main.push_back(VariableDeclarationAnalyser.syscall_container);
+                    main_vars_used[VariableDeclarationAnalyser.name]={"f",to_string(actual_line.line_number)};
+                }
+            } else {
+                if (VariableDeclarationAnalyser.is_kernel_constant) {
+                    instructions_main.insert(instructions_main.begin(),VariableDeclarationAnalyser.syscall_container);
+                    for (int i=1;i<)
+                }
             }
             if (VariableDeclarationAnalyser.is_kernel_constant) {
                 context.variables_dict[VariableDeclarationAnalyser.name]=VariableDeclarationAnalyser.variable_container;

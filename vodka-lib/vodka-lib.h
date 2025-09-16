@@ -20,9 +20,9 @@ namespace vodka {
     //* Every functions for every internal library
     const map<string,vector<string>> InternalLibraryFunctions={{"memory",{"print","free","getmem"}},{"conversions",{"toint","todec","tostr"}},{"math",{"multiply","add","invert","abs","divmod","divide","mulint","muldec"}},{"vodstr",{"length","concat","substring","charat","reverse","escape","insert","find"}}};
     //* Every internal type
-    const vector<string> InternalDatatypes={"vodint","vodec","vodstr","vodarg","vodka"};
+    const vector<string> InternalDatatypes={"vodint","vodec","vodstr","vodlist","vodarg","vodka"};
     //* Every syscall
-    const vector<string> InternalSyscalls={"PRINT","ADD","ASSIGN","FREE","INVERT","DUPLICATE","ABS","DIVMOD","TOINT","TODEC","MULINT","MULDEC","DIVIDE","LENGTH","CONCAT","SUBSTRING","CHARAT","REVERSE","ESCAPE","INSERT","FIND","GETMEM"};
+    const vector<string> InternalSyscalls={"PRINT","ADD","ASSIGN","FREE","INVERT","DUPLICATE","ABS","DIVMOD","TOINT","TODEC","MULINT","MULDEC","DIVIDE","LENGTH","CONCAT","SUBSTRING","CHARAT","REVERSE","ESCAPE","INSERT","FIND","GETMEM","BUFFER","BUFFERADD","BUFFERINSERT","BUFFERDELETE","BUFFERSIZE","BUFFERGET"};
     //* Indicate where to start datatype values replacement process (-1 mean instruction can't benefit of this feature)
     const map<string,int> IndexStartDatatypeReplacement={
         {"memory.print",1},
@@ -108,7 +108,13 @@ namespace vodka {
             ESCAPE,
             INSERT,
             FIND,
-            GETMEM
+            GETMEM,
+            BUFFER,
+            BUFFERADD,
+            BUFFERINSERT,
+            BUFFERDELETE,
+            BUFFERSIZE,
+            BUFFERGET
         };
         //* Convert SyscallsNames object to string
         string syscall_to_string(SyscallsNames syscall);
@@ -258,6 +264,43 @@ namespace vodka {
                 string output_uid;
                 string name="GETMEM";
         };
+        class BUFFER {
+            public:
+                string uid;
+                string name="BUFFER";
+        };
+        class BUFFERADD {
+            public:
+                string buf_uid;
+                string var_uid;
+                string name="BUFFERADD";
+        };
+        class BUFFERINSERT {
+            public:
+                string buf_uid;
+                string var_uid;
+                string index_uid;
+                string name="BUFFERINSERT";
+        };
+        class BUFFERDELETE {
+            public:
+                string buf_uid;
+                string index_uid;
+                string name="BUFFERDELETE";
+        };
+        class BUFFERSIZE {
+            public:
+                string buf_uid;
+                string output_uid;
+                string name="BUFFERSIZE";
+        };
+        class BUFFERGET {
+            public:
+                string buf_uid;
+                string index_uid;
+                string output_uid;
+                string name="BUFFERGET";
+        };
         //* For registering a syscall, it need to be encapsuled into a SyscallContainer object
         class SyscallContainer {
             public:
@@ -285,6 +328,12 @@ namespace vodka {
                 INSERT insert_element;
                 FIND find_element;
                 GETMEM getmem_element;
+                BUFFER buffer_element;
+                BUFFERADD bufferadd_element;
+                BUFFERINSERT bufferinsert_element;
+                BUFFERDELETE bufferdelete_element;
+                BUFFERSIZE buffersize_element;
+                BUFFERGET bufferget_element;
             //* Function for getting the syntax of the syscall
             string syntax();
         };
@@ -296,7 +345,8 @@ namespace vodka {
             vodint,
             vodec,
             vodstr,
-            vodarg
+            vodarg,
+            vodlist
         };
         //* Convert VariableDatatype object to string
         string datatype_to_string(VariableDatatype datatype);
@@ -326,6 +376,11 @@ namespace vodka {
             public:
                 string value;
         };
+        //* Vodec type class : optimize for vodlist internal structure
+        class VodlistVariable {
+            public:
+                vector<string> initial_values;
+        };
         //* Vodarg type class : optimize for vodarg internal structure
         class VodargVariable {
             public:
@@ -339,6 +394,7 @@ namespace vodka {
                 VodintVariable vodint_element;
                 VodecVariable vodec_element;
                 VodstrVariable vodstr_element;
+                VodlistVariable vodlist_element;
                 VodargVariable vodarg_element;
         };
     }
@@ -473,10 +529,13 @@ namespace vodka {
                 string value;
                 bool is_kernel_constant=false;
                 bool is_vodka_const=false;
+                bool syscall_priority_flag=false;
                 vodka::variables::VariableMetadata variable_metadata;
                 vodka::variables::VariableContainer variable_container;
                 vodka::variables::VariableContainer duplication_source_variable;
                 vodka::syscalls::SyscallContainer syscall_container;
+                vector<vodka::syscalls::SyscallContainer> buffers_syscalls;
+                vector<pair<vodka::variables::VariableContainer,string>> content_vodlist;
                 vector<string> variableslist_context;
                 map<string,vodka::variables::VariableContainer> variablesdict_context;
                 //* These functions should be used in this order
