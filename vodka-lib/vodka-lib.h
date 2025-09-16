@@ -535,7 +535,10 @@ namespace vodka {
                 vodka::variables::VariableContainer duplication_source_variable;
                 vodka::syscalls::SyscallContainer syscall_container;
                 vector<vodka::syscalls::SyscallContainer> buffers_syscalls;
-                vector<pair<vodka::variables::VariableContainer,string>> content_vodlist;
+                vector<string> content_vodlist;
+                vector<string> uuid_vodlist;
+                vector<string> global_vodlist_content;
+                vector<string> global_vodlist_uuid;
                 vector<string> variableslist_context;
                 map<string,vodka::variables::VariableContainer> variablesdict_context;
                 //* These functions should be used in this order
@@ -821,6 +824,8 @@ namespace vodka {
                 map<string,vodka::variables::VariableContainer> variables_dict;
                 vector<string> maincell_args_list;
                 vector<string> variables_list;
+                vector<string> global_vodlist_uuid;
+                vector<string> global_vodlist_content;
                 //* Set all the variables to their expected values
                 bool setup() {
                     if (file.get_code_pretreatement()==false) {

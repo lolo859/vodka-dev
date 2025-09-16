@@ -1,4 +1,6 @@
 £VODTYPE command
 £VODSTART main
-vodka null=vodint 0
+vodka b=vodint 5
+vodka c=vodint 6
+vodka $$b=vodlist b b c
 £VODEND

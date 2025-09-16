@@ -150,4 +150,4 @@ added BUFFER, BUFFERADD, BUFFERINSERT, BUFFERDELETE, BUFFERSIZE, BUFFERGET to ke
 planned : added errors when values that are sure to be set are invalid for the arguments they are used in
 planned : added support to memory.free/getmem for vodlist
 planned : added support to FREE and GETMEM for buffers 
-planned : added vodlist datatype
+added vodlist datatype

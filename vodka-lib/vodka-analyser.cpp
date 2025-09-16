@@ -265,7 +265,7 @@ bool vodka::analyser::VariableDeclarationAnalyser::_value_pre_treatement(Sources
         } else if (datatype=="vodlist") {
             auto values=vodka::utilities::string_utilities::split(value," ");
             if (values.size()!=0) {
-                if (values!=vector<string>({"null"})) {
+                if (values==vector<string>({"null"})) {
                     return true;
                 } else {
                     for (int i=0;i<values.size();++i) {
@@ -356,13 +356,31 @@ bool vodka::analyser::VariableDeclarationAnalyser::_make_output(SourcesStack lcl
             bufcont.thing=vodka::syscalls::SyscallsNames::BUFFER;
             bufcont.buffer_element=bufcall;
             syscall_container=bufcont;
-
+            if (value!="null") {
                 for (int i=0;i<varr.initial_values.size();++i) {
                     vodka::syscalls::BUFFERADD bufaddcall;
+                    string valueadd;
+                    if (variablesdict_context.at(varr.initial_values[i]).thing==vodka::variables::VariableDatatype::vodint) {
+                        valueadd=variablesdict_context.at(varr.initial_values[i]).vodint_element.value;
+                    } else if (variablesdict_context.at(varr.initial_values[i]).thing==vodka::variables::VariableDatatype::vodec) {
+                        valueadd=variablesdict_context.at(varr.initial_values[i]).vodec_element.value;
+                    } else if (variablesdict_context.at(varr.initial_values[i]).thing==vodka::variables::VariableDatatype::vodstr) {
+                        valueadd=variablesdict_context.at(varr.initial_values[i]).vodstr_element.value;
+                    }
                     if (variable_metadata.is_kernel_constant) {
-                        auto uuid=vodka::utilities::genvyid();
-                        bufaddcall.var_uid=uuid;
-                        content_vodlist.push_back(pair<vodka::variables::VariableContainer,string>(variablesdict_context.at(varr.initial_values[i]),uuid));
+                        if (find(global_vodlist_content.begin(),global_vodlist_content.end(),valueadd)==global_vodlist_content.end()) {
+                            auto uuid=vodka::utilities::genvyid();
+                            bufaddcall.var_uid=uuid;
+                            content_vodlist.push_back(valueadd);
+                            global_vodlist_content.push_back(valueadd);
+                            uuid_vodlist.push_back(uuid);
+                            global_vodlist_uuid.push_back(uuid);
+                        } else {
+                            auto it=find(global_vodlist_content.begin(),global_vodlist_content.end(),valueadd);
+                            auto index=distance(global_vodlist_content.begin(),it);
+                            auto uuid=global_vodlist_uuid[index];
+                            bufaddcall.var_uid=uuid;
+                        }
                     } else {
                         bufaddcall.var_uid=variablesdict_context.at(varr.initial_values[i]).variable_metadata.uuid;
                     }
@@ -375,6 +393,7 @@ bool vodka::analyser::VariableDeclarationAnalyser::_make_output(SourcesStack lcl
                 if (variable_metadata.is_kernel_constant) {
                     syscall_priority_flag=true;
                 }
+            }
             return true;
         } else if (datatype=="vodka") {
             if (vodka::variables::datatype_to_string(duplication_source_variable.thing)!="") {
@@ -409,9 +428,23 @@ bool vodka::analyser::VariableDeclarationAnalyser::_make_output(SourcesStack lcl
                 } else if (vodka::variables::datatype_to_string(duplication_source_variable.thing)=="vodstr") {
                     vodka::variables::VodstrVariable varr;
                     variable_container.variable_metadata=variable_metadata;
-                    varr.value=duplication_source_variable.vodec_element.value;
+                    varr.value=duplication_source_variable.vodstr_element.value;
                     variable_container.vodstr_element=varr;
                     variable_container.thing=vodka::variables::VariableDatatype::vodstr;
+                    vodka::syscalls::DUPLICATE dupcall;
+                    dupcall.output_uid=variable_metadata.uuid;
+                    dupcall.source_uid=duplication_source_variable.variable_metadata.uuid;
+                    vodka::syscalls::SyscallContainer dupcont;
+                    dupcont.thing=vodka::syscalls::SyscallsNames::DUPLICATE;
+                    dupcont.duplicate_element=dupcall;
+                    syscall_container=dupcont;
+                    return true;
+                } else if (vodka::variables::datatype_to_string(duplication_source_variable.thing)=="vodlist") {
+                    vodka::variables::VodlistVariable varr;
+                    variable_container.variable_metadata=variable_metadata;
+                    varr.initial_values=duplication_source_variable.vodlist_element.initial_values;
+                    variable_container.vodlist_element=varr;
+                    variable_container.thing=vodka::variables::VariableDatatype::vodlist;
                     vodka::syscalls::DUPLICATE dupcall;
                     dupcall.output_uid=variable_metadata.uuid;
                     dupcall.source_uid=duplication_source_variable.variable_metadata.uuid;

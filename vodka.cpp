@@ -357,6 +357,10 @@ int main (int argc,char* argv[]) {
                 return -1;
             }
             output::log("Compiling vodka declaration into variable container.",log_main_step,2,{(int)i+1,5},{context.file.maincell.content.size(),6});
+            if (VariableDeclarationAnalyser.datatype=="vodlist") {
+                VariableDeclarationAnalyser.global_vodlist_content=context.global_vodlist_content;
+                VariableDeclarationAnalyser.global_vodlist_uuid=context.global_vodlist_uuid;
+            }
             bool output=VariableDeclarationAnalyser.make_output(lclstack);
             if (output==false) {
                 return -1;
@@ -372,7 +376,19 @@ int main (int argc,char* argv[]) {
             } else {
                 if (VariableDeclarationAnalyser.is_kernel_constant) {
                     instructions_main.insert(instructions_main.begin(),VariableDeclarationAnalyser.syscall_container);
-                    for (int i=1;i<)
+                    for (int i=0;i<VariableDeclarationAnalyser.buffers_syscalls.size();++i) {
+                        instructions_main.insert(instructions_main.begin()+1+i,VariableDeclarationAnalyser.buffers_syscalls[i]);
+                    }
+                    for (int i=0;i<VariableDeclarationAnalyser.content_vodlist.size();++i) {
+                        context.global_vodlist_content.push_back(VariableDeclarationAnalyser.content_vodlist[i]);
+                        context.global_vodlist_uuid.push_back(VariableDeclarationAnalyser.uuid_vodlist[i]);
+                    }
+                } else {
+                    instructions_main.push_back(VariableDeclarationAnalyser.syscall_container);
+                    for (int i=0;i<VariableDeclarationAnalyser.buffers_syscalls.size();++i) {
+                        instructions_main.push_back(VariableDeclarationAnalyser.buffers_syscalls[i]);
+                    }
+                    main_vars_used[VariableDeclarationAnalyser.name]={"f",to_string(actual_line.line_number)};
                 }
             }
             if (VariableDeclarationAnalyser.is_kernel_constant) {
@@ -520,6 +536,9 @@ int main (int argc,char* argv[]) {
                 a=a+1;
             }
         }
+    }
+    for (int i=0;i<context.global_vodlist_content.size();++i) {
+        compiled_output.push_back(context.global_vodlist_uuid[i]+" "+context.global_vodlist_content[i]);
     }
     compiled_output.push_back("enddata");
     log_main_step=log_main_step+1;
