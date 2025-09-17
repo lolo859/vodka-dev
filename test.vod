@@ -1,6 +1,11 @@
 £VODTYPE command
-£VODSTART main
-vodka b=vodint 5
-vodka c=vodint 6
-vodka $$b=vodlist b b c
+£VODSTART main arg
+vodka a=vodint null
+conversions.toint a arg
+vodka $$const=vodec 3.4
+vodka const=vodint null
+conversions.toint const $$const
+vodka res=vodint null
+math.add res a const
+memory.print res
 £VODEND

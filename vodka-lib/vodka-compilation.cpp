@@ -272,14 +272,25 @@ bool vodka::compilation::PreCompilation::_code_pretreatement(vector<string>& com
         localline.line_number=maincell.start.line+i+1;
         localline.file=file.file_source;
         localline.content=maincell.content[i];
+        auto res=localline.check(lclstack);
+        if (!res) {
+            raise(ErrorContainer("vodka.error.line.datatype_replacement.invalid_syntax : Invalid syntax.",file.file_source,{maincell.content[i]},{maincell.start.line+i+1},lclstack));
+            return false;
+        }
         auto direct_declared_data=string_utilities::split(maincell.content[i]," ");
         if (direct_declared_data.size()>=2) {
             if (direct_declared_data[0]!="vodka") {
+                cout<<maincell.content[i]<<endl;
                 bool skip=false;
-                if (vodka::IndexStartDatatypeReplacement.at(direct_declared_data[0])!=-1) {
-                    direct_declared_data.erase(direct_declared_data.begin(),direct_declared_data.begin()+vodka::IndexStartDatatypeReplacement.at(direct_declared_data[0]));
-                } else {
-                    skip=true;
+                try {
+                    if (vodka::IndexStartDatatypeReplacement.at(direct_declared_data[0])!=-1) {
+                        direct_declared_data.erase(direct_declared_data.begin(),direct_declared_data.begin()+vodka::IndexStartDatatypeReplacement.at(direct_declared_data[0]));
+                    } else {
+                        skip=true;
+                    }
+                } catch (const std::out_of_range e) {
+                    raise(ErrorContainer("vodka.error.line.datatype_replacement.unknow_instruction : Unknow instruction.",file.file_source,{maincell.content[i]},{maincell.start.line+i+1},lclstack));
+                    return false;
                 }
                 for (auto arg:direct_declared_data) {
                     if (arg.substr(0,1)=="#" && find(directs_data.begin(),directs_data.end(),arg)==directs_data.end()) {
