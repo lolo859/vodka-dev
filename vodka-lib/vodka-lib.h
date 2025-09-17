@@ -760,7 +760,7 @@ namespace vodka {
         }
     }
     //* Compilation utilities
-    namespace compilation {
+    namespace precompilation {
         using namespace vodka::errors;
         using namespace vodka::utilities;
         //* The content of a .vod file, allow for removing inline comments

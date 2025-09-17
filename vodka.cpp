@@ -43,7 +43,7 @@ SourcesStack srcstack;
 vector<string> compiled_output;
 map<string,map<string,string>> json_ints;
 map<string,map<string,map<string,string>>> json_ints_v;
-vodka::compilation::VodkaFile vodka_file;
+vodka::precompilation::VodkaFile vodka_file;
 vector<string> output_file_to_check;
 //* Read file(s) and removing comments
 bool read_file(string output,string mode,SourcesStack srclclstack) {
@@ -253,7 +253,7 @@ int main (int argc,char* argv[]) {
         return -1;
     }
     log_main_step=log_main_step+1;
-    vodka::compilation::PreCompilation precompilation_engine;
+    vodka::precompilation::PreCompilation precompilation_engine;
     precompilation_engine.file=vodka_file;
     bool parse_symbols=precompilation_engine.parse_symbol(log_main_step,lclstack);
     if (parse_symbols==false) {
@@ -281,7 +281,7 @@ int main (int argc,char* argv[]) {
         return -1;
     }
     log_main_step=log_main_step+1;
-    vodka::compilation::CompilationContext context;
+    vodka::precompilation::CompilationContext context;
     context.file=precompilation_engine;
     if (context.setup()==false) {
         return -1;

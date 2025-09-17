@@ -8,4 +8,7 @@ conversions.toint const $$const
 vodka res=vodint null
 math.add res a const
 memory.print res
+vodka ao=vodlist null
+memory.getmem res ao
+memory.free ao
 £VODEND

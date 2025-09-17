@@ -52,7 +52,7 @@ bool vodka::library::memory::CallTreatement::free_int(SourcesStack lclstack) {
         output::log("Checking content existence and datatype.",function_call.main_logstep_context,2,{(int)function_call.iteration_number_context+1,2},{function_call.cell_context.content.size(),3});
         vector<string> argsname(eles.begin()+1,eles.end());
         vodka::analyser::ArgumentChecker argcheck;
-        argcheck.lastest_allowed_type={vodka::variables::VariableDatatype::vodint,vodka::variables::VariableDatatype::vodec,vodka::variables::VariableDatatype::vodstr};
+        argcheck.lastest_allowed_type={vodka::variables::VariableDatatype::vodint,vodka::variables::VariableDatatype::vodec,vodka::variables::VariableDatatype::vodstr,vodka::variables::VariableDatatype::vodlist};
         argcheck.patern={};
         argcheck.line_content=function_call.line_checked;
         argcheck.variablesdict_context=function_call.variablesdict_context;
@@ -104,7 +104,7 @@ bool vodka::library::memory::CallTreatement::getmem_int(SourcesStack lclstack) {
         vector<string> argsname(eles.begin()+1,eles.end());
         vodka::analyser::ArgumentChecker argcheck;
         argcheck.lastest_allowed_type={};
-        argcheck.patern={{vodka::variables::VariableDatatype::vodint},{vodka::variables::VariableDatatype::vodint,vodka::variables::VariableDatatype::vodarg,vodka::variables::VariableDatatype::vodec,vodka::variables::VariableDatatype::vodstr}};
+        argcheck.patern={{vodka::variables::VariableDatatype::vodint},{vodka::variables::VariableDatatype::vodint,vodka::variables::VariableDatatype::vodarg,vodka::variables::VariableDatatype::vodec,vodka::variables::VariableDatatype::vodstr,vodka::variables::VariableDatatype::vodlist}};
         argcheck.line_content=function_call.line_checked;
         argcheck.variablesdict_context=function_call.variablesdict_context;
         argcheck.variableslist_context=function_call.variableslist_context;

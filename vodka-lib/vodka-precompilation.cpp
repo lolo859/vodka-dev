@@ -5,7 +5,7 @@
 using namespace vodka::utilities;
 using namespace vodka::errors;
 //* Remove the inline comments
-bool vodka::compilation::VodkaFile::_remove_comments() {
+bool vodka::precompilation::VodkaFile::_remove_comments() {
     for (int i=0;i<file_content.size();++i) {
         if (file_content[i]!="") {
             if (file_content[i].find("§",0)==0) {
@@ -18,7 +18,7 @@ bool vodka::compilation::VodkaFile::_remove_comments() {
     return true;
 }
 //* Detect symbols and process symbols non-related to cells
-bool vodka::compilation::PreCompilation::_parse_symbols(int& log_main_step,SourcesStack srclclstack) {
+bool vodka::precompilation::PreCompilation::_parse_symbols(int& log_main_step,SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (file.get_remove_comments()==false) {
@@ -85,7 +85,7 @@ bool vodka::compilation::PreCompilation::_parse_symbols(int& log_main_step,Sourc
     return true;
 }
 //* Processing VODTYPE symbol
-bool vodka::compilation::PreCompilation::_detect_program_type(int& log_main_step,SourcesStack srclclstack) {
+bool vodka::precompilation::PreCompilation::_detect_program_type(int& log_main_step,SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (get_parse_symbol()==false) {
@@ -115,7 +115,7 @@ bool vodka::compilation::PreCompilation::_detect_program_type(int& log_main_step
     return true;
 }
 //* Process symbols related to cells
-bool vodka::compilation::PreCompilation::_detect_cells(int& log_main_step,SourcesStack srclclstack) {
+bool vodka::precompilation::PreCompilation::_detect_cells(int& log_main_step,SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (get_detect_program_type()==false) {
@@ -211,7 +211,7 @@ bool vodka::compilation::PreCompilation::_detect_cells(int& log_main_step,Source
     return true;
 }
 //* Apply pre-treatement on the code
-bool vodka::compilation::PreCompilation::_code_pretreatement(vector<string>& compiled_output,bool replace,int& log_main_step,SourcesStack srclclstack) {
+bool vodka::precompilation::PreCompilation::_code_pretreatement(vector<string>& compiled_output,bool replace,int& log_main_step,SourcesStack srclclstack) {
     auto lclstack=srclclstack;
     lclstack.add(__PRETTY_FUNCTION__,__FILE__);
     if (get_detect_cells()==false) {
@@ -280,7 +280,6 @@ bool vodka::compilation::PreCompilation::_code_pretreatement(vector<string>& com
         auto direct_declared_data=string_utilities::split(maincell.content[i]," ");
         if (direct_declared_data.size()>=2) {
             if (direct_declared_data[0]!="vodka") {
-                cout<<maincell.content[i]<<endl;
                 bool skip=false;
                 try {
                     if (vodka::IndexStartDatatypeReplacement.at(direct_declared_data[0])!=-1) {
