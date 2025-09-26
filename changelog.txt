@@ -148,6 +148,7 @@ add vodka::analyser::LineType (enum)
 variables can't be nammed null
 added BUFFER, BUFFERADD, BUFFERINSERT, BUFFERDELETE, BUFFERSIZE, BUFFERGET to kernel codebase
 planned : added errors when values that are sure to be set are invalid for the arguments they are used in
+planned : added support for direct values declaration into vodlist declaration
 added support to memory.free/getmem for vodlist
 added support to FREE and GETMEM for buffers 
 added vodlist datatype
